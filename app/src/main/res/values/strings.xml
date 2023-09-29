@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DragonIDE</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="create_new_project">Create new project</string>
+    <string name="invalid_package_name">Invalid package name</string>
+    <string name="invalid_project_name">Invalid project name</string>
+    <string name="no_projects_yet">No projects yet</string>
+    <string name="package_name">Package name</string>
+    <string name="project_name">Project name</string>
+    <string name="storage_permission_denied">Storage permission denied</string>
+</resources>
