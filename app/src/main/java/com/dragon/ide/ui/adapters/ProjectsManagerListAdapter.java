@@ -36,7 +36,6 @@ public class ProjectsManagerListAdapter
     LayoutProjectsManagerListItemBinding binding =
         LayoutProjectsManagerListItemBinding.bind(_holder.itemView);
     binding.projectName.setText(_data.get(_position).getProjectName());
-    binding.projectPackage.setText(_data.get(_position).getPackageName());
   }
 
   @Override

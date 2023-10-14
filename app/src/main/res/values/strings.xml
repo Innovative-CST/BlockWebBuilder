@@ -4,7 +4,6 @@
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
     <string name="create_new_project">Create new project</string>
-    <string name="invalid_package_name">Invalid package name</string>
     <string name="invalid_project_name">Invalid project name</string>
     <string name="no_projects_yet">No projects yet</string>
     <string name="package_name">Package name</string>

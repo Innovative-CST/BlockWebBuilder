@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:padding="8dp"
         android:orientation="vertical"
-        android:hint="@string/package_name"
+        android:hint="@string/project_name"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/TextInputLayout1">
 
@@ -23,23 +23,6 @@
             android:layout_width="match_parent"
             android:padding="16dp"
             android:id="@+id/projectName" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:padding="8dp"
-        android:orientation="vertical"
-        android:hint="@string/package_name"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:id="@+id/TextInputLayout2">
-
-        <EditText
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:padding="16dp"
-            android:id="@+id/packageName" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
