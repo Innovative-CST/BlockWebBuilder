@@ -1,11 +1,13 @@
 package com.dragon.ide.ui.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.databinding.LayoutProjectsManagerListItemBinding;
 import com.dragon.ide.objects.Project;
+import com.dragon.ide.ui.activities.FileManagerActivity;
 import java.util.ArrayList;
 
 public class ProjectsManagerListAdapter
@@ -36,6 +38,15 @@ public class ProjectsManagerListAdapter
     LayoutProjectsManagerListItemBinding binding =
         LayoutProjectsManagerListItemBinding.bind(_holder.itemView);
     binding.projectName.setText(_data.get(_position).getProjectName());
+    binding
+        .getRoot()
+        .setOnClickListener(
+            (view) -> {
+              Intent i = new Intent();
+              i.setClass(activity, FileManagerActivity.class);
+              i.putExtra("projectName", _data.get(_position).getProjectName());
+              activity.startActivity(i);
+            });
   }
 
   @Override
