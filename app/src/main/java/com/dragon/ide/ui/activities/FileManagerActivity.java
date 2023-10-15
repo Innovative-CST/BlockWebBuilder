@@ -87,6 +87,12 @@ public class FileManagerActivity extends BaseActivity {
                 fis.close();
                 ois.close();
               } catch (Exception e) {
+                runOnUiThread(
+                    () -> {
+                      showSection(5);
+                      binding.errorText.setText(
+                          getString(R.string.an_error_occured_while_parsing_file_list));
+                    });
               }
             }
           } else {
