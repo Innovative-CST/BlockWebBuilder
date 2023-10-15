@@ -10,5 +10,6 @@
     <string name="package_name">Package name</string>
     <string name="project_name">Project name</string>
     <string name="project_name_not_passed">Project name not passed.Please check the Intent or contact developer.</string>
+    <string name="project_not_found">Project not found</string>
     <string name="storage_permission_denied">Storage permission denied</string>
 </resources>

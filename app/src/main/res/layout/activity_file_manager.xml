@@ -22,15 +22,15 @@
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:id="@+id/content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/content">
 
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:visibility="gone"
+            android:gravity="center"
             android:id="@+id/loading">
 
             <ProgressBar
@@ -44,9 +44,9 @@
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:gravity="center"
-            android:id="@+id/noFilesYet"
-            android:visibility="gone">
+            android:id="@+id/noFilesYet">
 
             <TextView
                 android:layout_height="wrap_content"
@@ -59,8 +59,8 @@
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:visibility="gone"
+            android:gravity="center"
             android:id="@+id/permissionDenied">
 
             <TextView
@@ -87,14 +87,15 @@
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:visibility="gone"
+            android:gravity="center"
             android:id="@+id/error">
 
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textColor="?attr/colorOnSurface"
+                android:id="@+id/errorText"
                 android:text="@string/project_name_not_passed" />
 
         </LinearLayout>
