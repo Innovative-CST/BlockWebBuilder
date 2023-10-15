@@ -86,6 +86,7 @@ public class FileManagerActivity extends BaseActivity {
     binding.noFilesYet.setVisibility(View.GONE);
     binding.permissionDenied.setVisibility(View.GONE);
     binding.fileList.setVisibility(View.GONE);
+    binding.error.setVisibility(View.GONE);
     switch (section) {
       case 1:
         binding.loading.setVisibility(View.VISIBLE);
