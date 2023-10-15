@@ -8,6 +8,8 @@ import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityFileManagerBinding;
 import com.dragon.ide.objects.WebFile;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -73,6 +75,19 @@ public class FileManagerActivity extends BaseActivity {
             if (!new File(PROJECTS, projectName).exists()) {
               showSection(5);
               binding.errorText.setText(getString(R.string.project_not_found));
+            } else {
+              try {
+                FileInputStream fis =
+                    new FileInputStream(new File(new File(PROJECTS, projectName), "Files.txt"));
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                Object obj = ois.readObject();
+                if (obj instanceof ArrayList) {
+                  fileList = (ArrayList<WebFile>) obj;
+                }
+                fis.close();
+                ois.close();
+              } catch (Exception e) {
+              }
             }
           } else {
             runOnUiThread(
