@@ -27,6 +27,9 @@ public class FileManagerActivity extends BaseActivity {
     // set content view to binding's root.
     setContentView(binding.getRoot());
 
+    // Initialize fileList to avoid null error
+    fileList = new ArrayList<WebFile>();
+
     // Setup toolbar.
     binding.toolbar.setTitle(R.string.app_name);
     setSupportActionBar(binding.toolbar);
