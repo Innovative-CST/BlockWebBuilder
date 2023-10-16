@@ -6,6 +6,7 @@
     <string name="create">Create</string>
     <string name="create_new_project">Create new project</string>
     <string name="invalid_project_name">Invalid project name</string>
+    <string name="new_file">New file</string>
     <string name="no_files_yet">No files yet</string>
     <string name="no_projects_yet">No projects yet</string>
     <string name="package_name">Package name</string>
