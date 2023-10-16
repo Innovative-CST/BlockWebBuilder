@@ -10,7 +10,6 @@ import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutCreateProjectBinding;
 import com.dragon.ide.listeners.ProjectCreationListener;
 import com.dragon.ide.objects.Project;
-import com.dragon.ide.utils.Environments;
 import com.dragon.ide.utils.ProjectNameValidator;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
@@ -19,7 +18,6 @@ import java.io.ObjectOutputStream;
 
 public class CreateProjectDialog {
   public CreateProjectDialog(Activity activity, ProjectCreationListener listener) {
-    Environments.init();
     MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(activity);
     dialog.setTitle(activity.getString(R.string.create_new_project));
     LayoutCreateProjectBinding binding =

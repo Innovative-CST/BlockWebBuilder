@@ -24,7 +24,6 @@ import com.dragon.ide.listeners.ProjectCreationListener;
 import com.dragon.ide.objects.Project;
 import com.dragon.ide.ui.adapters.ProjectsManagerListAdapter;
 import com.dragon.ide.ui.dialogs.CreateProjectDialog;
-import com.dragon.ide.utils.Environments;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,9 +46,6 @@ public class MainActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    // Initiate all static imports of Environments
-    Environments.init();
 
     // Inflate and get instance of binding.
     binding = ActivityMainBinding.inflate(getLayoutInflater());
