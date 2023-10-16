@@ -17,11 +17,13 @@
         android:layout_width="25dp"
         android:scaleType="fitCenter"
         android:layout_marginEnd="8dp"
-        android:tint="?attr/colorOnSurface" />
+        android:tint="?attr/colorOnSurface"
+        android:id="@+id/icon" />
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:id="@+id/tv_file_name" />
 
 </LinearLayout>

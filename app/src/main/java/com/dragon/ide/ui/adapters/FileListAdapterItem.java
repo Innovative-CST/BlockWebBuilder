@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
+import com.dragon.ide.R;
+import com.dragon.ide.databinding.LayoutFileListItemBinding;
 import com.dragon.ide.objects.WebFile;
 import java.util.ArrayList;
 
@@ -19,11 +21,35 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    return new ViewHolder(new View(activity));
+    LayoutFileListItemBinding item =
+        LayoutFileListItemBinding.inflate(activity.getLayoutInflater());
+    View _v = item.getRoot();
+    RecyclerView.LayoutParams _lp =
+        new RecyclerView.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    _v.setLayoutParams(_lp);
+    return new ViewHolder(_v);
   }
 
   @Override
-  public void onBindViewHolder(ViewHolder _holder, final int _position) {}
+  public void onBindViewHolder(ViewHolder _holder, int _position) {
+    LayoutFileListItemBinding binding = LayoutFileListItemBinding.bind(_holder.itemView);
+    binding.tvFileName.setText(_data.get(_position).getFilePath());
+    switch (_data.get(_position).getFileType()) {
+      case WebFile.SupportedFileType.FOLDER:
+        binding.icon.setImageResource(R.drawable.ic_folder_black_24dp);
+        break;
+      case WebFile.SupportedFileType.HTML:
+        binding.icon.setImageResource(R.drawable.language_html);
+        break;
+      case WebFile.SupportedFileType.CSS:
+        binding.icon.setImageResource(R.drawable.language_css);
+        break;
+      case WebFile.SupportedFileType.JS:
+        binding.icon.setImageResource(R.drawable.language_javascript);
+        break;
+    }
+  }
 
   @Override
   public int getItemCount() {
