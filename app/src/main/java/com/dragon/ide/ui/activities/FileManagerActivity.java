@@ -76,22 +76,30 @@ public class FileManagerActivity extends BaseActivity {
               showSection(5);
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
-              try {
-                FileInputStream fis =
-                    new FileInputStream(new File(new File(PROJECTS, projectName), "Files.txt"));
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                Object obj = ois.readObject();
-                if (obj instanceof ArrayList) {
-                  fileList = (ArrayList<WebFile>) obj;
+              if (new File(new File(PROJECTS, projectName), "Files.txt").exists()) {
+                try {
+                  FileInputStream fis =
+                      new FileInputStream(new File(new File(PROJECTS, projectName), "Files.txt"));
+                  ObjectInputStream ois = new ObjectInputStream(fis);
+                  Object obj = ois.readObject();
+                  if (obj instanceof ArrayList) {
+                    fileList = (ArrayList<WebFile>) obj;
+                  }
+                  fis.close();
+                  ois.close();
+                } catch (Exception e) {
+                  runOnUiThread(
+                      () -> {
+                        showSection(5);
+                        binding.errorText.setText(
+                            getString(R.string.an_error_occured_while_parsing_file_list));
+                      });
                 }
-                fis.close();
-                ois.close();
-              } catch (Exception e) {
+              } else {
                 runOnUiThread(
                     () -> {
                       showSection(5);
-                      binding.errorText.setText(
-                          getString(R.string.an_error_occured_while_parsing_file_list));
+                      binding.errorText.setText(getString(R.string.no_files_yet));
                     });
               }
             }
