@@ -34,7 +34,7 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
   @Override
   public void onBindViewHolder(ViewHolder _holder, int _position) {
     LayoutFileListItemBinding binding = LayoutFileListItemBinding.bind(_holder.itemView);
-    binding.tvFileName.setText(_data.get(_position).getFilePath());
+    binding.tvFileName.setText(_data.get(_position).getFilePath().concat(getSupportedFileSuffix(_data.get(_position).getFileType())));
     switch (_data.get(_position).getFileType()) {
       case WebFile.SupportedFileType.FOLDER:
         binding.icon.setImageResource(R.drawable.ic_folder_black_24dp);
@@ -60,5 +60,17 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
     public ViewHolder(View v) {
       super(v);
     }
+  }
+
+  public String getSupportedFileSuffix(int type) {
+    switch (type) {
+      case WebFile.SupportedFileType.HTML:
+        return ".html";
+      case WebFile.SupportedFileType.CSS:
+        return ".js";
+      case WebFile.SupportedFileType.JS:
+        return ".js";
+    }
+    return "";
   }
 }

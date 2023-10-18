@@ -1,16 +1,22 @@
 package com.dragon.ide.ui.activities;
 
-import com.dragon.ide.ui.dialogs.filemanager.CreateFileDialog;
+import androidx.annotation.MainThread;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
 import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityFileManagerBinding;
 import com.dragon.ide.objects.WebFile;
+import com.dragon.ide.ui.adapters.FileListAdapterItem;
+import com.dragon.ide.ui.dialogs.filemanager.CreateFileDialog;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -64,9 +70,14 @@ public class FileManagerActivity extends BaseActivity {
     }
     binding.fab.setOnClickListener(
         (view) -> {
-          CreateFileDialog createFileDialog = new CreateFileDialog(FileManagerActivity.this);
+          CreateFileDialog createFileDialog =
+              new CreateFileDialog(FileManagerActivity.this, fileList);
           createFileDialog.create().show();
         });
+  }
+
+  public RecyclerView getFileListRecyclerView() {
+    return binding.list;
   }
 
   private void showFileList() {
@@ -93,6 +104,9 @@ public class FileManagerActivity extends BaseActivity {
                   }
                   fis.close();
                   ois.close();
+                  binding.list.setAdapter(
+                      new FileListAdapterItem(fileList, FileManagerActivity.this));
+                  binding.list.setLayoutManager(new LinearLayoutManager(FileManagerActivity.this));
                 } catch (Exception e) {
                   runOnUiThread(
                       () -> {
@@ -119,7 +133,7 @@ public class FileManagerActivity extends BaseActivity {
         });
   }
 
-  private void showSection(int section) {
+  public void showSection(int section) {
     binding.loading.setVisibility(View.GONE);
     binding.noFilesYet.setVisibility(View.GONE);
     binding.permissionDenied.setVisibility(View.GONE);
@@ -142,5 +156,28 @@ public class FileManagerActivity extends BaseActivity {
         binding.error.setVisibility(View.VISIBLE);
         break;
     }
+  }
+
+  public void saveFileList() {
+    Executor executor = Executors.newSingleThreadExecutor();
+    executor.execute(
+        () -> {
+          try {
+            FileOutputStream fos =
+                new FileOutputStream(new File(new File(PROJECTS, projectName), "Files.txt"));
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(fileList);
+            fos.close();
+            oos.close();
+          } catch (Exception e) {
+          }
+        });
+  }
+
+  @Override
+  @MainThread
+  public void onBackPressed() {
+    super.onBackPressed();
+    saveFileList();
   }
 }

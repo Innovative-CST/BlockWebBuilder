@@ -32,9 +32,10 @@
         app:singleSelection="true"
         android:padding="8dp"
         app:selectionRequired="true"
-        app:checkedButton="@+id/html">
+        app:checkedButton="@+id/html"
+        android:id="@+id/fileTypeChooser">
 
-        <Button
+        <Button 
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             app:icon="@drawable/language_html"

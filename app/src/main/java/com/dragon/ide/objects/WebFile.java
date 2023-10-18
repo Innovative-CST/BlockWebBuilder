@@ -1,8 +1,9 @@
 package com.dragon.ide.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class WebFile {
+public class WebFile implements Serializable {
   private String filePath;
   private int fileType;
   private ArrayList<WebFile> fileList;
