@@ -20,6 +20,14 @@ jobs:
           
       - name: Allow gradlew permission
         run: chmod +x ./gradlew
+        
+      - name: Set up firebase
+        shell: bash 
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_ANALYTICS }}
+        if: ${{ env.GOOGLE_SERVICES_JSON != '' }}
+        run: |
+          printf 'GOOGLE_ANALYTICS<<EOF\n%s\nEOF\n' "$GOOGLE_SERVICES_JSON" >> $GITHUB_ENV
 
       - name: Build debug APK
         run: ./gradlew assembleDebug

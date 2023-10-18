@@ -1,5 +1,32 @@
 apply plugin: "com.android.application"
 
+def secretsPropertiesFile = file('../secrets.properties')
+def secretsProperties = new Properties()
+
+if (secretsPropertiesFile.exists()) {
+    secretsProperties.load(new FileInputStream(secretsPropertiesFile))
+}
+
+def analytics = System.getenv("GOOGLE_ANALYTICS")
+def analyticsEnabled = analytics != null
+def useEnvForFirebase = false
+
+if (analyticsEnabled) {
+    useEnvForFirebase = true
+} else if (secretsPropertiesFile.exists()) {
+    if (secretsProperties.getProperty('useFirebase') != null) {
+        analyticsEnabled = secretsProperties.getProperty('useFirebase') == "true"
+        if (analyticsEnabled) {
+            useEnvForFirebase = false
+            analyticsEnabled = true
+        }
+    }
+}
+
+if (analyticsEnabled) {
+    apply plugin: "com.google.gms.google-services"
+}
+
 android {
     namespace 'com.dragon.ide'
     compileSdk 33
@@ -39,4 +66,11 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "com.google.android.material:material:1.9.0"
     implementation "androidx.core:core-splashscreen:1.0.1"
+    if (analyticsEnabled) {
+        if (useEnvForFirebase) {
+            new File("$projectDir/google-services.json").text = analytics;
+        }
+    }
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation 'com.google.firebase:firebase-analytics'
 }
