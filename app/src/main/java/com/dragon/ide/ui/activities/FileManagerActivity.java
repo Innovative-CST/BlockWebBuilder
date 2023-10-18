@@ -1,5 +1,6 @@
 package com.dragon.ide.ui.activities;
 
+import com.dragon.ide.ui.dialogs.filemanager.CreateFileDialog;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
@@ -61,6 +62,11 @@ public class FileManagerActivity extends BaseActivity {
     } else {
       showFileList();
     }
+    binding.fab.setOnClickListener(
+        (view) -> {
+          CreateFileDialog createFileDialog = new CreateFileDialog(FileManagerActivity.this);
+          createFileDialog.create().show();
+        });
   }
 
   private void showFileList() {

@@ -9,14 +9,15 @@ import com.dragon.ide.databinding.LayoutProjectsManagerListItemBinding;
 import com.dragon.ide.objects.Project;
 import com.dragon.ide.ui.activities.FileManagerActivity;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProjectsManagerListAdapter
     extends RecyclerView.Adapter<ProjectsManagerListAdapter.ViewHolder> {
 
-  public ArrayList<Project> _data;
+  public ArrayList<HashMap<String, Object>> _data;
   public Activity activity;
 
-  public ProjectsManagerListAdapter(ArrayList<Project> _arr, Activity activity) {
+  public ProjectsManagerListAdapter(ArrayList<HashMap<String, Object>> _arr, Activity activity) {
     _data = _arr;
     this.activity = activity;
   }
@@ -37,14 +38,15 @@ public class ProjectsManagerListAdapter
   public void onBindViewHolder(ViewHolder _holder, final int _position) {
     LayoutProjectsManagerListItemBinding binding =
         LayoutProjectsManagerListItemBinding.bind(_holder.itemView);
-    binding.projectName.setText(_data.get(_position).getProjectName());
+    binding.projectName.setText(((Project) _data.get(_position).get("Project")).getProjectName());
     binding
         .getRoot()
         .setOnClickListener(
             (view) -> {
               Intent i = new Intent();
               i.setClass(activity, FileManagerActivity.class);
-              i.putExtra("projectName", _data.get(_position).getProjectName());
+              i.putExtra(
+                  "projectName", ((Project) _data.get(_position).get("Project")).getProjectName());
               activity.startActivity(i);
             });
   }

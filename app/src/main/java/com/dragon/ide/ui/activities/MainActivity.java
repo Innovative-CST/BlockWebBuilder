@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -41,7 +42,7 @@ public class MainActivity extends BaseActivity {
   private ActivityMainBinding binding;
 
   // Project list will be stored in this ArrayList.
-  public ArrayList<Project> projects;
+  public ArrayList<HashMap<String, Object>> projects;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class MainActivity extends BaseActivity {
     setContentView(binding.getRoot());
 
     // Initialize projects to avoid null errors.
-    projects = new ArrayList<Project>();
+    projects = new ArrayList<HashMap<String, Object>>();
 
     // Setup toolbar.
     binding.toolbar.setTitle(R.string.app_name);
@@ -140,7 +141,10 @@ public class MainActivity extends BaseActivity {
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 Object obj = ois.readObject();
                 if (obj instanceof Project) {
-                  projects.add(0, (Project) obj);
+                  HashMap<String, Object> projectListItem = new HashMap<String, Object>();
+                  projectListItem.put("Project", (Project) obj);
+                  projectListItem.put("Path", project);
+                  projects.add(projectListItem);
                 }
                 fis.close();
                 ois.close();
