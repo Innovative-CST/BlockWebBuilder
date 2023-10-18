@@ -1,10 +1,10 @@
 package com.dragon.ide.ui.activities;
 
-import androidx.annotation.MainThread;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
 import android.view.View;
+import androidx.annotation.MainThread;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
@@ -91,14 +91,14 @@ public class FileManagerActivity extends BaseActivity {
     executor.execute(
         () -> {
           if (PROJECTS.exists()) {
-            if (!new File(PROJECTS, projectPath).exists()) {
+            if (!new File(projectPath).exists()) {
               showSection(5);
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
-              if (new File(new File(PROJECTS, projectPath), "Files.txt").exists()) {
+              if (new File(new File(projectPath), "Files.txt").exists()) {
                 try {
                   FileInputStream fis =
-                      new FileInputStream(new File(new File(PROJECTS, projectPath), "Files.txt"));
+                      new FileInputStream(new File(new File(projectPath), "Files.txt"));
                   ObjectInputStream ois = new ObjectInputStream(fis);
                   Object obj = ois.readObject();
                   if (obj instanceof ArrayList) {
@@ -167,7 +167,7 @@ public class FileManagerActivity extends BaseActivity {
         () -> {
           try {
             FileOutputStream fos =
-                new FileOutputStream(new File(new File(PROJECTS, projectPath), "Files.txt"));
+                new FileOutputStream(new File(new File(projectPath), "Files.txt"));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(fileList);
             fos.close();
