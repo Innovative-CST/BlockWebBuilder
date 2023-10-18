@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:gravity="center_vertical"
     android:padding="8dp"
     android:orientation="horizontal">
 
@@ -12,25 +13,11 @@
         android:layout_width="40dp"
         android:src="@drawable/banner" />
 
-    <LinearLayout
+    <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnSurface"
-            android:id="@+id/projectName" />
-
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textSize="12sp"
-            android:textColor="?attr/colorOnSurface"
-            android:id="@+id/projectPackage" />
-
-    </LinearLayout>
+        android:textSize="16sp"
+        android:textColor="?attr/colorOnSurface"
+        android:id="@+id/projectName" />
 
 </LinearLayout>
