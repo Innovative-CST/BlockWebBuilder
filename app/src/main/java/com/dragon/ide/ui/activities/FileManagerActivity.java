@@ -91,14 +91,14 @@ public class FileManagerActivity extends BaseActivity {
     executor.execute(
         () -> {
           if (PROJECTS.exists()) {
-            if (!new File(PROJECTS, projectName).exists()) {
+            if (!new File(PROJECTS, projectPath).exists()) {
               showSection(5);
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
-              if (new File(new File(PROJECTS, projectName), "Files.txt").exists()) {
+              if (new File(new File(PROJECTS, projectPath), "Files.txt").exists()) {
                 try {
                   FileInputStream fis =
-                      new FileInputStream(new File(new File(PROJECTS, projectName), "Files.txt"));
+                      new FileInputStream(new File(new File(PROJECTS, projectPath), "Files.txt"));
                   ObjectInputStream ois = new ObjectInputStream(fis);
                   Object obj = ois.readObject();
                   if (obj instanceof ArrayList) {
@@ -166,7 +166,7 @@ public class FileManagerActivity extends BaseActivity {
         () -> {
           try {
             FileOutputStream fos =
-                new FileOutputStream(new File(new File(PROJECTS, projectName), "Files.txt"));
+                new FileOutputStream(new File(new File(PROJECTS, projectPath), "Files.txt"));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(fileList);
             fos.close();
