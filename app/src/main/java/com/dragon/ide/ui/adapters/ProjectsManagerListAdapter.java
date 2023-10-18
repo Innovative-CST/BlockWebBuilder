@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.databinding.LayoutProjectsManagerListItemBinding;
 import com.dragon.ide.objects.Project;
 import com.dragon.ide.ui.activities.FileManagerActivity;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -48,7 +49,7 @@ public class ProjectsManagerListAdapter
               i.putExtra(
                   "projectName", ((Project) _data.get(_position).get("Project")).getProjectName());
               i.putExtra(
-                  "projectPath", ((String) _data.get(_position).get("Path")));
+                  "projectPath", ((File) _data.get(_position).get("Path")).getAbsolutePath());
               activity.startActivity(i);
             });
   }
