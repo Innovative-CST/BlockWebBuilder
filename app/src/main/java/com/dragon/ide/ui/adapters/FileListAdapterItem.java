@@ -67,7 +67,7 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
       case WebFile.SupportedFileType.HTML:
         return ".html";
       case WebFile.SupportedFileType.CSS:
-        return ".js";
+        return ".css";
       case WebFile.SupportedFileType.JS:
         return ".js";
     }
