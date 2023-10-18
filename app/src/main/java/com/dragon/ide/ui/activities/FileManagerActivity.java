@@ -109,6 +109,7 @@ public class FileManagerActivity extends BaseActivity {
                   binding.list.setAdapter(
                       new FileListAdapterItem(fileList, FileManagerActivity.this));
                   binding.list.setLayoutManager(new LinearLayoutManager(FileManagerActivity.this));
+                  showSection(4);
                 } catch (Exception e) {
                   runOnUiThread(
                       () -> {
