@@ -25,6 +25,7 @@ public class FileManagerActivity extends BaseActivity {
   private ActivityFileManagerBinding binding;
   private ArrayList<WebFile> fileList;
   private String projectName;
+  private String projectPath;
 
   @Override
   protected void onCreate(Bundle bundle) {
@@ -54,6 +55,7 @@ public class FileManagerActivity extends BaseActivity {
 
     if (getIntent().hasExtra("projectName")) {
       projectName = getIntent().getStringExtra("projectName");
+      projectPath = getIntent().getStringExtra("projectPath");
     } else {
       showSection(5);
       binding.errorText.setText(getString(R.string.project_name_not_passed));

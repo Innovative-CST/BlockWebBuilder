@@ -47,6 +47,8 @@ public class ProjectsManagerListAdapter
               i.setClass(activity, FileManagerActivity.class);
               i.putExtra(
                   "projectName", ((Project) _data.get(_position).get("Project")).getProjectName());
+              i.putExtra(
+                  "projectPath", ((String) _data.get(_position).get("Path")));
               activity.startActivity(i);
             });
   }
