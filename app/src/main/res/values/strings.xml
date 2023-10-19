@@ -2,7 +2,7 @@
 <resources>
     <string name="an_error_occured_while_parsing_file_list">An error occured while parsing file list.</string>
     <string name="app_name">DragonIDE</string>
-    <string name="blocks_manager">Block manager</string>
+    <string name="blocks_manager">Blocks manager</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
     <string name="create_new_file">Create new file</string>
@@ -10,6 +10,7 @@
     <string name="file_already_exists">File already exists</string>
     <string name="invalid_file_name">Invalid file name</string>
     <string name="invalid_project_name">Invalid project name</string>
+    <string name="new_blocks_holder">New Blocks Holder</string>
     <string name="new_file">New file</string>
     <string name="no_files_yet">No files yet</string>
     <string name="no_projects_yet">No projects yet</string>

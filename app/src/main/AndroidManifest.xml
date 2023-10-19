@@ -34,5 +34,8 @@
         <activity
             android:name="com.dragon.ide.ui.activities.FileManagerActivity"
             android:exported="true"/>
+        <activity
+            android:name="com.dragon.ide.ui.activities.BlocksManagerActivity"
+            android:exported="true"/>
     </application>
 </manifest>

@@ -1,5 +1,7 @@
 package com.dragon.ide.ui.activities;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.Manifest;
@@ -277,6 +279,24 @@ public class MainActivity extends BaseActivity {
         }
         break;
     }
+  }
+
+  // Handle option menu
+  @Override
+  public boolean onCreateOptionsMenu(Menu arg0) {
+    super.onCreateOptionsMenu(arg0);
+    getMenuInflater().inflate(R.menu.activity_main_menu, arg0);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem arg0) {
+    if (arg0.getItemId() == R.id.block_manager) {
+      Intent blockManager = new Intent();
+      blockManager.setClass(this, BlocksManagerActivity.class);
+      startActivity(blockManager);
+    }
+    return super.onOptionsItemSelected(arg0);
   }
 
   @Override
