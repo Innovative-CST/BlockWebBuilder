@@ -31,7 +31,20 @@ public class BlocksManagerActivity extends BaseActivity {
             onBackPressed();
           }
         });
+
+    /*
+     * Ask for storage permission if not granted.
+     * Load blocks holder list if storage permission is granted.
+     */
+    if (MainActivity.isStoagePermissionGranted(this)) {
+      loadBlocksHolderList();
+    } else {
+      showSection(2);
+      MainActivity.showStoragePermissionDialog(this);
+    }
   }
+
+  private void loadBlocksHolderList() {}
 
   public void showSection(int section) {
     binding.loading.setVisibility(View.GONE);
