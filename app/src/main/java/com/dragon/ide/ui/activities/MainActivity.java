@@ -1,7 +1,5 @@
 package com.dragon.ide.ui.activities;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.Manifest;
@@ -15,6 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.CallSuper;
 import androidx.core.app.ActivityCompat;
