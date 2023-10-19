@@ -68,11 +68,21 @@ public class BlocksManagerActivity extends BaseActivity {
               Object obj = ois.readObject();
               if (obj instanceof ArrayList) {
                 blocksHolderList = (ArrayList<BlocksHolder>) obj;
+              } else {
+                runOnUiThread(
+                    () -> {
+                      showSection(2);
+                      binding.tvInfo.setText(getString(R.string.an_error_occured_while_parsing_blocks_holder_list));
+                    });
               }
               fis.close();
               ois.close();
             } catch (Exception e) {
-
+              runOnUiThread(
+                  () -> {
+                    showSection(2);
+                    binding.tvInfo.setText(e.getMessage());
+                  });
             }
           } else {
             runOnUiThread(
