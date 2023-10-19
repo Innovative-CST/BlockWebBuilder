@@ -72,10 +72,14 @@ public class BlocksManagerActivity extends BaseActivity {
               fis.close();
               ois.close();
             } catch (Exception e) {
+
             }
           } else {
-            showSection(2);
-            binding.tvInfo.setText(getString(R.string.no_blocks_holder_yet));
+            runOnUiThread(
+                () -> {
+                  showSection(2);
+                  binding.tvInfo.setText(getString(R.string.no_blocks_holder_yet));
+                });
           }
         });
   }
