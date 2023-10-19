@@ -1,13 +1,22 @@
 package com.dragon.ide.ui.activities;
 
+import com.dragon.ide.objects.BlocksHolder;
+import static com.dragon.ide.utils.Environments.BLOCKS;
+
 import android.os.Bundle;
 import android.view.View;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityBlockManagerBinding;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class BlocksManagerActivity extends BaseActivity {
 
   private ActivityBlockManagerBinding binding;
+  private ArrayList<BlocksHolder> blocksHolderList;
 
   @Override
   protected void onCreate(Bundle arg0) {
@@ -32,6 +41,9 @@ public class BlocksManagerActivity extends BaseActivity {
           }
         });
 
+    // Initialize blocksHolderList to avoid null errors
+    blocksHolderList = new ArrayList<BlocksHolder>();
+
     /*
      * Ask for storage permission if not granted.
      * Load blocks holder list if storage permission is granted.
@@ -44,7 +56,29 @@ public class BlocksManagerActivity extends BaseActivity {
     }
   }
 
-  private void loadBlocksHolderList() {}
+  private void loadBlocksHolderList() {
+    showSection(1);
+    Executor executor = Executors.newSingleThreadExecutor();
+    executor.execute(
+        () -> {
+          if (BLOCKS.exists()) {
+            try {
+              FileInputStream fis = new FileInputStream(BLOCKS);
+              ObjectInputStream ois = new ObjectInputStream(fis);
+              Object obj = ois.readObject();
+              if (obj instanceof ArrayList) {
+                blocksHolderList = (ArrayList<BlocksHolder>) obj;
+              }
+              fis.close();
+              ois.close();
+            } catch (Exception e) {
+            }
+          } else {
+            showSection(2);
+            binding.tvInfo.setText(getString(R.string.no_blocks_holder_yet));
+          }
+        });
+  }
 
   public void showSection(int section) {
     binding.loading.setVisibility(View.GONE);
