@@ -4,12 +4,17 @@ import android.os.Environment;
 import java.io.File;
 
 public final class Environments {
+  public static File IDEDIR;
   public static File PROJECTS_FOLDER;
   public static File PROJECTS;
+  public static File RESOURCES;
+  public static File BLOCKS;
 
   public static void init() {
-    PROJECTS_FOLDER =
-        new File(Environment.getExternalStorageDirectory().getAbsolutePath(), ".DragonIDE");
+    IDEDIR = Environment.getExternalStorageDirectory();
+    PROJECTS_FOLDER = new File(IDEDIR, ".DragonIDE");
     PROJECTS = new File(PROJECTS_FOLDER, "Projects");
+    RESOURCES = new File(IDEDIR, "res");
+    BLOCKS = new File(RESOURCES, "block");
   }
 }
