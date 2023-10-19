@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class WebFile implements Serializable {
+  public static final long serialVersionUID = 428383835L;
   private String filePath;
   private int fileType;
   private ArrayList<WebFile> fileList;
