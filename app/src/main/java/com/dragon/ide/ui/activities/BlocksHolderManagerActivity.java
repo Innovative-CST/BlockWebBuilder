@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class BlocksManagerActivity extends BaseActivity {
+public class BlocksHolderManagerActivity extends BaseActivity {
 
   private ActivityBlockManagerBinding binding;
   private ArrayList<BlocksHolder> blocksHolderList;

@@ -293,7 +293,7 @@ public class MainActivity extends BaseActivity {
   public boolean onOptionsItemSelected(MenuItem arg0) {
     if (arg0.getItemId() == R.id.block_manager) {
       Intent blockManager = new Intent();
-      blockManager.setClass(this, BlocksManagerActivity.class);
+      blockManager.setClass(this, BlocksHolderManagerActivity.class);
       startActivity(blockManager);
     }
     return super.onOptionsItemSelected(arg0);

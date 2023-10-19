@@ -35,7 +35,7 @@
             android:name="com.dragon.ide.ui.activities.FileManagerActivity"
             android:exported="true"/>
         <activity
-            android:name="com.dragon.ide.ui.activities.BlocksManagerActivity"
+            android:name="com.dragon.ide.ui.activities.BlocksHolderManagerActivity"
             android:exported="true"/>
     </application>
 </manifest>
