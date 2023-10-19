@@ -9,10 +9,12 @@
     <string name="create_new_file">Create new file</string>
     <string name="create_new_project">Create new project</string>
     <string name="file_already_exists">File already exists</string>
+    <string name="holder_color">Holder color</string>
     <string name="invalid_file_name">Invalid file name</string>
     <string name="invalid_project_name">Invalid project name</string>
     <string name="new_blocks_holder">New Blocks Holder</string>
     <string name="new_file">New file</string>
+    <string name="new_holder">New holder</string>
     <string name="no_blocks_holder_yet">No blocks holder yet</string>
     <string name="no_files_yet">No files yet</string>
     <string name="no_projects_yet">No projects yet</string>
