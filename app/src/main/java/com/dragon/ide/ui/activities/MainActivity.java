@@ -123,6 +123,12 @@ public class MainActivity extends BaseActivity {
     ExecutorService backgroundThread = Executors.newSingleThreadExecutor();
     backgroundThread.execute(
         () -> {
+
+          /*
+           * Check if .DragonIDE/Projects folder exists.
+           * Displays no projects yet if it doesn't exists
+           * Load projects if it exists.
+           */
           if (PROJECTS.exists()) {
 
             // Clear project list before adding from file to insure projects are not doubled.
@@ -133,7 +139,7 @@ public class MainActivity extends BaseActivity {
              * 1. Checks if path is directory.
              * 2. Checks if it contains Project.txt file in that path.
              * 3. Checks if the Project.txt file is an Object and instanceof Project.
-             * If 1, 2, 3 conditions are met then it add the path in project list and parses Project.txt file.
+             * If 1, 2, 3 conditions are met then add the path in project list.
              */
             for (File project : PROJECTS.listFiles()) {
               try {
@@ -164,11 +170,14 @@ public class MainActivity extends BaseActivity {
                       binding.permissionDenied.setVisibility(View.GONE);
                       binding.projectList.setVisibility(View.GONE);
                     } else {
+
                       // Shows project list in RecyclerView
                       binding.loading.setVisibility(View.GONE);
                       binding.noProjectsYet.setVisibility(View.GONE);
                       binding.permissionDenied.setVisibility(View.GONE);
                       binding.projectList.setVisibility(View.VISIBLE);
+
+                      // Load projects in RecyclerView
                       binding.list.setAdapter(
                           new ProjectsManagerListAdapter(projects, MainActivity.this));
                       binding.list.setLayoutManager(new LinearLayoutManager(MainActivity.this));
@@ -183,6 +192,7 @@ public class MainActivity extends BaseActivity {
                   }
                 });
           } else {
+
             // Displays no projects yet.
             binding.loading.setVisibility(View.GONE);
             binding.noProjectsYet.setVisibility(View.VISIBLE);
@@ -193,6 +203,7 @@ public class MainActivity extends BaseActivity {
   }
 
   private void startActivtyLogic() {
+
     // Loads project list.
     loadProjectInList();
   }
