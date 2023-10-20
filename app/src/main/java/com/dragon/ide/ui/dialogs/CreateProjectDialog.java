@@ -15,9 +15,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CreateProjectDialog {
-  public CreateProjectDialog(Activity activity, ProjectCreationListener listener) {
+  public CreateProjectDialog(
+      Activity activity,
+      ArrayList<HashMap<String, Object>> projectList,
+      ProjectCreationListener listener) {
     MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(activity);
     dialog.setTitle(activity.getString(R.string.create_new_project));
     LayoutCreateProjectBinding binding =
@@ -52,6 +57,10 @@ public class CreateProjectDialog {
                       activity.getString(R.string.invalid_project_name),
                       Toast.LENGTH_LONG)
                   .show();
+            } else if (isNameAlreadyInUse(projectList, binding.projectName.getText().toString())) {
+              Toast.makeText(
+                      activity, activity.getString(R.string.already_in_use), Toast.LENGTH_LONG)
+                  .show();
             }
           }
         });
@@ -65,6 +74,10 @@ public class CreateProjectDialog {
             binding.TextInputLayout1.setError(activity.getString(R.string.invalid_project_name));
             if (ProjectNameValidator.isValidProjectName(arg0.toString())) {
               binding.TextInputLayout1.setErrorEnabled(false);
+              if (isNameAlreadyInUse(projectList, binding.projectName.getText().toString())) {
+                binding.TextInputLayout1.setErrorEnabled(true);
+                binding.TextInputLayout1.setError(activity.getString(R.string.already_in_use));
+              }
             } else {
               binding.TextInputLayout1.setErrorEnabled(true);
             }
@@ -74,5 +87,24 @@ public class CreateProjectDialog {
           public void afterTextChanged(Editable arg0) {}
         });
     dialog.create().show();
+  }
+
+  public boolean isNameAlreadyInUse(ArrayList<HashMap<String, Object>> projectList, String name) {
+    boolean isUsed = false;
+    for (int i = 0; i < projectList.size(); ++i) {
+      if (projectList.get(i).containsKey("Path")) {
+        if (((File) projectList.get(i).get("Path"))
+            .getAbsolutePath()
+            .equals(new File(PROJECTS, name).getAbsolutePath())) {
+          isUsed = true;
+        }
+      }
+      if (projectList.get(i).containsKey("Project")) {
+        if (((Project) projectList.get(i).get("Project")).getProjectName().equals(name)) {
+          isUsed = true;
+        }
+      }
+    }
+    return isUsed;
   }
 }

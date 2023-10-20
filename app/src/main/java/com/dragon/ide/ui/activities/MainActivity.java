@@ -78,6 +78,7 @@ public class MainActivity extends BaseActivity {
           CreateProjectDialog dialog =
               new CreateProjectDialog(
                   MainActivity.this,
+                  projects,
                   new ProjectCreationListener() {
                     @Override
                     public void onProjectCreated(String projectName) {
