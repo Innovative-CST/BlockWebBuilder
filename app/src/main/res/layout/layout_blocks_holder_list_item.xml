@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     android:layout_height="wrap_content"
-     android:layout_width="wrap_content"
-     android:padding="8dp">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:padding="8dp">
 
     <com.google.android.material.card.MaterialCardView
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         app:strokeWidth="0dp"
-         style="@style/Widget.Material3.CardView.Filled">
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:strokeWidth="0dp"
+        style="@style/Widget.Material3.CardView.Filled">
 
         <LinearLayout
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal">
 
             <LinearLayout
-                 android:layout_height="match_parent"
-                 android:layout_width="5dp"
-                 android:id="@+id/color">
-
-            </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_width="5dp"
+                android:id="@+id/color" />
 
             <LinearLayout
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:gravity="center_vertical"
-                 android:padding="16dp"
-                 android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                     android:layout_height="wrap_content"
-                     android:layout_width="wrap_content"
-                     android:id="@+id/holderName" />
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/holderName" />
 
             </LinearLayout>
 
