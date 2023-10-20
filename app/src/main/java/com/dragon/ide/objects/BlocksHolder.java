@@ -30,4 +30,15 @@ public class BlocksHolder implements Serializable {
   public void setName(String name) {
     this.name = name;
   }
+
+  public ArrayList<Block> getBlocks() {
+    if (blocks != null) {
+      return this.blocks;
+    }
+    return new ArrayList<Block>();
+  }
+
+  public void setBlocks(ArrayList<Block> blocks) {
+    this.blocks = blocks;
+  }
 }

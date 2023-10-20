@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
+import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutBlocksHolderListItemBinding;
 import com.dragon.ide.objects.BlocksHolder;
 import java.util.ArrayList;
@@ -36,6 +37,13 @@ public class BlocksHolderAdapter extends RecyclerView.Adapter<BlocksHolderAdapte
     LayoutBlocksHolderListItemBinding binding =
         LayoutBlocksHolderListItemBinding.bind(_holder.itemView);
     binding.holderName.setText(list.get(_position).getName());
+    int blocksCount = list.get(_position).getBlocks().size();
+    if (blocksCount == 0) {
+      binding.blocksCount.setText(activity.getString(R.string.no_blocks_yet));
+    } else {
+      binding.blocksCount.setText(
+          String.valueOf(blocksCount).concat(activity.getString(R.string.blocks)));
+    }
     binding.color.setBackgroundColor(Color.parseColor(list.get(_position).color));
   }
 

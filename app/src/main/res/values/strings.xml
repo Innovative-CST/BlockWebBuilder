@@ -3,6 +3,8 @@
     <string name="an_error_occured_while_parsing_blocks_holder_list">An error occured while parsing blocks holder list.</string>
     <string name="an_error_occured_while_parsing_file_list">An error occured while parsing file list.</string>
     <string name="app_name">DragonIDE</string>
+    <string name="block">Block</string>
+    <string name="blocks">Blocks</string>
     <string name="blocks_manager">Blocks manager</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
@@ -19,6 +21,7 @@
     <string name="new_file">New file</string>
     <string name="new_holder">New holder</string>
     <string name="no_blocks_holder_yet">No blocks holder yet</string>
+    <string name="no_blocks_yet">No Blocks yet</string>
     <string name="no_files_yet">No files yet</string>
     <string name="no_projects_yet">No projects yet</string>
     <string name="package_name">Package name</string>
