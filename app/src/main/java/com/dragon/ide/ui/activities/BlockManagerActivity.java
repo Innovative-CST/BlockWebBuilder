@@ -5,13 +5,10 @@ import static com.dragon.ide.utils.Environments.BLOCKS;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
-import com.dragon.ide.databinding.ActivityBlocksHolderManagerBinding;
-import com.dragon.ide.listeners.BlocksHolderListener;
+import com.dragon.ide.databinding.ActivityBlockManagerBinding;
+import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlocksHolder;
-import com.dragon.ide.ui.adapters.BlocksHolderAdapter;
-import com.dragon.ide.ui.dialogs.blocksholder.CreateBlocksHolderDialog;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -20,17 +17,18 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class BlocksHolderManagerActivity extends BaseActivity {
+public class BlockManagerActivity extends BaseActivity {
 
-  private ActivityBlocksHolderManagerBinding binding;
+  private ActivityBlockManagerBinding binding;
   private ArrayList<BlocksHolder> blocksHolderList;
+  private ArrayList<Block> blocks;
 
   @Override
   protected void onCreate(Bundle arg0) {
     super.onCreate(arg0);
 
     // Inflate and get instance of binding.
-    binding = ActivityBlocksHolderManagerBinding.inflate(getLayoutInflater());
+    binding = ActivityBlockManagerBinding.inflate(getLayoutInflater());
 
     // set content view to binding's root.
     setContentView(binding.getRoot());
@@ -48,47 +46,24 @@ public class BlocksHolderManagerActivity extends BaseActivity {
           }
         });
 
-    // Initialize blocksHolderList to avoid null errors
+    // Initialize blocksHolderList and blocks to avoid null errors
+    blocks = new ArrayList<Block>();
     blocksHolderList = new ArrayList<BlocksHolder>();
 
     /*
      * Ask for storage permission if not granted.
-     * Load blocks holder list if storage permission is granted.
+     * Load blocks list if storage permission is granted.
      */
     if (MainActivity.isStoagePermissionGranted(this)) {
-      loadBlocksHolderList();
-      binding.fab.setOnClickListener(
-          (view) -> {
-            CreateBlocksHolderDialog createBlocksHolder =
-                new CreateBlocksHolderDialog(
-                    this,
-                    blocksHolderList,
-                    new BlocksHolderListener() {
-                      @Override
-                      public void onBlockHolderCreate(BlocksHolder holder) {
-                        binding.list.setAdapter(
-                            new BlocksHolderAdapter(
-                                blocksHolderList, BlocksHolderManagerActivity.this));
-                        binding.list.setLayoutManager(
-                            new LinearLayoutManager(BlocksHolderManagerActivity.this));
-                        showSection(3);
-                      }
-
-                      @Override
-                      public void onBlocksHolderFailedToCreate(String error) {
-                        Toast.makeText(BlocksHolderManagerActivity.this, error, Toast.LENGTH_SHORT)
-                            .show();
-                      }
-                    });
-            createBlocksHolder.create().show();
-          });
+      loadBlocksList();
+      binding.fab.setOnClickListener((view) -> {});
     } else {
       showSection(2);
       MainActivity.showStoragePermissionDialog(this);
     }
   }
 
-  private void loadBlocksHolderList() {
+  private void loadBlocksList() {
     showSection(1);
     Executor executor = Executors.newSingleThreadExecutor();
     executor.execute(
@@ -102,19 +77,13 @@ public class BlocksHolderManagerActivity extends BaseActivity {
                 blocksHolderList = (ArrayList<BlocksHolder>) obj;
                 runOnUiThread(
                     () -> {
-                      binding.list.setAdapter(
-                          new BlocksHolderAdapter(
-                              blocksHolderList, BlocksHolderManagerActivity.this));
-                      binding.list.setLayoutManager(
-                          new LinearLayoutManager(BlocksHolderManagerActivity.this));
-                      showSection(3);
+                      showSection(1);
                     });
               } else {
                 runOnUiThread(
                     () -> {
                       showSection(2);
-                      binding.tvInfo.setText(
-                          getString(R.string.an_error_occured_while_parsing_blocks_holder_list));
+                      binding.tvInfo.setText(getString(R.string.error));
                     });
               }
               fis.close();
@@ -130,7 +99,7 @@ public class BlocksHolderManagerActivity extends BaseActivity {
             runOnUiThread(
                 () -> {
                   showSection(2);
-                  binding.tvInfo.setText(getString(R.string.no_blocks_holder_yet));
+                  binding.tvInfo.setText(getString(R.string.error));
                 });
           }
         });
@@ -139,7 +108,7 @@ public class BlocksHolderManagerActivity extends BaseActivity {
   public void showSection(int section) {
     binding.loading.setVisibility(View.GONE);
     binding.info.setVisibility(View.GONE);
-    binding.blocksHolder.setVisibility(View.GONE);
+    binding.blocksList.setVisibility(View.GONE);
     switch (section) {
       case 1:
         binding.loading.setVisibility(View.VISIBLE);
@@ -148,7 +117,7 @@ public class BlocksHolderManagerActivity extends BaseActivity {
         binding.info.setVisibility(View.VISIBLE);
         break;
       case 3:
-        binding.blocksHolder.setVisibility(View.VISIBLE);
+        binding.blocksList.setVisibility(View.VISIBLE);
         break;
     }
   }
@@ -174,8 +143,7 @@ public class BlocksHolderManagerActivity extends BaseActivity {
           } catch (Exception e) {
             runOnUiThread(
                 () -> {
-                  Toast.makeText(
-                          BlocksHolderManagerActivity.this, e.getMessage(), Toast.LENGTH_SHORT)
+                  Toast.makeText(BlockManagerActivity.this, e.getMessage(), Toast.LENGTH_SHORT)
                       .show();
                 });
           }

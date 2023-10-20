@@ -11,12 +11,14 @@
     <string name="create_new_blocks_holder">Create new blocks holder</string>
     <string name="create_new_file">Create new file</string>
     <string name="create_new_project">Create new project</string>
+    <string name="error">Error</string>
     <string name="file_already_exists">File already exists</string>
     <string name="holder_color">Holder color</string>
     <string name="holder_name_empty_error">Holder name cannot be emptied</string>
     <string name="invalid_color">Invalid color</string>
     <string name="invalid_file_name">Invalid file name</string>
     <string name="invalid_project_name">Invalid project name</string>
+    <string name="new_block">New block</string>
     <string name="new_blocks_holder">New Blocks Holder</string>
     <string name="new_file">New file</string>
     <string name="new_holder">New holder</string>

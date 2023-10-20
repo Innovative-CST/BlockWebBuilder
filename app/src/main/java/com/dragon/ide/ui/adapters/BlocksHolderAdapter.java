@@ -1,6 +1,7 @@
 package com.dragon.ide.ui.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutBlocksHolderListItemBinding;
 import com.dragon.ide.objects.BlocksHolder;
+import com.dragon.ide.ui.activities.BlockManagerActivity;
 import java.util.ArrayList;
 
 public class BlocksHolderAdapter extends RecyclerView.Adapter<BlocksHolderAdapter.ViewHolder> {
@@ -45,6 +47,14 @@ public class BlocksHolderAdapter extends RecyclerView.Adapter<BlocksHolderAdapte
           String.valueOf(blocksCount).concat(activity.getString(R.string.blocks)));
     }
     binding.color.setBackgroundColor(Color.parseColor(list.get(_position).color));
+    binding
+        .getRoot()
+        .setOnClickListener(
+            (view) -> {
+              Intent blockManager = new Intent();
+              blockManager.setClass(activity, BlockManagerActivity.class);
+              activity.startActivity(blockManager);
+            });
   }
 
   @Override

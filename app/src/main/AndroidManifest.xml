@@ -37,5 +37,8 @@
         <activity
             android:name="com.dragon.ide.ui.activities.BlocksHolderManagerActivity"
             android:exported="true"/>
+        <activity
+            android:name="com.dragon.ide.ui.activities.BlockManagerActivity"
+            android:exported="true"/>
     </application>
 </manifest>
