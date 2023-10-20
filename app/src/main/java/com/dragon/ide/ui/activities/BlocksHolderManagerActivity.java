@@ -4,11 +4,18 @@ import static com.dragon.ide.utils.Environments.BLOCKS;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityBlockManagerBinding;
+import com.dragon.ide.listeners.BlocksHolderListener;
 import com.dragon.ide.objects.BlocksHolder;
+import com.dragon.ide.ui.adapters.BlocksHolderAdapter;
+import com.dragon.ide.ui.dialogs.blocksholder.CreateBlocksHolderDialog;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -50,6 +57,31 @@ public class BlocksHolderManagerActivity extends BaseActivity {
      */
     if (MainActivity.isStoagePermissionGranted(this)) {
       loadBlocksHolderList();
+      binding.fab.setOnClickListener(
+          (view) -> {
+            CreateBlocksHolderDialog createBlocksHolder =
+                new CreateBlocksHolderDialog(
+                    this,
+                    blocksHolderList,
+                    new BlocksHolderListener() {
+                      @Override
+                      public void onBlockHolderCreate(BlocksHolder holder) {
+                        binding.list.setAdapter(
+                            new BlocksHolderAdapter(
+                                blocksHolderList, BlocksHolderManagerActivity.this));
+                        binding.list.setLayoutManager(
+                            new LinearLayoutManager(BlocksHolderManagerActivity.this));
+                        showSection(3);
+                      }
+
+                      @Override
+                      public void onBlocksHolderFailedToCreate(String error) {
+                        Toast.makeText(BlocksHolderManagerActivity.this, error, Toast.LENGTH_SHORT)
+                            .show();
+                      }
+                    });
+            createBlocksHolder.create().show();
+          });
     } else {
       showSection(2);
       MainActivity.showStoragePermissionDialog(this);
@@ -68,11 +100,21 @@ public class BlocksHolderManagerActivity extends BaseActivity {
               Object obj = ois.readObject();
               if (obj instanceof ArrayList) {
                 blocksHolderList = (ArrayList<BlocksHolder>) obj;
+                runOnUiThread(
+                    () -> {
+                      binding.list.setAdapter(
+                          new BlocksHolderAdapter(
+                              blocksHolderList, BlocksHolderManagerActivity.this));
+                      binding.list.setLayoutManager(
+                          new LinearLayoutManager(BlocksHolderManagerActivity.this));
+                      showSection(3);
+                    });
               } else {
                 runOnUiThread(
                     () -> {
                       showSection(2);
-                      binding.tvInfo.setText(getString(R.string.an_error_occured_while_parsing_blocks_holder_list));
+                      binding.tvInfo.setText(
+                          getString(R.string.an_error_occured_while_parsing_blocks_holder_list));
                     });
               }
               fis.close();
@@ -115,5 +157,33 @@ public class BlocksHolderManagerActivity extends BaseActivity {
   protected void onDestroy() {
     super.onDestroy();
     binding = null;
+  }
+
+  private void saveBlocksHolderList() {
+    Executor executor = Executors.newSingleThreadExecutor();
+    executor.execute(
+        () -> {
+          try {
+            BLOCKS.getParentFile().mkdirs();
+            FileOutputStream fos = new FileOutputStream(BLOCKS);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(blocksHolderList);
+            fos.close();
+            oos.close();
+            finish();
+          } catch (Exception e) {
+            runOnUiThread(
+                () -> {
+                  Toast.makeText(
+                          BlocksHolderManagerActivity.this, e.getMessage(), Toast.LENGTH_SHORT)
+                      .show();
+                });
+          }
+        });
+  }
+
+  @Override
+  public void onBackPressed() {
+    saveBlocksHolderList();
   }
 }

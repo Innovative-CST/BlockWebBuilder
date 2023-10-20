@@ -43,7 +43,6 @@ public class CreateProjectDialog {
               fos.close();
               listener.onProjectCreated(project.getProjectName());
             } catch (Exception err) {
-
             }
           } else {
             if (!(ProjectNameValidator.isValidProjectName(
