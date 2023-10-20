@@ -6,8 +6,8 @@ public class Block implements Serializable {
   public static final long serialVersionUID = 428383837L;
   public String color;
   public String name;
-  private Object[] blockSpec1;
-  private Object[] blockSpec2;
+  private Object[] blockData1;
+  private Object[] blockData2;
   private int BlockType;
 
   public String getColor() {
@@ -32,20 +32,20 @@ public class Block implements Serializable {
     this.name = name;
   }
 
-  public Object[] getBlockSpec1() {
-    return this.blockSpec1;
+  public Object[] getBlockData1() {
+    return this.blockData1;
   }
 
   public void setBlockSpec1(Object[] blockSpec1) {
-    this.blockSpec1 = blockSpec1;
+    this.blockData1 = blockSpec1;
   }
 
-  public Object[] getBlockSpec2() {
-    return this.blockSpec2;
+  public Object[] getBlockData2() {
+    return this.blockData2;
   }
 
-  public void setBlockSpec2(Object[] blockSpec2) {
-    this.blockSpec2 = blockSpec2;
+  public void setBlockData2(Object[] blockSpec2) {
+    this.blockData2 = blockSpec2;
   }
 
   public int getBlockType() {
