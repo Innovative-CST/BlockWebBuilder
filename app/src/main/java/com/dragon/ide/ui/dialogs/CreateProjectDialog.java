@@ -95,12 +95,16 @@ public class CreateProjectDialog {
       if (projectList.get(i).containsKey("Path")) {
         if (((File) projectList.get(i).get("Path"))
             .getAbsolutePath()
-            .equals(new File(PROJECTS, name).getAbsolutePath())) {
+            .toLowerCase()
+            .equals(new File(PROJECTS, name).getAbsolutePath().toLowerCase())) {
           isUsed = true;
         }
       }
       if (projectList.get(i).containsKey("Project")) {
-        if (((Project) projectList.get(i).get("Project")).getProjectName().equals(name)) {
+        if (((Project) projectList.get(i).get("Project"))
+            .getProjectName()
+            .toLowerCase()
+            .equals(name.toLowerCase())) {
           isUsed = true;
         }
       }
