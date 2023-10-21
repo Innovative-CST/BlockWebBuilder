@@ -32,10 +32,16 @@ public class CreateBlocksHolderDialog extends MaterialAlertDialogBuilder {
           @Override
           public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             if (binding.holderName.getText().toString().length() == 0) {
+              errorMessage1 = activity.getString(R.string.holder_name_empty_error);
               binding.TextInputLayout1.setError(
                   activity.getString(R.string.holder_name_empty_error));
             } else {
               binding.TextInputLayout1.setError(null);
+              if (isBlocksHolderNameAlreadyInUse(
+                  blocksHolderList, binding.holderName.getText().toString())) {
+                errorMessage1 = activity.getString(R.string.already_in_use);
+                binding.TextInputLayout1.setError(activity.getString(R.string.already_in_use));
+              }
             }
           }
 
@@ -52,6 +58,7 @@ public class CreateBlocksHolderDialog extends MaterialAlertDialogBuilder {
             if (HexColorValidator.isValidateHexColor(binding.color.getText().toString())) {
               binding.TextInputLayout2.setError(null);
             } else {
+              errorMessage2 = activity.getString(R.string.invalid_color);
               binding.TextInputLayout2.setError(activity.getString(R.string.invalid_color));
             }
           }
@@ -80,6 +87,9 @@ public class CreateBlocksHolderDialog extends MaterialAlertDialogBuilder {
           boolean containsError2 = false;
           if (binding.holderName.getText().toString().length() == 0) {
             containsError1 = true;
+          } else if (isBlocksHolderNameAlreadyInUse(
+              blocksHolderList, binding.holderName.getText().toString())) {
+            containsError1 = true;
           }
           if (!HexColorValidator.isValidateHexColor(binding.color.getText().toString())) {
             containsError2 = true;
@@ -98,5 +108,16 @@ public class CreateBlocksHolderDialog extends MaterialAlertDialogBuilder {
             }
           }
         });
+  }
+
+  public static boolean isBlocksHolderNameAlreadyInUse(
+      ArrayList<BlocksHolder> blocksHolderList, String name) {
+    boolean isBlocksHolderNameAlreadyInUse = false;
+    for (int i = 0; i < blocksHolderList.size(); ++i) {
+      if (blocksHolderList.get(i).getName().toLowerCase().equals(name.toLowerCase())) {
+        isBlocksHolderNameAlreadyInUse = true;
+      }
+    }
+    return isBlocksHolderNameAlreadyInUse;
   }
 }
