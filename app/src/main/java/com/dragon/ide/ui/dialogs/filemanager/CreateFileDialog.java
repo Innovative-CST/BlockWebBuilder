@@ -12,6 +12,7 @@ import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.activities.FileManagerActivity;
 import com.dragon.ide.ui.adapters.FileListAdapterItem;
 import com.dragon.ide.utils.FileNameValidator;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 
@@ -61,7 +62,11 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
               binding.TextInputLayout1.setErrorEnabled(false);
               boolean isNameInUse = false;
               for (int i = 0; i < fileList.size(); ++i) {
-                if (fileList.get(i).getFilePath() == arg0.toString()) {
+                if (fileList
+                    .get(i)
+                    .getFilePath()
+                    .toLowerCase()
+                    .equals(binding.fileName.getText().toString().toLowerCase())) {
                   int fileType = fileList.get(i).getFileType();
                   int fileCreatingButton = binding.fileTypeChooser.getCheckedButtonId();
                   if (fileCreatingButton == R.id.html) {
@@ -142,6 +147,49 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
             listener.onFileCreationFailed(activity.getString(R.string.invalid_file_name));
           }
         });
+    binding.fileTypeChooser.addOnButtonCheckedListener(
+        new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+          @Override
+          public void onButtonChecked(MaterialButtonToggleGroup arg0, int arg1, boolean arg2) {
+            binding.TextInputLayout1.setError(activity.getString(R.string.invalid_file_name));
+            if (FileNameValidator.isValidFileName(binding.fileName.getText().toString())) {
+              binding.TextInputLayout1.setErrorEnabled(false);
+              boolean isNameInUse = false;
+              for (int i = 0; i < fileList.size(); ++i) {
+                if (fileList
+                    .get(i)
+                    .getFilePath()
+                    .toLowerCase()
+                    .equals(binding.fileName.getText().toString().toLowerCase())) {
+                  int fileType = fileList.get(i).getFileType();
+                  int fileCreatingButton = binding.fileTypeChooser.getCheckedButtonId();
+                  if (fileCreatingButton == R.id.html) {
+                    if (fileType == WebFile.SupportedFileType.HTML) {
+                      isNameInUse = true;
+                    }
+                  }
+                  if (fileCreatingButton == R.id.css) {
+                    if (fileType == WebFile.SupportedFileType.CSS) {
+                      isNameInUse = true;
+                    }
+                  }
+                  if (fileCreatingButton == R.id.js) {
+                    if (fileType == WebFile.SupportedFileType.JS) {
+                      isNameInUse = true;
+                    }
+                  }
+                }
+              }
+              if (isNameInUse) {
+                binding.TextInputLayout1.setError(activity.getString(R.string.file_already_exists));
+                binding.TextInputLayout1.setErrorEnabled(true);
+              }
+            } else {
+              binding.TextInputLayout1.setErrorEnabled(true);
+            }
+          }
+        });
+
     setNegativeButton(R.string.cancel, (param1, param2) -> {});
   }
 }
