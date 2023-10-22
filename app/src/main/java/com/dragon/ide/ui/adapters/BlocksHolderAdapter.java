@@ -46,12 +46,13 @@ public class BlocksHolderAdapter extends RecyclerView.Adapter<BlocksHolderAdapte
       binding.blocksCount.setText(
           String.valueOf(blocksCount).concat(activity.getString(R.string.blocks)));
     }
-    binding.color.setBackgroundColor(Color.parseColor(list.get(_position).color));
+    binding.color.setBackgroundColor(Color.parseColor(list.get(_position).getColor()));
     binding
         .getRoot()
         .setOnClickListener(
             (view) -> {
               Intent blockManager = new Intent();
+              blockManager.putExtra("BlocksHolder", list.get(_position).getName());
               blockManager.setClass(activity, BlockManagerActivity.class);
               activity.startActivity(blockManager);
             });

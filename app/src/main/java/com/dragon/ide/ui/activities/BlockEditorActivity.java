@@ -1,13 +1,16 @@
 package com.dragon.ide.ui.activities;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import static com.dragon.ide.utils.Environments.BLOCKS;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import com.dragon.ide.R;
-import com.dragon.ide.databinding.ActivityBlockManagerBinding;
+import com.dragon.ide.databinding.ActivityBlockEditorBinding;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlocksHolder;
 import java.io.FileInputStream;
@@ -18,19 +21,20 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class BlockManagerActivity extends BaseActivity {
+public class BlockEditorActivity extends BaseActivity {
 
-  private ActivityBlockManagerBinding binding;
+  private ActivityBlockEditorBinding binding;
   private ArrayList<BlocksHolder> blocksHolderList;
+  private BlocksHolder blocksHolder;
   private ArrayList<Block> blocks;
   private String blocksHolderSelectedName;
 
   @Override
-  protected void onCreate(Bundle arg0) {
-    super.onCreate(arg0);
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
     // Inflate and get instance of binding.
-    binding = ActivityBlockManagerBinding.inflate(getLayoutInflater());
+    binding = ActivityBlockEditorBinding.inflate(getLayoutInflater());
 
     // set content view to binding's root.
     setContentView(binding.getRoot());
@@ -48,9 +52,10 @@ public class BlockManagerActivity extends BaseActivity {
           }
         });
 
-    // Initialize blocksHolderList and blocks to avoid null errors
+    // Initialize to avoid null errors
     blocks = new ArrayList<Block>();
     blocksHolderList = new ArrayList<BlocksHolder>();
+    blocksHolder = new BlocksHolder();
 
     // Get selected Blocks holder
     if (getIntent().hasExtra("BlocksHolder")) {
@@ -61,20 +66,8 @@ public class BlockManagerActivity extends BaseActivity {
       return;
     }
 
-    /*
-     * Ask for storage permission if not granted.
-     * Load blocks list if storage permission is granted.
-     */
     if (MainActivity.isStoagePermissionGranted(this)) {
       loadBlocksList();
-      binding.fab.setOnClickListener(
-          (view) -> {
-            Intent blockEditor = new Intent();
-            blockEditor.putExtra("BlocksHolder", blocksHolderSelectedName);
-            blockEditor.putExtra("createNewBlock", true);
-            blockEditor.setClass(BlockManagerActivity.this, BlockEditorActivity.class);
-            startActivity(blockEditor);
-          });
     } else {
       showSection(2);
       MainActivity.showStoragePermissionDialog(this);
@@ -95,7 +88,20 @@ public class BlockManagerActivity extends BaseActivity {
                 blocksHolderList = (ArrayList<BlocksHolder>) obj;
                 runOnUiThread(
                     () -> {
-                      showSection(1);
+                      showSection(3);
+                      for (int i = 0; i < blocksHolderList.size(); ++i) {
+                        if (blocksHolderList
+                            .get(i)
+                            .getName()
+                            .toLowerCase()
+                            .equals(blocksHolderSelectedName.toLowerCase())) {
+                          blocksHolder = blocksHolderList.get(i);
+                          Drawable backgroundDrawable = binding.block.getBackground();
+                          backgroundDrawable.setTint(Color.parseColor(blocksHolder.getColor()));
+                          backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+                          binding.block.setBackground(backgroundDrawable);
+                        }
+                      }
                     });
               } else {
                 runOnUiThread(
@@ -161,7 +167,7 @@ public class BlockManagerActivity extends BaseActivity {
           } catch (Exception e) {
             runOnUiThread(
                 () -> {
-                  Toast.makeText(BlockManagerActivity.this, e.getMessage(), Toast.LENGTH_SHORT)
+                  Toast.makeText(BlockEditorActivity.this, e.getMessage(), Toast.LENGTH_SHORT)
                       .show();
                 });
           }
