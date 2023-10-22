@@ -12,6 +12,8 @@
     <string name="create_new_blocks_holder">Create new blocks holder</string>
     <string name="create_new_file">Create new file</string>
     <string name="create_new_project">Create new project</string>
+    <string name="done">Done</string>
+    <string name="enter_value">Enter value</string>
     <string name="error">Error</string>
     <string name="file_already_exists">File already exists</string>
     <string name="holder_color">Holder color</string>
@@ -32,4 +34,5 @@
     <string name="project_name_not_passed">Project name not passed.Please check the Intent or contact developer.</string>
     <string name="project_not_found">Project not found</string>
     <string name="storage_permission_denied">Storage permission denied</string>
+    <string name="value_should_not_be_empty">Value should not be empty</string>
 </resources>

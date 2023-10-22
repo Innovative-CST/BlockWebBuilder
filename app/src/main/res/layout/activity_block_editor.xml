@@ -60,33 +60,64 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:visibility="gone"
+            android:orientation="vertical"
             android:id="@+id/blocksList">
 
             <LinearLayout
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:padding="8dp">
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1">
 
-                <HorizontalScrollView
+                <LinearLayout
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:background="@drawable/block_default"
-                    android:id="@+id/block">
+                    android:padding="8dp">
 
-                    <LinearLayout
+                    <HorizontalScrollView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:padding="4dp"
-                        android:id="@+id/blockContent" />
+                        android:background="@drawable/block_default"
+                        android:id="@+id/block">
 
-                </HorizontalScrollView>
+                        <LinearLayout
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:padding="4dp"
+                            android:id="@+id/blockContent">
+
+                        </LinearLayout>
+
+                    </HorizontalScrollView>
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:id="@+id/list" />
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
+            <HorizontalScrollView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:id="@+id/list" />
+                android:background="?attr/colorSurfaceVariant">
+
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:padding="4dp"
+                    android:id="@+id/blockContentsLayout">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Text"
+                        android:id="@+id/PropertyText" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
 
         </LinearLayout>
 

@@ -4,6 +4,9 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.widget.TextView;
+import com.dragon.ide.listeners.ValueListener;
+import com.dragon.ide.ui.dialogs.blockeditor.AddTextInBlockDialog;
 import static com.dragon.ide.utils.Environments.BLOCKS;
 
 import android.os.Bundle;
@@ -102,6 +105,31 @@ public class BlockEditorActivity extends BaseActivity {
                           binding.block.setBackground(backgroundDrawable);
                         }
                       }
+                      binding.PropertyText.setOnClickListener(
+                          (view) -> {
+                            AddTextInBlockDialog addTextInBlockDialog =
+                                new AddTextInBlockDialog(
+                                    BlockEditorActivity.this,
+                                    new ValueListener() {
+
+                                      @Override
+                                      public void onSubmitted(String value) {
+                                        TextView tv = new TextView(BlockEditorActivity.this);
+                                        tv.setText(value);
+                                        tv.setTextSize(10);
+                                        binding.blockContent.addView(
+                                            tv, binding.blockContent.getChildCount());
+                                      }
+
+                                      @Override
+                                      public void onError(String error) {
+                                        Toast.makeText(
+                                                BlockEditorActivity.this, error, Toast.LENGTH_SHORT)
+                                            .show();
+                                      }
+                                    });
+                            addTextInBlockDialog.show();
+                          });
                     });
               } else {
                 runOnUiThread(

@@ -9,6 +9,7 @@ public class Block implements Serializable {
   private Object[] blockData1;
   private Object[] blockData2;
   private int BlockType;
+  private String code;
 
   public String getColor() {
     if (this.color != null) {
