@@ -1,22 +1,29 @@
 package com.dragon.ide.ui.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutFileListItemBinding;
 import com.dragon.ide.objects.WebFile;
+import com.dragon.ide.ui.activities.EventListActivity;
 import java.util.ArrayList;
 
 public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterItem.ViewHolder> {
 
   public ArrayList<WebFile> _data;
   public Activity activity;
+  private String projectName;
+  private String projectPath;
 
-  public FileListAdapterItem(ArrayList<WebFile> _arr, Activity activity) {
+  public FileListAdapterItem(
+      ArrayList<WebFile> _arr, Activity activity, String projectName, String projectPath) {
     _data = _arr;
     this.activity = activity;
+    this.projectName = projectName;
+    this.projectPath = projectPath;
   }
 
   @Override
@@ -34,7 +41,11 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
   @Override
   public void onBindViewHolder(ViewHolder _holder, int _position) {
     LayoutFileListItemBinding binding = LayoutFileListItemBinding.bind(_holder.itemView);
-    binding.tvFileName.setText(_data.get(_position).getFilePath().concat(getSupportedFileSuffix(_data.get(_position).getFileType())));
+    binding.tvFileName.setText(
+        _data
+            .get(_position)
+            .getFilePath()
+            .concat(WebFile.getSupportedFileSuffix(_data.get(_position).getFileType())));
     switch (_data.get(_position).getFileType()) {
       case WebFile.SupportedFileType.FOLDER:
         binding.icon.setImageResource(R.drawable.ic_folder_black_24dp);
@@ -49,6 +60,18 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
         binding.icon.setImageResource(R.drawable.language_javascript);
         break;
     }
+    binding
+        .getRoot()
+        .setOnClickListener(
+            (view) -> {
+              Intent i = new Intent();
+              i.setClass(activity, EventListActivity.class);
+              i.putExtra("projectName", projectName);
+              i.putExtra("projectPath", projectPath);
+              i.putExtra("fileName", _data.get(_position).getFilePath());
+              i.putExtra("fileType", _data.get(_position).getFileType());
+              activity.startActivity(i);
+            });
   }
 
   @Override
@@ -60,17 +83,5 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
     public ViewHolder(View v) {
       super(v);
     }
-  }
-
-  public String getSupportedFileSuffix(int type) {
-    switch (type) {
-      case WebFile.SupportedFileType.HTML:
-        return ".html";
-      case WebFile.SupportedFileType.CSS:
-        return ".css";
-      case WebFile.SupportedFileType.JS:
-        return ".js";
-    }
-    return "";
   }
 }

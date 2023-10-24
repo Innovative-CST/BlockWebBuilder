@@ -5,6 +5,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import builtin.files.CssFile;
+import builtin.files.HtmlFile;
+import builtin.files.JavascriptFile;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutNewFileDialogBinding;
 import com.dragon.ide.listeners.FileCreationListener;
@@ -20,7 +23,8 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
   private Activity activity;
   private LayoutNewFileDialogBinding binding;
 
-  public CreateFileDialog(Activity activity, ArrayList<WebFile> fileList) {
+  public CreateFileDialog(
+      Activity activity, ArrayList<WebFile> fileList, String projectName, String projectPath) {
     super(activity);
     this.activity = activity;
 
@@ -33,7 +37,8 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
               ((FileManagerActivity) activity).getFileListRecyclerView();
               ((FileManagerActivity) activity)
                   .getFileListRecyclerView()
-                  .setAdapter(new FileListAdapterItem(fileList, activity));
+                  .setAdapter(
+                      new FileListAdapterItem(fileList, activity, projectName, projectPath));
               ((FileManagerActivity) activity)
                   .getFileListRecyclerView()
                   .setLayoutManager(new LinearLayoutManager(activity));
@@ -128,18 +133,21 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
               listener.onFileCreationFailed(activity.getString(R.string.file_already_exists));
             } else {
               WebFile webFile = new WebFile();
-              webFile.setFilePath(binding.fileName.getText().toString());
               int fileCreatingButton = binding.fileTypeChooser.getCheckedButtonId();
               int fileType = 0;
               if (fileCreatingButton == R.id.html) {
+                webFile = new HtmlFile();
                 fileType = WebFile.SupportedFileType.HTML;
               }
               if (fileCreatingButton == R.id.css) {
+                webFile = new CssFile();
                 fileType = WebFile.SupportedFileType.CSS;
               }
               if (fileCreatingButton == R.id.js) {
+                webFile = new JavascriptFile();
                 fileType = WebFile.SupportedFileType.JS;
               }
+              webFile.setFilePath(binding.fileName.getText().toString());
               webFile.setFileType(fileType);
               listener.onFileCreated(webFile);
             }

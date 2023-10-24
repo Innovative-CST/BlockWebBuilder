@@ -1,15 +1,17 @@
 package com.dragon.ide.objects;
 
+import com.dragon.ide.utils.CodeReplacer;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Block implements Serializable {
-  public static final long serialVersionUID = 428383837L;
-  public String color;
-  public String name;
-  private Object[] blockData1;
-  private Object[] blockData2;
+  private static final long serialVersionUID = 428383837L;
+  private String color;
+  private String name;
+  private ArrayList<Object> blockContent;
   private int BlockType;
-  private String code;
+  private String rawCode;
+  private String replacer;
 
   public String getColor() {
     if (this.color != null) {
@@ -33,27 +35,56 @@ public class Block implements Serializable {
     this.name = name;
   }
 
-  public Object[] getBlockData1() {
-    return this.blockData1;
-  }
-
-  public void setBlockSpec1(Object[] blockSpec1) {
-    this.blockData1 = blockSpec1;
-  }
-
-  public Object[] getBlockData2() {
-    return this.blockData2;
-  }
-
-  public void setBlockData2(Object[] blockSpec2) {
-    this.blockData2 = blockSpec2;
-  }
-
   public int getBlockType() {
     return this.BlockType;
   }
 
   public void setBlockType(int BlockType) {
     this.BlockType = BlockType;
+  }
+
+  public String getCode() {
+    String blockRawCode = new String(getRawCode());
+    for (int i = 0; i < getBlockContent().size(); ++i) {
+      if (getBlockContent().get(i) instanceof ComplexBlockContent) {
+        blockRawCode =
+            blockRawCode.replaceAll(
+                CodeReplacer.getReplacer(
+                    ((ComplexBlockContent) getBlockContent().get(i)).getId()),
+                ((ComplexBlockContent) getBlockContent().get(i)).getValue());
+      }
+    }
+    blockRawCode = CodeReplacer.removeDragonIDEString(blockRawCode);
+    return new String(blockRawCode);
+  }
+
+  public String getRawCode() {
+    return this.rawCode;
+  }
+
+  public void setRawCode(String rawCode) {
+    this.rawCode = rawCode;
+  }
+
+  public final class BlockType {
+    public final int defaultBlock = 0;
+    public final int complexBlock = 1;
+    public final int doubleComplexBlock = 2;
+  }
+
+  public String getReplacer() {
+    return this.replacer;
+  }
+
+  public void setReplacer(String replacer) {
+    this.replacer = replacer;
+  }
+
+  public ArrayList<Object> getBlockContent() {
+    return this.blockContent;
+  }
+
+  public void setBlockContent(ArrayList<Object> blockContent) {
+    this.blockContent = blockContent;
   }
 }

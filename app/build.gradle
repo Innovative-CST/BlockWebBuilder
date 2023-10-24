@@ -64,6 +64,7 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "com.google.android.material:material:1.9.0"
@@ -73,6 +74,12 @@ dependencies {
             new File("$projectDir/google-services.json").text = analytics;
         }
     }
+    
+    def editorGroupId = "io.github.Rosemoe.sora-editor"
+    implementation platform("$editorGroupId:bom:0.22.0")
+    implementation "$editorGroupId:editor"
+    implementation "$editorGroupId:language-textmate"
+    
     implementation platform('com.google.firebase:firebase-bom:32.3.1')
     implementation 'com.google.firebase:firebase-analytics'
 }

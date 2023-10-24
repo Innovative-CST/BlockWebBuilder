@@ -3,15 +3,18 @@ package com.dragon.ide.ui.activities;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.MainThread;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
-import com.dragon.ide.databinding.ActivityFileManagerBinding;
+import com.dragon.ide.databinding.ActivityEventListBinding;
+import com.dragon.ide.objects.Event;
 import com.dragon.ide.objects.WebFile;
-import com.dragon.ide.ui.adapters.FileListAdapterItem;
-import com.dragon.ide.ui.dialogs.filemanager.CreateFileDialog;
+import com.dragon.ide.ui.adapters.EventListAdapter;
+import com.dragon.ide.ui.dialogs.eventList.ShowSourceCodeDialog;
+import editor.tsd.tools.Language;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,25 +24,36 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class FileManagerActivity extends BaseActivity {
-  private ActivityFileManagerBinding binding;
+public class EventListActivity extends BaseActivity {
+  private ActivityEventListBinding binding;
   private ArrayList<WebFile> fileList;
+  private WebFile file;
+  private ArrayList<Event> eventList;
   private String projectName;
   private String projectPath;
-  private boolean isLoaded = false;
+  private String fileName;
+  private int fileType;
+  private boolean isLoaded;
 
   @Override
   protected void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
     // Inflate and get instance of binding.
-    binding = ActivityFileManagerBinding.inflate(getLayoutInflater());
+    binding = ActivityEventListBinding.inflate(getLayoutInflater());
 
     // set content view to binding's root.
     setContentView(binding.getRoot());
 
-    // Initialize fileList to avoid null error
+    // Initialize to avoid null error
     fileList = new ArrayList<WebFile>();
+    eventList = new ArrayList<Event>();
+    projectName = "";
+    projectPath = "";
+    fileName = "";
+    fileType = 0;
+    isLoaded = false;
+    file = new WebFile();
 
     // Setup toolbar.
     binding.toolbar.setTitle(R.string.app_name);
@@ -57,44 +71,36 @@ public class FileManagerActivity extends BaseActivity {
     if (getIntent().hasExtra("projectName")) {
       projectName = getIntent().getStringExtra("projectName");
       projectPath = getIntent().getStringExtra("projectPath");
+      fileName = getIntent().getStringExtra("fileName");
+      fileType = getIntent().getIntExtra("fileType", 1);
     } else {
-      showSection(5);
-      binding.errorText.setText(getString(R.string.project_name_not_passed));
+      showSection(2);
+      binding.tvInfo.setText(getString(R.string.error));
     }
     /*
      * Ask for storage permission if not granted.
-     * Load projects if storage permission is granted.
+     * Load events if storage permission is granted.
      */
     if (!MainActivity.isStoagePermissionGranted(this)) {
       showSection(3);
       MainActivity.showStoragePermissionDialog(this);
     } else {
-      showFileList();
+      showEventList();
     }
-    binding.fab.setOnClickListener(
-        (view) -> {
-          CreateFileDialog createFileDialog =
-              new CreateFileDialog(FileManagerActivity.this, fileList, projectName, projectPath);
-          createFileDialog.create().show();
-        });
   }
 
-  public RecyclerView getFileListRecyclerView() {
-    return binding.list;
-  }
-
-  private void showFileList() {
+  private void showEventList() {
     // List is loading, so it shows loading view.
     showSection(1);
 
-    // Load project list in a saparate thread to avoid UI freeze.
+    // Load event list in a saparate thread to avoid UI freeze.
     Executor executor = Executors.newSingleThreadExecutor();
     executor.execute(
         () -> {
           if (PROJECTS.exists()) {
             if (!new File(projectPath).exists()) {
-              showSection(5);
-              binding.errorText.setText(getString(R.string.project_not_found));
+              showSection(2);
+              binding.tvInfo.setText(getString(R.string.project_not_found));
             } else {
               if (new File(new File(projectPath), "Files.txt").exists()) {
                 try {
@@ -108,35 +114,49 @@ public class FileManagerActivity extends BaseActivity {
                   fis.close();
                   ois.close();
                   isLoaded = true;
+                  for (int i = 0; i < fileList.size(); ++i) {
+                    if (fileList
+                        .get(i)
+                        .getFilePath()
+                        .toLowerCase()
+                        .equals(fileName.toLowerCase())) {
+                      if (fileList.get(i).getFileType() == fileType) {
+                        file = fileList.get(i);
+                        eventList = fileList.get(i).getEvents();
+                      }
+                    }
+                  }
                   binding.list.setAdapter(
-                      new FileListAdapterItem(
-                          fileList, FileManagerActivity.this, projectName, projectPath));
-                  binding.list.setLayoutManager(new LinearLayoutManager(FileManagerActivity.this));
-                  showSection(4);
+                      new EventListAdapter(
+                          eventList,
+                          EventListActivity.this,
+                          projectName,
+                          projectPath,
+                          fileName,
+                          fileType));
+                  binding.list.setLayoutManager(new LinearLayoutManager(EventListActivity.this));
+                  showSection(3);
                 } catch (Exception e) {
                   runOnUiThread(
                       () -> {
-                        isLoaded = true;
-                        showSection(5);
-                        binding.errorText.setText(
+                        showSection(2);
+                        binding.tvInfo.setText(
                             getString(R.string.an_error_occured_while_parsing_file_list));
                       });
                 }
               } else {
-                isLoaded = true;
                 runOnUiThread(
                     () -> {
-                      showSection(5);
-                      binding.errorText.setText(getString(R.string.no_files_yet));
+                      showSection(2);
+                      binding.tvInfo.setText(getString(R.string.no_files_yet));
                     });
               }
             }
           } else {
             runOnUiThread(
                 () -> {
-                  isLoaded = true;
-                  showSection(5);
-                  binding.errorText.setText(getString(R.string.project_not_found));
+                  showSection(2);
+                  binding.tvInfo.setText(getString(R.string.project_not_found));
                 });
           }
         });
@@ -144,25 +164,17 @@ public class FileManagerActivity extends BaseActivity {
 
   public void showSection(int section) {
     binding.loading.setVisibility(View.GONE);
-    binding.noFilesYet.setVisibility(View.GONE);
-    binding.permissionDenied.setVisibility(View.GONE);
-    binding.fileList.setVisibility(View.GONE);
-    binding.error.setVisibility(View.GONE);
+    binding.info.setVisibility(View.GONE);
+    binding.eventList.setVisibility(View.GONE);
     switch (section) {
       case 1:
         binding.loading.setVisibility(View.VISIBLE);
         break;
       case 2:
-        binding.noFilesYet.setVisibility(View.VISIBLE);
+        binding.info.setVisibility(View.VISIBLE);
         break;
       case 3:
-        binding.permissionDenied.setVisibility(View.VISIBLE);
-        break;
-      case 4:
-        binding.fileList.setVisibility(View.VISIBLE);
-        break;
-      case 5:
-        binding.error.setVisibility(View.VISIBLE);
+        binding.eventList.setVisibility(View.VISIBLE);
         break;
     }
   }
@@ -184,6 +196,15 @@ public class FileManagerActivity extends BaseActivity {
   }
 
   @Override
+  @MainThread
+  public void onBackPressed() {
+    super.onBackPressed();
+    if (isLoaded) {
+      saveFileList();
+    }
+  }
+
+  @Override
   protected void onPause() {
     super.onPause();
     if (isLoaded) {
@@ -191,12 +212,35 @@ public class FileManagerActivity extends BaseActivity {
     }
   }
 
+  // Handle option menu
   @Override
-  @MainThread
-  public void onBackPressed() {
-    super.onBackPressed();
-    if (isLoaded) {
-      saveFileList();
+  public boolean onCreateOptionsMenu(Menu arg0) {
+    super.onCreateOptionsMenu(arg0);
+    getMenuInflater().inflate(R.menu.activity_event_list_menu, arg0);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem arg0) {
+    if (arg0.getItemId() == R.id.show_source_code) {
+      if (isLoaded) {
+        String language = "";
+        switch (WebFile.getSupportedFileSuffix(file.getFileType())) {
+          case ".html":
+            language = Language.HTML;
+            break;
+          case ".css":
+            language = Language.CSS;
+            break;
+          case ".js":
+            language = Language.JavaScript;
+            break;
+        }
+        ShowSourceCodeDialog showSourceCodeDialog =
+            new ShowSourceCodeDialog(this, file.getCode(), language);
+        showSourceCodeDialog.show();
+      }
     }
+    return super.onOptionsItemSelected(arg0);
   }
 }

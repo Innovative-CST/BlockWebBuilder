@@ -43,5 +43,14 @@
         <activity
             android:name="com.dragon.ide.ui.activities.BlockEditorActivity"
             android:exported="true"/>
+        <activity
+            android:name="com.dragon.ide.ui.activities.EventListActivity"
+            android:exported="true"/>
+        <activity
+            android:name="com.dragon.ide.ui.activities.EventEditorActivity"
+            android:exported="true"/>
+        <activity
+            android:name="com.dragon.ide.ui.activities.DebugActivity"
+            android:exported="true"/>
     </application>
 </manifest>

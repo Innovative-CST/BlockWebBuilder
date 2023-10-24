@@ -33,6 +33,8 @@
     <string name="project_name">Project name</string>
     <string name="project_name_not_passed">Project name not passed.Please check the Intent or contact developer.</string>
     <string name="project_not_found">Project not found</string>
+    <string name="show_source_code">Show source code</string>
+    <string name="source_code">Source code</string>
     <string name="storage_permission_denied">Storage permission denied</string>
     <string name="value_should_not_be_empty">Value should not be empty</string>
 </resources>
