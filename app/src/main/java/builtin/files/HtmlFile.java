@@ -1,6 +1,8 @@
 package builtin.files;
 
+import com.dragon.ide.objects.Event;
 import com.dragon.ide.objects.WebFile;
+import java.util.ArrayList;
 
 public class HtmlFile extends WebFile {
   public HtmlFile() {
@@ -25,5 +27,17 @@ public class HtmlFile extends WebFile {
     sb.append("</html>\n");
 
     setRawCode(new String(sb.toString()));
+
+    ArrayList<Event> events = new ArrayList<Event>();
+
+    Event mainContent = new Event();
+    mainContent.setName("MainPageView");
+    mainContent.setDesc("Main contents of page");
+    mainContent.setReplacer("eventMain");
+    mainContent.setRawCode("%%%% DragonIDE eventMain %%%%");
+    mainContent.setEventReplacer("mainContent");
+
+    events.add(mainContent);
+    setEvents(events);
   }
 }

@@ -12,8 +12,6 @@
     <editor.tsd.widget.CodeEditorLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/editor"
-        app:codeEditor="SoraCodeEditor"
-        app:setCode="" />
+        android:id="@+id/editor" />
 
 </LinearLayout>

@@ -14,7 +14,10 @@ public class Event implements Serializable {
   private String eventReplacer;
 
   public ArrayList<Block> getBlocks() {
-    return this.blocks;
+    if (blocks != null) {
+      return this.blocks;
+    }
+    return new ArrayList<Block>();
   }
 
   public void setBlocks(ArrayList<Block> blocks) {
@@ -54,7 +57,8 @@ public class Event implements Serializable {
       }
     }
     String eventFinalCode = new String(getRawCode());
-    eventFinalCode = eventFinalCode.replaceAll(CodeReplacer.getReplacer(getReplacer()), eventCode.toString());
+    eventFinalCode =
+        eventFinalCode.replaceAll(CodeReplacer.getReplacer(getReplacer()), eventCode.toString());
     eventFinalCode = CodeReplacer.removeDragonIDEString(eventFinalCode);
     return new String(eventFinalCode.toString());
   }
