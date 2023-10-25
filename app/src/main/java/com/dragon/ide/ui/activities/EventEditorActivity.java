@@ -62,7 +62,14 @@ public class EventEditorActivity extends BaseActivity {
     } else {
       loadFileList();
     }
-    binding.fab.setOnClickListener((view) -> {});
+    binding.fab.setOnClickListener(
+        (view) -> {
+          if (binding.blockArea.getVisibility() == View.GONE) {
+            binding.blockArea.setVisibility(View.VISIBLE);
+          } else if (binding.blockArea.getVisibility() == View.VISIBLE) {
+            binding.blockArea.setVisibility(View.GONE);
+          }
+        });
   }
 
   public void showSection(int section) {
