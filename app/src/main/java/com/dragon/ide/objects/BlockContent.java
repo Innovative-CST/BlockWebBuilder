@@ -17,7 +17,7 @@ public class BlockContent implements Serializable {
   public class BlockContentType {
     public static final int String = 0;
     public static final int InputSourceCode = 1;
-        public static final int Integer = 2;
-        public static final int Boolean = 3;
+    public static final int Integer = 2;
+    public static final int Boolean = 3;
   }
 }

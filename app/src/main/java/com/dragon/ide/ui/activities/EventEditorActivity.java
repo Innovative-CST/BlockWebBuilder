@@ -4,9 +4,13 @@ import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
 import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityEventEditorBinding;
+import com.dragon.ide.objects.BlocksHolder;
 import com.dragon.ide.objects.WebFile;
+import com.dragon.ide.ui.adapters.BlocksHolderEventEditorListItem;
+import com.dragon.ide.utils.eventeditor.BlocksListLoader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -17,6 +21,7 @@ import java.util.concurrent.Executors;
 public class EventEditorActivity extends BaseActivity {
   private ActivityEventEditorBinding binding;
   private ArrayList<WebFile> fileList;
+  private ArrayList<BlocksHolder> blocksHolder;
   private String projectName;
   private String projectPath;
 
@@ -28,8 +33,9 @@ public class EventEditorActivity extends BaseActivity {
     // set content view to binding's root.
     setContentView(binding.getRoot());
 
-    // Initialize fileList to avoid null error
+    // Initialize to avoid null error
     fileList = new ArrayList<WebFile>();
+    blocksHolder = new ArrayList<BlocksHolder>();
 
     // Setup toolbar.
     binding.toolbar.setTitle(R.string.app_name);
@@ -62,6 +68,23 @@ public class EventEditorActivity extends BaseActivity {
     } else {
       loadFileList();
     }
+
+    /*
+     * Loads blocks holder
+     */
+    BlocksListLoader blocksListLoader = new BlocksListLoader();
+    blocksListLoader.loadBlocks(
+        EventEditorActivity.this,
+        new BlocksListLoader.Progress() {
+
+          @Override
+          public void onCompleteLoading(ArrayList<BlocksHolder> holder) {
+            binding.blocksHolderList.setAdapter(
+                new BlocksHolderEventEditorListItem(holder, EventEditorActivity.this));
+            binding.blocksHolderList.setLayoutManager(new LinearLayoutManager(EventEditorActivity.this));
+          }
+        });
+
     binding.fab.setOnClickListener(
         (view) -> {
           if (binding.blockArea.getVisibility() == View.GONE) {

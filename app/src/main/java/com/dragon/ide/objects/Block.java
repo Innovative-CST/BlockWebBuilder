@@ -11,7 +11,7 @@ public class Block implements Serializable {
   private ArrayList<Object> blockContent;
   private int BlockType;
   private String rawCode;
-  private String replacer;
+  private String returns;
 
   public String getColor() {
     if (this.color != null) {
@@ -49,8 +49,7 @@ public class Block implements Serializable {
       if (getBlockContent().get(i) instanceof ComplexBlockContent) {
         blockRawCode =
             blockRawCode.replaceAll(
-                CodeReplacer.getReplacer(
-                    ((ComplexBlockContent) getBlockContent().get(i)).getId()),
+                CodeReplacer.getReplacer(((ComplexBlockContent) getBlockContent().get(i)).getId()),
                 ((ComplexBlockContent) getBlockContent().get(i)).getValue());
       }
     }
@@ -67,17 +66,9 @@ public class Block implements Serializable {
   }
 
   public final class BlockType {
-    public final int defaultBlock = 0;
-    public final int complexBlock = 1;
-    public final int doubleComplexBlock = 2;
-  }
-
-  public String getReplacer() {
-    return this.replacer;
-  }
-
-  public void setReplacer(String replacer) {
-    this.replacer = replacer;
+    public static final int defaultBlock = 0;
+    public static final int complexBlock = 1;
+    public static final int doubleComplexBlock = 2;
   }
 
   public ArrayList<Object> getBlockContent() {
@@ -86,5 +77,16 @@ public class Block implements Serializable {
 
   public void setBlockContent(ArrayList<Object> blockContent) {
     this.blockContent = blockContent;
+  }
+
+  public String getReturns() {
+    if (returns != null) {
+      return this.returns;
+    }
+    return "";
+  }
+
+  public void setReturns(String returns) {
+    this.returns = returns;
   }
 }

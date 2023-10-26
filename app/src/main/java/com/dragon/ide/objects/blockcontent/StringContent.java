@@ -1,4 +1,4 @@
-package com.dragon.ide.objects.complexblockcontent;
+package com.dragon.ide.objects.blockcontent;
 
 import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.ComplexBlockContent;

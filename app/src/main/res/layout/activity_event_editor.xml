@@ -130,7 +130,8 @@
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="35"
-            android:id="@+id/palleteList" />
+            android:id="@+id/blocksHolderList"
+            android:background="?attr/colorSurface" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_height="match_parent"
