@@ -23,7 +23,6 @@ public class ValueEditorDialog extends MaterialAlertDialogBuilder {
     binding.editor.setCode(value);
     binding.editor.setTheme(Themes.SoraEditorTheme.Light.Quietlight);
     binding.editor.setLanguageMode(language);
-    binding.editor.getSoraEditor().getCodeEditor().setEditable(true);
     binding
         .editor
         .getSoraCodeEditor()
@@ -33,12 +32,6 @@ public class ValueEditorDialog extends MaterialAlertDialogBuilder {
       ((LinearLayout.LayoutParams) binding.editor.getLayoutParams()).width =
           LinearLayout.LayoutParams.MATCH_PARENT;
     }
-    binding.editor.setFocusable(true);
-    binding.editor.setClickable(true);
-    binding.editor.setFocusableInTouchMode(true);
-    binding.editor.getSoraEditor().getCodeEditor().setFocusable(true);
-    binding.editor.getSoraEditor().getCodeEditor().setClickable(true);
-    binding.editor.getSoraEditor().getCodeEditor().setFocusableInTouchMode(true);
     setView(binding.getRoot());
     setPositiveButton(
         R.string.done,
