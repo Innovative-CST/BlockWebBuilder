@@ -67,11 +67,10 @@ public class BlockDefaultView extends LinearLayout {
 
           addView(ll_source, getChildCount());
 
-          final SourceContent sc = (SourceContent)block.getBlockContent().get(i);
-
-          ll_source.setOnClickListener(
-              (v) -> {
-                if (getEnableEdit()) {
+          final SourceContent sc = (SourceContent) block.getBlockContent().get(i);
+          if (getEnableEdit()) {
+            ll_source.setOnClickListener(
+                (v) -> {
                   ValueEditorDialog valueEditorDialog =
                       new ValueEditorDialog(
                           activity,
@@ -89,8 +88,8 @@ public class BlockDefaultView extends LinearLayout {
                             public void onError(String error) {}
                           });
                   valueEditorDialog.show();
-                }
-              });
+                });
+          }
         }
       } else if (block.getBlockContent().get(i) instanceof BlockContent) {
         TextView tvTextContent = new TextView(getContext());

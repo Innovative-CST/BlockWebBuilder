@@ -266,6 +266,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
 
         if ((dragView instanceof BlockDefaultView)) {
           BlockDefaultView blockView = new BlockDefaultView(this);
+          blockView.setLanguage(language);
+          blockView.setEnableEdit(true);
           blockView.setBlock(((BlockDefaultView) dragView).getBlock());
           ((LinearLayout) v).addView(blockView, index);
           if (blockView.getLayoutParams() != null) {
@@ -273,8 +275,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                 LinearLayout.LayoutParams.WRAP_CONTENT;
           }
-          blockView.setLanguage(language);
-          blockView.setEnableEdit(true);
         }
 
         v.invalidate();
@@ -294,6 +294,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       if (e.getBlocks().get(i) instanceof Block) {
         if (e.getBlocks().get(i).getBlockType() == Block.BlockType.defaultBlock) {
           BlockDefaultView blockView = new BlockDefaultView(this);
+          blockView.setLanguage(language);
+          blockView.setEnableEdit(true);
           blockView.setBlock(e.getBlocks().get(i));
           binding.blockListEditorArea.addView(blockView, i + 1);
           if (blockView.getLayoutParams() != null) {
@@ -301,8 +303,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                 LinearLayout.LayoutParams.WRAP_CONTENT;
           }
-          blockView.setLanguage(language);
-          blockView.setEnableEdit(true);
         }
       }
     }
