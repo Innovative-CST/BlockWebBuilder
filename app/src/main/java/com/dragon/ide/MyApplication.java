@@ -17,10 +17,15 @@ import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolve
 
 public class MyApplication extends Application {
   private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
+  private static Context mApplicationContext;
+
+  public static Context getContext() {
+    return mApplicationContext;
+  }
 
   @Override
   public void onCreate() {
-
+    mApplicationContext = getApplicationContext();
     // Initiate all static imports of Environments
     Environments.init();
 

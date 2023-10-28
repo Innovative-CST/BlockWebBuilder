@@ -63,6 +63,19 @@ public class Event implements Serializable {
     return new String(eventFinalCode.toString());
   }
 
+  public String getFormattedCode(String s) {
+    StringBuilder sb = new StringBuilder();
+    String[] lines = getCode().split("\n");
+    for (int i = 0; i < lines.length; ++i) {
+      if (i != 0) {
+        sb.append(s);
+      }
+      sb.append(lines[i]);
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
+
   public String getReplacer() {
     return this.replacer;
   }

@@ -134,14 +134,17 @@ public class EventListActivity extends BaseActivity {
                           projectPath,
                           fileName,
                           fileType));
-                  binding.list.setLayoutManager(new LinearLayoutManager(EventListActivity.this));
-                  showSection(3);
+                  runOnUiThread(
+                      () -> {
+                        binding.list.setLayoutManager(
+                            new LinearLayoutManager(EventListActivity.this));
+                        showSection(3);
+                      });
                 } catch (Exception e) {
                   runOnUiThread(
                       () -> {
                         showSection(2);
-                        binding.tvInfo.setText(
-                            getString(R.string.an_error_occured_while_parsing_file_list));
+                        binding.tvInfo.setText(e.getMessage());
                       });
                 }
               } else {
@@ -242,5 +245,11 @@ public class EventListActivity extends BaseActivity {
       }
     }
     return super.onOptionsItemSelected(arg0);
+  }
+
+  @Override
+  protected void onResume() {
+    showEventList();
+    super.onResume();
   }
 }

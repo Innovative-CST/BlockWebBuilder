@@ -16,6 +16,7 @@ import com.dragon.ide.objects.blockcontent.SourceContent;
 
 public class BlockDefaultView extends LinearLayout {
   public String returns;
+  public Block block;
 
   public BlockDefaultView(Context context) {
     super(context);
@@ -23,6 +24,8 @@ public class BlockDefaultView extends LinearLayout {
   }
 
   public void setBlock(Block block) {
+    this.block = block;
+
     returns = block.getReturns();
 
     if (!(block instanceof DoubleComplexBlock) && !(block instanceof ComplexBlock)) {
@@ -41,29 +44,45 @@ public class BlockDefaultView extends LinearLayout {
       if (block.getBlockContent().get(i) instanceof ComplexBlockContent) {
         if (block.getBlockContent().get(i) instanceof SourceContent) {
           LinearLayout ll_source = new LinearLayout(getContext());
-          ll_source.setPadding(2, 2, 2, 2);
-          setBackgroundColor(Color.WHITE);
+          ll_source.setPadding(25, 0, 25, 0);
+          ll_source.setBackgroundColor(Color.WHITE);
           TextView tvTextContent = new TextView(getContext());
           tvTextContent.setText(((SourceContent) block.getBlockContent().get(i)).getValue());
-          ll_source.addView(tvTextContent, getChildCount());
-          addView(ll_source, getChildCount());
-        }
+          ll_source.addView(tvTextContent, getChildCount() - 1);
+                    
+          LinearLayout.LayoutParams layoutParams =
+              new LinearLayout.LayoutParams(
+                  LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+          int startMargin = 8;
+          int endMargin = 8;
+          layoutParams.setMarginStart(startMargin);
+          layoutParams.setMarginEnd(endMargin);
+          ll_source.setLayoutParams(layoutParams);
 
-        if (block.getBlockContent().get(i) instanceof SourceContent) {
-          LinearLayout ll_source = new LinearLayout(getContext());
-          ll_source.setPadding(2, 2, 2, 2);
-          setBackgroundColor(Color.WHITE);
-          TextView tvTextContent = new TextView(getContext());
-          tvTextContent.setText(((SourceContent) block.getBlockContent().get(i)).getValue());
-          ll_source.addView(tvTextContent, getChildCount());
           addView(ll_source, getChildCount());
         }
       } else if (block.getBlockContent().get(i) instanceof BlockContent) {
         TextView tvTextContent = new TextView(getContext());
         tvTextContent.setText(((BlockContent) block.getBlockContent().get(i)).getText());
-        addView(tvTextContent, getChildCount());
+
+        int backgroundColor = Color.parseColor(block.getColor());
+        int red = Color.red(backgroundColor);
+        int green = Color.green(backgroundColor);
+        int blue = Color.blue(backgroundColor);
+
+        double luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+        double contrastRatioThreshold = 1.4;
+        int textColor = (luminance > 0.5 * 255) ? Color.BLACK : Color.WHITE;
+        double contrastRatio = (luminance + 0.05) / (0.05 + 0.05);
+
+        if (contrastRatio < contrastRatioThreshold) {
+          tvTextContent.setTextColor(textColor);
+        }
+
+        addView(tvTextContent, getChildCount() - 1);
       }
     }
+    invalidate();
   }
 
   public String getReturns() {
@@ -71,5 +90,9 @@ public class BlockDefaultView extends LinearLayout {
       return this.returns;
     }
     return "";
+  }
+
+  public Block getBlock() {
+    return this.block;
   }
 }

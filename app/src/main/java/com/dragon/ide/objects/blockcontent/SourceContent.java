@@ -18,7 +18,7 @@ public class SourceContent extends ComplexBlockContent {
   public String getValue() {
     StringBuilder value = new StringBuilder();
     value.append(new String(getSurrounder()));
-    value.append(new String(getValue()));
+    value.append(new String(super.getValue()));
     value.append(new String(getSurrounder()));
     return value.toString();
   }
