@@ -36,5 +36,6 @@
     <string name="show_source_code">Show source code</string>
     <string name="source_code">Source code</string>
     <string name="storage_permission_denied">Storage permission denied</string>
+    <string name="value_editor">Value editor</string>
     <string name="value_should_not_be_empty">Value should not be empty</string>
 </resources>

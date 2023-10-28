@@ -47,6 +47,8 @@
             android:name="com.dragon.ide.ui.activities.EventListActivity"
             android:exported="true"/>
         <activity
+            android:configChanges="uiMode"
+            android:windowSoftInputMode="adjustResize"
             android:name="com.dragon.ide.ui.activities.EventEditorActivity"
             android:exported="true"/>
         <activity

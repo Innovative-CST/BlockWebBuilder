@@ -1,26 +1,32 @@
 package com.dragon.ide.ui.view;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.dragon.ide.R;
+import com.dragon.ide.listeners.ValueListener;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.objects.ComplexBlockContent;
 import com.dragon.ide.objects.DoubleComplexBlock;
 import com.dragon.ide.objects.blockcontent.SourceContent;
+import com.dragon.ide.ui.dialogs.eventeditor.ValueEditorDialog;
 
 public class BlockDefaultView extends LinearLayout {
   public String returns;
   public Block block;
+  public boolean enableEdit = false;
+  public String language;
+  public Activity activity;
 
-  public BlockDefaultView(Context context) {
+  public BlockDefaultView(Activity context) {
     super(context);
     setOrientation(LinearLayout.HORIZONTAL);
+    this.activity = context;
   }
 
   public void setBlock(Block block) {
@@ -49,7 +55,7 @@ public class BlockDefaultView extends LinearLayout {
           TextView tvTextContent = new TextView(getContext());
           tvTextContent.setText(((SourceContent) block.getBlockContent().get(i)).getValue());
           ll_source.addView(tvTextContent, getChildCount() - 1);
-                    
+
           LinearLayout.LayoutParams layoutParams =
               new LinearLayout.LayoutParams(
                   LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -60,6 +66,31 @@ public class BlockDefaultView extends LinearLayout {
           ll_source.setLayoutParams(layoutParams);
 
           addView(ll_source, getChildCount());
+
+          final SourceContent sc = (SourceContent)block.getBlockContent().get(i);
+
+          ll_source.setOnClickListener(
+              (v) -> {
+                if (getEnableEdit()) {
+                  ValueEditorDialog valueEditorDialog =
+                      new ValueEditorDialog(
+                          activity,
+                          sc.getValue(),
+                          getLanguage(),
+                          new ValueListener() {
+
+                            @Override
+                            public void onSubmitted(String value) {
+                              sc.setValue(value);
+                              tvTextContent.setText(sc.getValue());
+                            }
+
+                            @Override
+                            public void onError(String error) {}
+                          });
+                  valueEditorDialog.show();
+                }
+              });
         }
       } else if (block.getBlockContent().get(i) instanceof BlockContent) {
         TextView tvTextContent = new TextView(getContext());
@@ -94,5 +125,21 @@ public class BlockDefaultView extends LinearLayout {
 
   public Block getBlock() {
     return this.block;
+  }
+
+  public boolean getEnableEdit() {
+    return this.enableEdit;
+  }
+
+  public void setEnableEdit(boolean enableEdit) {
+    this.enableEdit = enableEdit;
+  }
+
+  public String getLanguage() {
+    return this.language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
   }
 }

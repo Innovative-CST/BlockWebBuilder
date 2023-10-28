@@ -73,34 +73,48 @@
                     android:layout_width="match_parent"
                     android:paddingStart="8dp">
 
-                    <LinearLayout
+                    <HorizontalScrollView
                         android:layout_height="match_parent"
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:id="@+id/blockListEditorArea">
+                        android:layout_width="match_parent">
 
-                        <LinearLayout
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:background="@drawable/define_block"
-                            android:backgroundTint="#FF5722">
+                        <ScrollView
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:layout_marginEnd="200dp">
 
                             <LinearLayout
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content">
+                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:layout_marginBottom="200dp"
+                                android:orientation="vertical"
+                                android:id="@+id/blockListEditorArea">
 
-                                <TextView
+                                <LinearLayout
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
-                                    android:textSize="12sp"
-                                    android:textColor="#ffffff"
-                                    android:text="Define your event here" />
+                                    android:background="@drawable/define_block"
+                                    android:backgroundTint="#FF5722">
+
+                                    <LinearLayout
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content">
+
+                                        <TextView
+                                            android:layout_height="wrap_content"
+                                            android:layout_width="wrap_content"
+                                            android:textSize="12sp"
+                                            android:textColor="#ffffff"
+                                            android:text="Define your event here" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
 
                             </LinearLayout>
 
-                        </LinearLayout>
+                        </ScrollView>
 
-                    </LinearLayout>
+                    </HorizontalScrollView>
 
                 </RelativeLayout>
 

@@ -44,6 +44,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   private boolean isLoaded;
   private String eventName;
   private Event event;
+  private String language;
 
   // private View DraggingView;
 
@@ -184,6 +185,17 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                     if (eventName.toLowerCase().equals(loopEvent.getName().toLowerCase())) {
                       event = file.getEvents().get(i2);
                       isLoaded = true;
+                      switch (WebFile.getSupportedFileSuffix(file.getFileType())) {
+                        case ".html":
+                          language = Language.HTML;
+                          break;
+                        case ".css":
+                          language = Language.CSS;
+                          break;
+                        case ".js":
+                          language = Language.JavaScript;
+                          break;
+                      }
                       runOnUiThread(
                           () -> {
                             loadBlocks(loopEvent);
@@ -261,6 +273,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                 LinearLayout.LayoutParams.WRAP_CONTENT;
           }
+          blockView.setLanguage(language);
+          blockView.setEnableEdit(true);
         }
 
         v.invalidate();
@@ -287,6 +301,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                 LinearLayout.LayoutParams.WRAP_CONTENT;
           }
+          blockView.setLanguage(language);
+          blockView.setEnableEdit(true);
         }
       }
     }
@@ -358,7 +374,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         showSourceCodeDialog.show();
       }
     }
-    Toast.makeText(this, String.valueOf(event.getBlocks().size()), 0).show();
     return super.onOptionsItemSelected(arg0);
   }
 
