@@ -79,13 +79,11 @@
 
                         <ScrollView
                             android:layout_height="match_parent"
-                            android:layout_width="match_parent"
-                            android:layout_marginEnd="200dp">
+                            android:layout_width="match_parent">
 
                             <LinearLayout
                                 android:layout_height="match_parent"
                                 android:layout_width="match_parent"
-                                android:layout_marginBottom="200dp"
                                 android:orientation="vertical"
                                 android:id="@+id/blockListEditorArea">
 
