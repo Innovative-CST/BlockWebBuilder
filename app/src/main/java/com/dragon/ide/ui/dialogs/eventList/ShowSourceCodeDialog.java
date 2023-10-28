@@ -19,7 +19,11 @@ public class ShowSourceCodeDialog extends MaterialAlertDialogBuilder {
     binding.editor.setCode(code);
     binding.editor.setTheme(Themes.SoraEditorTheme.Light.Quietlight);
     binding.editor.setLanguageMode(language);
-    binding.editor.getSoraCodeEditor().getColorScheme().setColor(EditorColorScheme.CURRENT_LINE, Color.parseColor("#11000000"));
+    binding
+        .editor
+        .getSoraCodeEditor()
+        .getColorScheme()
+        .setColor(EditorColorScheme.CURRENT_LINE, Color.parseColor("#11000000"));
     setView(binding.getRoot());
     setPositiveButton(R.string.cancel, (param1, param2) -> {});
   }
