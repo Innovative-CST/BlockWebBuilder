@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.dragon.ide.R;
@@ -17,51 +16,49 @@ import com.dragon.ide.objects.DoubleComplexBlock;
 import com.dragon.ide.objects.blockcontent.SourceContent;
 import com.dragon.ide.ui.dialogs.eventeditor.ValueEditorDialog;
 import com.dragon.ide.utils.BlockContentLoader;
-import java.util.ArrayList;
 
-public class BlockDefaultView extends LinearLayout {
-  public String returns;
-  public Block block;
+public class ComplexBlockView extends LinearLayout {
+  public ComplexBlock block;
   public boolean enableEdit = false;
   public String language;
   public Activity activity;
 
-  public BlockDefaultView(Activity context) {
+  public ComplexBlockView(Activity context) {
     super(context);
-    setOrientation(LinearLayout.HORIZONTAL);
+    setOrientation(LinearLayout.VERTICAL);
     this.activity = context;
   }
 
-  public void setBlock(Block block) {
+  public void setComplexBlock(ComplexBlock block) {
     this.block = block;
 
-    returns = block.getReturns();
-
-    if (!(block instanceof DoubleComplexBlock) && !(block instanceof ComplexBlock)) {
-      if (block instanceof Block) {
+    if (!(block instanceof DoubleComplexBlock)) {
+      if (block instanceof ComplexBlock) {
         if (block.getBlockType() == Block.BlockType.defaultBlock) {
-          setBackgroundResource(R.drawable.block_default);
+          LinearLayout blockContent = new LinearLayout(getContext());
+          blockContent.setBackgroundResource(R.drawable.complex_block);
 
-          Drawable backgroundDrawable = getBackground();
+          Drawable backgroundDrawable = blockContent.getBackground();
           backgroundDrawable.setTint(Color.parseColor(block.getColor()));
           backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
-          setBackground(backgroundDrawable);
+          blockContent.setBackground(backgroundDrawable);
+
+          BlockContentLoader.loadBlockContent(
+              block.getBlockContent(),
+              blockContent,
+              block.getColor(),
+              getLanguage(),
+              activity,
+              getEnableEdit());
+
+          addView(blockContent);
         }
       }
     }
-    BlockContentLoader.loadBlockContent(
-        block.getBlockContent(), this, block.getColor(), getLanguage(), activity, getEnableEdit());
     invalidate();
   }
 
-  public String getReturns() {
-    if (returns != null) {
-      return this.returns;
-    }
-    return "";
-  }
-
-  public Block getBlock() {
+  public ComplexBlock getBlock() {
     return this.block;
   }
 

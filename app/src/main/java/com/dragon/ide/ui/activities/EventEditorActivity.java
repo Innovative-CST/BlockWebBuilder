@@ -265,15 +265,18 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         }
 
         if ((dragView instanceof BlockDefaultView)) {
-          BlockDefaultView blockView = new BlockDefaultView(this);
-          blockView.setLanguage(language);
-          blockView.setEnableEdit(true);
-          blockView.setBlock(((BlockDefaultView) dragView).getBlock());
-          ((LinearLayout) v).addView(blockView, index);
-          if (blockView.getLayoutParams() != null) {
-            ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
-            ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
-                LinearLayout.LayoutParams.WRAP_CONTENT;
+          if (((BlockDefaultView) dragView).getBlock().getBlockType()
+              == Block.BlockType.defaultBlock) {
+            BlockDefaultView blockView = new BlockDefaultView(this);
+            blockView.setLanguage(language);
+            blockView.setEnableEdit(true);
+            blockView.setBlock(((BlockDefaultView) dragView).getBlock());
+            ((LinearLayout) v).addView(blockView, index);
+            if (blockView.getLayoutParams() != null) {
+              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
+              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
+                  LinearLayout.LayoutParams.WRAP_CONTENT;
+            }
           }
         }
 

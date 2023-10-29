@@ -38,9 +38,13 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
   public void onBindViewHolder(ViewHolder _holder, int _position) {
     LinearLayout v = (LinearLayout) _holder.itemView;
     v.setPadding(8, 8, 8, 8);
-    if (!(list.get(_position) instanceof DoubleComplexBlock)
-        && !(list.get(_position) instanceof ComplexBlock)) {
-      if (list.get(_position) instanceof Block) {
+    if (!(list.get(_position) instanceof DoubleComplexBlock)) {
+
+      if (!(list.get(_position) instanceof ComplexBlock)) {
+        if (list.get(_position).getBlockType() == Block.BlockType.complexBlock) {
+            
+        }
+      } else if (list.get(_position) instanceof Block) {
         if (list.get(_position).getBlockType() == Block.BlockType.defaultBlock) {
           BlockDefaultView blockView = new BlockDefaultView(activity);
           blockView.setBlock(list.get(_position));

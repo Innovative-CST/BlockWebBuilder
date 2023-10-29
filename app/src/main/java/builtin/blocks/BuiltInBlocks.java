@@ -4,8 +4,10 @@ import android.graphics.Color;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.BlocksHolder;
+import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.objects.ComplexBlockContent;
 import com.dragon.ide.objects.blockcontent.SourceContent;
+import com.dragon.ide.utils.CodeReplacer;
 import java.util.ArrayList;
 
 public class BuiltInBlocks {
@@ -53,9 +55,33 @@ public class BuiltInBlocks {
 
     blockInHolder2.setBlockContent(block2ContentList);
 
-    blockList.add(blockInHolder1);
+    ComplexBlock blockInHolder3 = new ComplexBlock();
+    blockInHolder3.setColor("#009900");
+    blockInHolder3.setBlockType(Block.BlockType.complexBlock);
+    blockInHolder3.setName("if");
+    StringBuilder blockInHolder3StringBuilder = new StringBuilder();
+    blockInHolder3StringBuilder.append("if (");
+    blockInHolder3StringBuilder.append(CodeReplacer.getReplacer("param1"));
+    blockInHolder3StringBuilder.append(") {\n\t");
+    blockInHolder3StringBuilder.append(CodeReplacer.getReplacer("complexBlockContent"));
+    blockInHolder3StringBuilder.append("\n}");
+    blockInHolder3.setRawCode(blockInHolder3StringBuilder.toString());
 
+    ArrayList<Object> block3ContentList = new ArrayList<Object>();
+
+    BlockContent block3Content1 = new BlockContent();
+    block3Content1.setText("if");
+    block3ContentList.add(block3Content1);
+
+    SourceContent block3Content2 = new SourceContent();
+    block3Content2.setId("param1");
+    block3ContentList.add(block3Content2);
+
+    blockInHolder3.setBlockContent(block3ContentList);
+
+    blockList.add(blockInHolder1);
     blockList.add(blockInHolder2);
+    blockList.add(blockInHolder3);
 
     holder1.setBlocks(blockList);
 
