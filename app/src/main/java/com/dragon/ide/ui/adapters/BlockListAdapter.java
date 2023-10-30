@@ -12,6 +12,7 @@ import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.objects.DoubleComplexBlock;
 import com.dragon.ide.ui.activities.EventEditorActivity;
 import com.dragon.ide.ui.view.BlockDefaultView;
+import com.dragon.ide.ui.view.ComplexBlockView;
 import java.util.ArrayList;
 
 public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.ViewHolder> {
@@ -40,9 +41,38 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
     v.setPadding(8, 8, 8, 8);
     if (!(list.get(_position) instanceof DoubleComplexBlock)) {
 
-      if (!(list.get(_position) instanceof ComplexBlock)) {
+      if ((list.get(_position) instanceof ComplexBlock)) {
         if (list.get(_position).getBlockType() == Block.BlockType.complexBlock) {
-            
+          ComplexBlockView complexBlockView = new ComplexBlockView(activity);
+          complexBlockView.setComplexBlock((ComplexBlock) list.get(_position));
+          v.addView(complexBlockView);
+          complexBlockView.setOnLongClickListener(
+              (view) -> {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadow = new View.DragShadowBuilder(complexBlockView);
+
+                ((EventEditorActivity) activity)
+                    .binding.blockListEditorArea.setOnDragListener(
+                        ((EventEditorActivity) activity));
+
+                LinearLayout blockListEditorArea =
+                    ((EventEditorActivity) activity).binding.blockListEditorArea;
+
+                for (int i = 0; i < blockListEditorArea.getChildCount(); ++i) {
+                  if (blockListEditorArea.getChildAt(i) instanceof ComplexBlockView) {
+                    ((ComplexBlockView) blockListEditorArea.getChildAt(i))
+                        .getBlocksView()
+                        .setOnDragListener(((EventEditorActivity) activity));
+                  }
+                }
+
+                if (Build.VERSION.SDK_INT >= 24) {
+                  complexBlockView.startDragAndDrop(data, shadow, complexBlockView, 1);
+                } else {
+                  complexBlockView.startDrag(data, shadow, complexBlockView, 1);
+                }
+                return true;
+              });
         }
       } else if (list.get(_position) instanceof Block) {
         if (list.get(_position).getBlockType() == Block.BlockType.defaultBlock) {
@@ -57,6 +87,17 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 ((EventEditorActivity) activity)
                     .binding.blockListEditorArea.setOnDragListener(
                         ((EventEditorActivity) activity));
+
+                LinearLayout blockListEditorArea =
+                    ((EventEditorActivity) activity).binding.blockListEditorArea;
+
+                for (int i = 0; i < blockListEditorArea.getChildCount(); ++i) {
+                  if (blockListEditorArea.getChildAt(i) instanceof ComplexBlockView) {
+                    ((ComplexBlockView) blockListEditorArea.getChildAt(i))
+                        .getBlocksView()
+                        .setOnDragListener(((EventEditorActivity) activity));
+                  }
+                }
 
                 if (Build.VERSION.SDK_INT >= 24) {
                   blockView.startDragAndDrop(data, shadow, blockView, 1);

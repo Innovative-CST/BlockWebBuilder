@@ -1,26 +1,32 @@
 package com.dragon.ide.ui.activities;
 
+import android.widget.Toast;
+import com.dragon.ide.utils.BlocksHandler;
+import static com.dragon.ide.utils.Environments.PROJECTS;
+
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import androidx.annotation.MainThread;
-import com.dragon.ide.objects.Block;
-import com.dragon.ide.objects.Event;
-import com.dragon.ide.ui.dialogs.eventList.ShowSourceCodeDialog;
-import com.dragon.ide.ui.view.BlockDefaultView;
-import static com.dragon.ide.utils.Environments.PROJECTS;
-
-import android.os.Bundle;
-import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityEventEditorBinding;
+import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlocksHolder;
+import com.dragon.ide.objects.ComplexBlock;
+import com.dragon.ide.objects.Event;
 import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.adapters.BlocksHolderEventEditorListItem;
+import com.dragon.ide.ui.dialogs.eventList.ShowSourceCodeDialog;
+import com.dragon.ide.ui.view.BlockDefaultView;
+import com.dragon.ide.ui.view.ComplexBlockView;
 import com.dragon.ide.utils.eventeditor.BlocksListLoader;
 import editor.tsd.tools.Language;
 import java.io.File;
@@ -45,6 +51,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   private String eventName;
   private Event event;
   private String language;
+  private LinearLayout blockShadow;
 
   // private View DraggingView;
 
@@ -89,6 +96,19 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       showSection(2);
       binding.tvInfo.setText(getString(R.string.project_name_not_passed));
     }
+
+    /*
+     * Load block shadow
+     */
+
+    blockShadow = new LinearLayout(this);
+    blockShadow.setBackgroundResource(R.drawable.block_default);
+
+    Drawable backgroundDrawable = blockShadow.getBackground();
+    backgroundDrawable.setTint(Color.BLACK);
+    backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+    blockShadow.setBackground(backgroundDrawable);
+
     /*
      * Ask for storage permission if not granted.
      * Load projects if storage permission is granted.
@@ -244,6 +264,20 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     int index = 0;
     float dropX = dragEvent.getX();
     float dropY = dragEvent.getY();
+
+    if (blockShadow.getParent() != null) {
+      ((ViewGroup) blockShadow.getParent()).removeView(blockShadow);
+    }
+
+    for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) {
+      View child = ((ViewGroup) v).getChildAt(i);
+      if (dropY > child.getY() + child.getHeight() / 2) {
+        index = i + 1;
+      } else {
+        break;
+      }
+    }
+
     switch (action) {
       case DragEvent.ACTION_DRAG_STARTED:
         return true;
@@ -251,19 +285,19 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         v.invalidate();
         return true;
       case DragEvent.ACTION_DRAG_LOCATION:
+        // if (index != 0) {
+        ((ViewGroup) v).addView(blockShadow, index);
+        if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
+          ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
+          ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
+              LinearLayout.LayoutParams.WRAP_CONTENT;
+        }
+        // }
         return true;
       case DragEvent.ACTION_DRAG_EXITED:
         return true;
       case DragEvent.ACTION_DROP:
-        for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) {
-          View child = ((ViewGroup) v).getChildAt(i);
-          if (dropY > child.getY() + child.getHeight() / 2) {
-            index = i + 1;
-          } else {
-            break;
-          }
-        }
-
+        // if (index != 0) {
         if ((dragView instanceof BlockDefaultView)) {
           if (((BlockDefaultView) dragView).getBlock().getBlockType()
               == Block.BlockType.defaultBlock) {
@@ -280,6 +314,23 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
           }
         }
 
+        if ((dragView instanceof ComplexBlockView)) {
+          if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
+              == Block.BlockType.complexBlock) {
+            ComplexBlockView blockView = new ComplexBlockView(this);
+            blockView.setLanguage(language);
+            blockView.setEnableEdit(true);
+            blockView.setComplexBlock(((ComplexBlockView) dragView).getComplexBlock());
+            ((LinearLayout) v).addView(blockView, index);
+            if (blockView.getLayoutParams() != null) {
+              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
+              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
+                  LinearLayout.LayoutParams.WRAP_CONTENT;
+            }
+          }
+        }
+        // }
+
         v.invalidate();
         return true;
       case DragEvent.ACTION_DRAG_ENDED:
@@ -294,7 +345,20 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
 
   public void loadBlocks(Event e) {
     for (int i = 0; i < e.getBlocks().size(); ++i) {
-      if (e.getBlocks().get(i) instanceof Block) {
+      if (e.getBlocks().get(i) instanceof ComplexBlock) {
+        if (e.getBlocks().get(i).getBlockType() == Block.BlockType.complexBlock) {
+          ComplexBlockView blockView = new ComplexBlockView(this);
+          blockView.setLanguage(language);
+          blockView.setEnableEdit(true);
+          blockView.setComplexBlock((ComplexBlock) e.getBlocks().get(i));
+          binding.blockListEditorArea.addView(blockView, i + 1);
+          if (blockView.getLayoutParams() != null) {
+            ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
+            ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
+                LinearLayout.LayoutParams.WRAP_CONTENT;
+          }
+        }
+      } else if (e.getBlocks().get(i) instanceof Block) {
         if (e.getBlocks().get(i).getBlockType() == Block.BlockType.defaultBlock) {
           BlockDefaultView blockView = new BlockDefaultView(this);
           blockView.setLanguage(language);
@@ -333,7 +397,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   @MainThread
   public void onBackPressed() {
     if (isLoaded) {
-      updateBlocks();
+      updateBlocks(binding.blockListEditorArea);
       saveFileList();
     }
   }
@@ -341,7 +405,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   @Override
   protected void onPause() {
     if (isLoaded) {
-      updateBlocks();
+      updateBlocks(binding.blockListEditorArea);
       saveFileList();
     }
     super.onPause();
@@ -358,7 +422,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   @Override
   public boolean onOptionsItemSelected(MenuItem arg0) {
     if (arg0.getItemId() == R.id.show_source_code) {
-      updateBlocks();
+      updateBlocks(binding.blockListEditorArea);
       if (isLoaded) {
         String language = "";
         switch (WebFile.getSupportedFileSuffix(file.getFileType())) {
@@ -380,15 +444,9 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     return super.onOptionsItemSelected(arg0);
   }
 
-  public void updateBlocks() {
+  public void updateBlocks(ViewGroup view) {
     if (isLoaded) {
-      ArrayList<Block> arr = new ArrayList<Block>();
-      for (int i = 0; i < binding.blockListEditorArea.getChildCount(); ++i) {
-        if (binding.blockListEditorArea.getChildAt(i) instanceof BlockDefaultView) {
-          arr.add(((BlockDefaultView) binding.blockListEditorArea.getChildAt(i)).getBlock());
-        }
-      }
-      event.setBlocks(arr);
+      BlocksHandler.loadBlocksIntoObjects(view, event);
     }
   }
 }

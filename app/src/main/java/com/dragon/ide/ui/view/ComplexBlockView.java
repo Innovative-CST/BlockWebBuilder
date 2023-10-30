@@ -22,6 +22,7 @@ public class ComplexBlockView extends LinearLayout {
   public boolean enableEdit = false;
   public String language;
   public Activity activity;
+  public LinearLayout blocksView;
 
   public ComplexBlockView(Activity context) {
     super(context);
@@ -34,7 +35,7 @@ public class ComplexBlockView extends LinearLayout {
 
     if (!(block instanceof DoubleComplexBlock)) {
       if (block instanceof ComplexBlock) {
-        if (block.getBlockType() == Block.BlockType.defaultBlock) {
+        if (block.getBlockType() == Block.BlockType.complexBlock) {
           LinearLayout blockContent = new LinearLayout(getContext());
           blockContent.setBackgroundResource(R.drawable.complex_block);
 
@@ -52,13 +53,28 @@ public class ComplexBlockView extends LinearLayout {
               getEnableEdit());
 
           addView(blockContent);
+
+          blocksView = new LinearLayout(getContext());
+          blocksView.setBackgroundResource(R.drawable.complex_block_bottom);
+
+          Drawable blocksViewBackgroundDrawable = blocksView.getBackground();
+          blocksViewBackgroundDrawable.setTint(Color.parseColor(block.getColor()));
+          blocksViewBackgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+          blocksView.setBackground(blocksViewBackgroundDrawable);
+
+          blocksView.setOrientation(LinearLayout.VERTICAL);
+          addView(blocksView);
+
+          if (blocksView.getLayoutParams() != null) {
+            ((LinearLayout.LayoutParams) blocksView.getLayoutParams()).setMargins(0, -10, 0, 0);
+          }
         }
       }
     }
     invalidate();
   }
 
-  public ComplexBlock getBlock() {
+  public ComplexBlock getComplexBlock() {
     return this.block;
   }
 
@@ -76,5 +92,13 @@ public class ComplexBlockView extends LinearLayout {
 
   public void setLanguage(String language) {
     this.language = language;
+  }
+
+  public LinearLayout getBlocksView() {
+    return this.blocksView;
+  }
+
+  public void setBlocksView(LinearLayout blocksView) {
+    this.blocksView = blocksView;
   }
 }

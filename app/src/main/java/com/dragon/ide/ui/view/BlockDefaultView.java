@@ -50,7 +50,7 @@ public class BlockDefaultView extends LinearLayout {
       }
     }
     BlockContentLoader.loadBlockContent(
-        block.getBlockContent(), this, block.getColor(), getLanguage(), activity, getEnableEdit());
+    block.getBlockContent(), this, block.getColor(), getLanguage(), activity, getEnableEdit());
     invalidate();
   }
 

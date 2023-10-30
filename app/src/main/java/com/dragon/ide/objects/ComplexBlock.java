@@ -9,7 +9,10 @@ public class ComplexBlock extends Block implements Serializable {
   private ArrayList<Block> blocks;
 
   public ArrayList<Block> getBlocks() {
-    return this.blocks;
+    if (blocks != null) {
+      return this.blocks;
+    }
+    return new ArrayList<Block>();
   }
 
   public void setBlocks(ArrayList<Block> blocks) {
