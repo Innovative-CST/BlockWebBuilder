@@ -20,7 +20,7 @@ public class HtmlFile extends WebFile {
     sb.append("\n");
     sb.append("\t<body>");
     sb.append("\n");
-    sb.append("\t\t%%%% DragonIDE mainContent %%%%");
+    sb.append("\t\tDevKumar DragonIDE mainContent DevKumar");
     sb.append("\n");
     sb.append("\t</body>");
     sb.append("\n");
@@ -34,7 +34,7 @@ public class HtmlFile extends WebFile {
     mainContent.setName("MainPageView");
     mainContent.setDesc("Main contents of page");
     mainContent.setReplacer("eventMain");
-    mainContent.setRawCode("%%%% DragonIDE eventMain %%%%");
+    mainContent.setRawCode("DevKumar DragonIDE eventMain DevKumar");
     mainContent.setEventReplacer("mainContent");
 
     events.add(mainContent);

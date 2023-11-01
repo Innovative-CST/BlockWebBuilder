@@ -2,7 +2,7 @@ package com.dragon.ide.objects;
 
 import java.io.Serializable;
 
-public class ComplexBlockContent extends BlockContent implements Serializable {
+public class ComplexBlockContent extends BlockContent implements Serializable, Cloneable {
   public static final long serialVersionUID = 428383841L;
   private String value;
   private String id; // similar to replacer
@@ -72,5 +72,60 @@ public class ComplexBlockContent extends BlockContent implements Serializable {
     public static final int valueEditor = 0;
     public static final int numberEditor = 1;
     public static final int noAction = 2;
+  }
+
+  @Override
+  public ComplexBlockContent clone() throws CloneNotSupportedException {
+    ComplexBlockContent mComplexBlockContent = new ComplexBlockContent();
+    String mValue;
+    if (getValue() != null) {
+      mValue = new String(getValue());
+    } else {
+      mValue = new String("");
+    }
+    String mId;
+    if (getId() != null) {
+      mId = new String(getId());
+    } else {
+      mId = new String();
+    }
+    String mSurrounder;
+    if (getSurrounder() != null) {
+      mSurrounder = new String(getSurrounder());
+    } else {
+      mSurrounder = new String("");
+    }
+    int mType;
+    if (getType() == 0) {
+      mType = new Integer(getType());
+    } else {
+      mType = 0;
+    }
+    String mAcceptance;
+    if (getAcceptance() != null) {
+      mAcceptance = new String(getAcceptance());
+    } else {
+      mAcceptance = new String("");
+    }
+    boolean mSupportCodeEditor;
+    mSupportCodeEditor = new Boolean(getSupportCodeEditor());
+    int onClick;
+    onClick = new Integer(getOnClick());
+    String mText;
+    if (getText() != null) {
+      mText = new String(getText());
+    } else {
+      mText = new String("");
+    }
+
+    mComplexBlockContent.setText(mText);
+    mComplexBlockContent.setValue(mValue);
+    mComplexBlockContent.setId(mId);
+    mComplexBlockContent.setSurrounder(mSurrounder);
+    mComplexBlockContent.setType(mType);
+    mComplexBlockContent.setAcceptance(mAcceptance);
+    mComplexBlockContent.setSupportCodeEditor(mSupportCodeEditor);
+
+    return mComplexBlockContent;
   }
 }

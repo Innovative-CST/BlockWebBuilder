@@ -23,7 +23,7 @@ public class BuiltInBlocks {
     blockInHolder1.setColor("#009900");
     blockInHolder1.setBlockType(Block.BlockType.defaultBlock);
     blockInHolder1.setName("addSource");
-    blockInHolder1.setRawCode("%%%% DragonIDE param1 %%%%");
+    blockInHolder1.setRawCode("DevKumar DragonIDE parameter DevKumar");
 
     ArrayList<Object> block1ContentList = new ArrayList<Object>();
 
@@ -32,7 +32,7 @@ public class BuiltInBlocks {
     block1ContentList.add(block1Content1);
 
     SourceContent block1Content2 = new SourceContent();
-    block1Content2.setId("param1");
+    block1Content2.setId("parameter");
     block1ContentList.add(block1Content2);
 
     blockInHolder1.setBlockContent(block1ContentList);
@@ -41,7 +41,7 @@ public class BuiltInBlocks {
     blockInHolder2.setColor("#ff0000");
     blockInHolder2.setBlockType(Block.BlockType.defaultBlock);
     blockInHolder2.setName("Test");
-    blockInHolder2.setRawCode("I am block code %%%% DragonIDE param1 %%%%");
+    blockInHolder2.setRawCode("I am block code DevKumar DragonIDE parameter DevKumar");
 
     ArrayList<Object> block2ContentList = new ArrayList<Object>();
 
@@ -50,7 +50,7 @@ public class BuiltInBlocks {
     block2ContentList.add(block2Content1);
 
     SourceContent block2Content2 = new SourceContent();
-    block2Content2.setId("param1");
+    block2Content2.setId("parameter");
     block2ContentList.add(block2Content2);
 
     blockInHolder2.setBlockContent(block2ContentList);
@@ -61,7 +61,7 @@ public class BuiltInBlocks {
     blockInHolder3.setName("if");
     StringBuilder blockInHolder3StringBuilder = new StringBuilder();
     blockInHolder3StringBuilder.append("if (");
-    blockInHolder3StringBuilder.append(CodeReplacer.getReplacer("param1"));
+    blockInHolder3StringBuilder.append(CodeReplacer.getReplacer("parameter"));
     blockInHolder3StringBuilder.append(") {\n\t");
     blockInHolder3StringBuilder.append(CodeReplacer.getReplacer("complexBlockContent"));
     blockInHolder3StringBuilder.append("\n}");
@@ -74,7 +74,7 @@ public class BuiltInBlocks {
     block3ContentList.add(block3Content1);
 
     SourceContent block3Content2 = new SourceContent();
-    block3Content2.setId("param1");
+    block3Content2.setId("parameter");
     block3ContentList.add(block3Content2);
 
     blockInHolder3.setBlockContent(block3ContentList);

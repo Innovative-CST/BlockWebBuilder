@@ -1,7 +1,5 @@
 package com.dragon.ide.ui.activities;
 
-import android.widget.Toast;
-import com.dragon.ide.utils.BlocksHandler;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.graphics.Color;
@@ -25,8 +23,10 @@ import com.dragon.ide.objects.Event;
 import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.adapters.BlocksHolderEventEditorListItem;
 import com.dragon.ide.ui.dialogs.eventList.ShowSourceCodeDialog;
+import com.dragon.ide.ui.utils.BlocksLoader;
 import com.dragon.ide.ui.view.BlockDefaultView;
 import com.dragon.ide.ui.view.ComplexBlockView;
+import com.dragon.ide.utils.BlocksHandler;
 import com.dragon.ide.utils.eventeditor.BlocksListLoader;
 import editor.tsd.tools.Language;
 import java.io.File;
@@ -198,6 +198,20 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                         }
                       }
                     }
+                    if (file == null) {
+                      runOnUiThread(
+                          () -> {
+                            showSection(2);
+                            binding.tvInfo.setText("File not not found");
+                            return;
+                          });
+                    }
+                  } else {
+                    runOnUiThread(
+                        () -> {
+                          showSection(2);
+                          binding.tvInfo.setText("Not an instance of WebFile");
+                        });
                   }
 
                   for (int i2 = 0; i2 < file.getEvents().size(); ++i2) {
@@ -222,6 +236,14 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                             showSection(3);
                           });
                     }
+                  }
+
+                  if (!isLoaded) {
+                    runOnUiThread(
+                        () -> {
+                          showSection(2);
+                          binding.tvInfo.setText("Event not found");
+                        });
                   }
 
                   fis.close();
@@ -285,26 +307,28 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         v.invalidate();
         return true;
       case DragEvent.ACTION_DRAG_LOCATION:
-        // if (index != 0) {
         ((ViewGroup) v).addView(blockShadow, index);
         if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
           ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
           ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
               LinearLayout.LayoutParams.WRAP_CONTENT;
         }
-        // }
         return true;
       case DragEvent.ACTION_DRAG_EXITED:
         return true;
       case DragEvent.ACTION_DROP:
-        // if (index != 0) {
         if ((dragView instanceof BlockDefaultView)) {
           if (((BlockDefaultView) dragView).getBlock().getBlockType()
               == Block.BlockType.defaultBlock) {
             BlockDefaultView blockView = new BlockDefaultView(this);
             blockView.setLanguage(language);
             blockView.setEnableEdit(true);
-            blockView.setBlock(((BlockDefaultView) dragView).getBlock());
+            try {
+              Block block = ((BlockDefaultView) dragView).getBlock().clone();
+              blockView.setBlock(block);
+            } catch (CloneNotSupportedException e) {
+              blockView.setBlock(new Block());
+            }
             ((LinearLayout) v).addView(blockView, index);
             if (blockView.getLayoutParams() != null) {
               ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
@@ -320,16 +344,20 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             ComplexBlockView blockView = new ComplexBlockView(this);
             blockView.setLanguage(language);
             blockView.setEnableEdit(true);
-            blockView.setComplexBlock(((ComplexBlockView) dragView).getComplexBlock());
+            try {
+              ComplexBlock complexBlock = ((ComplexBlockView) dragView).getComplexBlock().clone();
+              blockView.setComplexBlock(complexBlock);
+            } catch (CloneNotSupportedException e) {
+              blockView.setComplexBlock(new ComplexBlock());
+            }
             ((LinearLayout) v).addView(blockView, index);
             if (blockView.getLayoutParams() != null) {
-              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
+              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(4, -26, 0, 0);
               ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                   LinearLayout.LayoutParams.WRAP_CONTENT;
             }
           }
         }
-        // }
 
         v.invalidate();
         return true;
@@ -344,35 +372,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   }
 
   public void loadBlocks(Event e) {
-    for (int i = 0; i < e.getBlocks().size(); ++i) {
-      if (e.getBlocks().get(i) instanceof ComplexBlock) {
-        if (e.getBlocks().get(i).getBlockType() == Block.BlockType.complexBlock) {
-          ComplexBlockView blockView = new ComplexBlockView(this);
-          blockView.setLanguage(language);
-          blockView.setEnableEdit(true);
-          blockView.setComplexBlock((ComplexBlock) e.getBlocks().get(i));
-          binding.blockListEditorArea.addView(blockView, i + 1);
-          if (blockView.getLayoutParams() != null) {
-            ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
-            ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
-                LinearLayout.LayoutParams.WRAP_CONTENT;
-          }
-        }
-      } else if (e.getBlocks().get(i) instanceof Block) {
-        if (e.getBlocks().get(i).getBlockType() == Block.BlockType.defaultBlock) {
-          BlockDefaultView blockView = new BlockDefaultView(this);
-          blockView.setLanguage(language);
-          blockView.setEnableEdit(true);
-          blockView.setBlock(e.getBlocks().get(i));
-          binding.blockListEditorArea.addView(blockView, i + 1);
-          if (blockView.getLayoutParams() != null) {
-            ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
-            ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
-                LinearLayout.LayoutParams.WRAP_CONTENT;
-          }
-        }
-      }
-    }
+    BlocksLoader.loadBlockViews(binding.blockListEditorArea, e.getBlocks(), language, this);
   }
 
   public void saveFileList() {
@@ -388,7 +388,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             oos.close();
             finish();
           } catch (Exception e) {
-            // Toast.makeText(this, e.getMessage(), 0).show();
           }
         });
   }
@@ -446,7 +445,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
 
   public void updateBlocks(ViewGroup view) {
     if (isLoaded) {
-      BlocksHandler.loadBlocksIntoObjects(view, event);
+      event.setBlocks(BlocksHandler.loadBlocksIntoObject(view));
     }
   }
 }

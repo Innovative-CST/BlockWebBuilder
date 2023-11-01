@@ -2,6 +2,7 @@ package com.dragon.ide.utils;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,14 +24,14 @@ public class BlockContentLoader {
     for (int i = 0; i < blockContent.size(); ++i) {
       if (blockContent.get(i) instanceof ComplexBlockContent) {
         if (blockContent.get(i) instanceof SourceContent) {
-          LinearLayout ll_source = new LinearLayout(view.getContext());
+          final LinearLayout ll_source = new LinearLayout(view.getContext());
           ll_source.setPadding(25, 0, 25, 0);
           ll_source.setBackgroundColor(Color.WHITE);
-          TextView tvTextContent = new TextView(view.getContext());
+          final TextView tvTextContent = new TextView(view.getContext());
           tvTextContent.setText(((SourceContent) blockContent.get(i)).getValue());
           ll_source.addView(tvTextContent, view.getChildCount() - 1);
 
-          LinearLayout.LayoutParams layoutParams =
+          final LinearLayout.LayoutParams layoutParams =
               new LinearLayout.LayoutParams(
                   LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
           int startMargin = 8;
@@ -42,27 +43,11 @@ public class BlockContentLoader {
           view.addView(ll_source, view.getChildCount());
 
           final SourceContent sc = (SourceContent) blockContent.get(i);
+
           if (enableEdit) {
             ll_source.setOnClickListener(
-                (v) -> {
-                  ValueEditorDialog valueEditorDialog =
-                      new ValueEditorDialog(
-                          activity,
-                          sc.getValue(),
-                          language,
-                          new ValueListener() {
-
-                            @Override
-                            public void onSubmitted(String value) {
-                              sc.setValue(value);
-                              tvTextContent.setText(sc.getValue());
-                            }
-
-                            @Override
-                            public void onError(String error) {}
-                          });
-                  valueEditorDialog.show();
-                });
+                new BlockContentLoader()
+                .new SourceContentClickListener(tvTextContent, sc, activity, language));
           }
         }
       } else if (blockContent.get(i) instanceof BlockContent) {
@@ -85,6 +70,42 @@ public class BlockContentLoader {
 
         view.addView(tvTextContent, view.getChildCount() - 1);
       }
+    }
+  }
+
+  public class SourceContentClickListener implements View.OnClickListener {
+    public TextView tvTextContent;
+    public SourceContent blockContent;
+    public Activity activity;
+    public String language;
+
+    public SourceContentClickListener(
+        TextView param1, SourceContent param2, Activity param3, String param4) {
+      tvTextContent = param1;
+      blockContent = param2;
+      activity = param3;
+      language = param4;
+    }
+
+    @Override
+    public void onClick(View view) {
+      ValueEditorDialog valueEditorDialog =
+          new ValueEditorDialog(
+              activity,
+              blockContent.getValue(),
+              language,
+              new ValueListener() {
+
+                @Override
+                public void onSubmitted(String value) {
+                  blockContent.setValue(value);
+                  tvTextContent.setText(blockContent.getValue());
+                }
+
+                @Override
+                public void onError(String error) {}
+              });
+      valueEditorDialog.show();
     }
   }
 }

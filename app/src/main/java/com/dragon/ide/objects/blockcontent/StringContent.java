@@ -3,7 +3,7 @@ package com.dragon.ide.objects.blockcontent;
 import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.ComplexBlockContent;
 
-public class StringContent extends ComplexBlockContent {
+public class StringContent extends ComplexBlockContent implements Cloneable {
   public StringContent() {
     setAcceptance("string");
     setSurrounder("\"");
@@ -21,5 +21,10 @@ public class StringContent extends ComplexBlockContent {
     value.append(new String(getValue()));
     value.append(new String(getSurrounder()));
     return value.toString();
+  }
+
+  @Override
+  public StringContent clone() throws CloneNotSupportedException {
+    return (StringContent) super.clone();
   }
 }

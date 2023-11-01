@@ -5,16 +5,10 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import com.dragon.ide.R;
-import com.dragon.ide.listeners.ValueListener;
 import com.dragon.ide.objects.Block;
-import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.ComplexBlock;
-import com.dragon.ide.objects.ComplexBlockContent;
 import com.dragon.ide.objects.DoubleComplexBlock;
-import com.dragon.ide.objects.blockcontent.SourceContent;
-import com.dragon.ide.ui.dialogs.eventeditor.ValueEditorDialog;
 import com.dragon.ide.utils.BlockContentLoader;
 
 public class ComplexBlockView extends LinearLayout {
@@ -30,8 +24,12 @@ public class ComplexBlockView extends LinearLayout {
     this.activity = context;
   }
 
-  public void setComplexBlock(ComplexBlock block) {
-    this.block = block;
+  public void setComplexBlock(ComplexBlock mBlock) {
+    try {
+      this.block = mBlock.clone();
+    } catch (CloneNotSupportedException e) {
+      this.block = new ComplexBlock();
+    }
 
     if (!(block instanceof DoubleComplexBlock)) {
       if (block instanceof ComplexBlock) {
@@ -65,9 +63,20 @@ public class ComplexBlockView extends LinearLayout {
           blocksView.setOrientation(LinearLayout.VERTICAL);
           addView(blocksView);
 
-          if (blocksView.getLayoutParams() != null) {
-            ((LinearLayout.LayoutParams) blocksView.getLayoutParams()).setMargins(0, -10, 0, 0);
+          if (getEnableEdit()) {
+            if (blocksView.getLayoutParams() != null) {
+              ((LinearLayout.LayoutParams) blocksView.getLayoutParams()).setMargins(0, -26, 0, 0);
+            }
+          } else {
+            if (blocksView.getLayoutParams() != null) {
+              ((LinearLayout.LayoutParams) blocksView.getLayoutParams()).setMargins(0, -10, 0, 0);
+            }
           }
+          blocksView.setPadding(
+              blocksView.getPaddingLeft() + 3,
+              blocksView.getPaddingTop(),
+              blocksView.getPaddingRight(),
+              blocksView.getPaddingBottom());
         }
       }
     }
@@ -75,7 +84,7 @@ public class ComplexBlockView extends LinearLayout {
   }
 
   public ComplexBlock getComplexBlock() {
-    return this.block;
+    return block;
   }
 
   public boolean getEnableEdit() {

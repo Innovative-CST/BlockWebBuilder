@@ -58,13 +58,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 LinearLayout blockListEditorArea =
                     ((EventEditorActivity) activity).binding.blockListEditorArea;
 
-                for (int i = 0; i < blockListEditorArea.getChildCount(); ++i) {
-                  if (blockListEditorArea.getChildAt(i) instanceof ComplexBlockView) {
-                    ((ComplexBlockView) blockListEditorArea.getChildAt(i))
-                        .getBlocksView()
-                        .setOnDragListener(((EventEditorActivity) activity));
-                  }
-                }
+                addDragListener(blockListEditorArea, (EventEditorActivity) activity);
 
                 if (Build.VERSION.SDK_INT >= 24) {
                   complexBlockView.startDragAndDrop(data, shadow, complexBlockView, 1);
@@ -91,13 +85,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 LinearLayout blockListEditorArea =
                     ((EventEditorActivity) activity).binding.blockListEditorArea;
 
-                for (int i = 0; i < blockListEditorArea.getChildCount(); ++i) {
-                  if (blockListEditorArea.getChildAt(i) instanceof ComplexBlockView) {
-                    ((ComplexBlockView) blockListEditorArea.getChildAt(i))
-                        .getBlocksView()
-                        .setOnDragListener(((EventEditorActivity) activity));
-                  }
-                }
+                addDragListener(blockListEditorArea, (EventEditorActivity) activity);
 
                 if (Build.VERSION.SDK_INT >= 24) {
                   blockView.startDragAndDrop(data, shadow, blockView, 1);
@@ -121,6 +109,15 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
   public class ViewHolder extends RecyclerView.ViewHolder {
     public ViewHolder(View v) {
       super(v);
+    }
+  }
+
+  public static void addDragListener(ViewGroup view, View.OnDragListener listener) {
+    for (int i = 0; i < view.getChildCount(); ++i) {
+      if (view.getChildAt(i) instanceof ComplexBlockView) {
+        ((ComplexBlockView) view.getChildAt(i)).getBlocksView().setOnDragListener(listener);
+        addDragListener(((ComplexBlockView) view.getChildAt(i)).getBlocksView(), listener);
+      }
     }
   }
 }

@@ -11,7 +11,7 @@ public class JavascriptFile extends WebFile {
 
     StringBuilder sb = new StringBuilder();
 
-    sb.append("%%%% DragonIDE mainJavaScriptEvent %%%%");
+    sb.append("DevKumar DragonIDE mainJavaScriptEvent DevKumar");
     sb.append("\n");
 
     setRawCode(new String(sb.toString()));
@@ -22,7 +22,7 @@ public class JavascriptFile extends WebFile {
     mainEntry.setName("MainEntry");
     mainEntry.setDesc("Main Entry of javascript file");
     mainEntry.setReplacer("eventCode");
-    mainEntry.setRawCode("%%%% DragonIDE eventCode %%%%");
+    mainEntry.setRawCode("DevKumar DragonIDE eventCode DevKumar");
     mainEntry.setEventReplacer("mainJavaScriptEvent");
 
     events.add(mainEntry);

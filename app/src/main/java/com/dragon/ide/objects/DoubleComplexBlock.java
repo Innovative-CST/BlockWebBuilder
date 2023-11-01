@@ -4,13 +4,16 @@ import com.dragon.ide.utils.CodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DoubleComplexBlock extends ComplexBlock implements Serializable {
+public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cloneable {
   public static final long serialVersionUID = 428383841L;
   private ArrayList<Block> doubleComplexBlocks;
   private ArrayList<Object> complexBlockContent;
 
   public ArrayList<Block> getDoubleComplexBlocks() {
-    return this.doubleComplexBlocks;
+    if (doubleComplexBlocks != null) {
+      return (ArrayList<Block>) this.doubleComplexBlocks.clone();
+    }
+    return new ArrayList<Block>();
   }
 
   public void setDoubleComplexBlocks(ArrayList<Block> doubleComplexBlocks) {
@@ -83,5 +86,74 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable {
 
   public void setComplexBlockContent(ArrayList<Object> conplexBlockContent) {
     this.complexBlockContent = complexBlockContent;
+  }
+
+  @Override
+  public DoubleComplexBlock clone() throws CloneNotSupportedException {
+    DoubleComplexBlock mDoubleComplexBlock = new DoubleComplexBlock();
+    String mColor;
+    if (getColor() != null) {
+      mColor = new String(getColor());
+    } else {
+      mColor = new String("");
+    }
+    String mName;
+    if (getName() != null) {
+      mName = new String(getName());
+    } else {
+      mName = new String("");
+    }
+    ArrayList<Object> mBlockContent;
+    if (getBlockContent() != null) {
+      mBlockContent = (ArrayList<Object>) getBlockContent().clone();
+    } else {
+      mBlockContent = new ArrayList<Object>();
+    }
+    int mBlockType;
+    if (getBlockType() != 0) {
+      mBlockType = new Integer(getBlockType());
+    } else {
+      mBlockType = 0;
+    }
+    String mRawCode;
+    if (getRawCode() != null) {
+      mRawCode = new String(getRawCode());
+    } else {
+      mRawCode = new String("");
+    }
+    String mReturns;
+    if (getReturns() != null) {
+      mReturns = new String(getReturns());
+    } else {
+      mReturns = new String("");
+    }
+    ArrayList<Block> mBlocks;
+    if (getBlocks() != null) {
+      mBlocks = (ArrayList<Block>) getBlocks().clone();
+    } else {
+      mBlocks = new ArrayList<Block>();
+    }
+    ArrayList<Block> mDoubleComplexBlocks;
+    if (getDoubleComplexBlocks() != null) {
+      mDoubleComplexBlocks = (ArrayList<Block>) getDoubleComplexBlocks().clone();
+    } else {
+      mDoubleComplexBlocks = new ArrayList<Block>();
+    }
+    ArrayList<Object> mComplexBlockContent;
+    if (getComplexBlockContent() != null) {
+      mComplexBlockContent = (ArrayList<Object>) getComplexBlockContent().clone();
+    } else {
+      mComplexBlockContent = new ArrayList<Object>();
+    }
+    mDoubleComplexBlock.setColor(mColor);
+    mDoubleComplexBlock.setName(mName);
+    mDoubleComplexBlock.setBlockContent(mBlockContent);
+    mDoubleComplexBlock.setBlockType(mBlockType);
+    mDoubleComplexBlock.setRawCode(mRawCode);
+    mDoubleComplexBlock.setReturns(mReturns);
+    mDoubleComplexBlock.setBlocks(mBlocks);
+    mDoubleComplexBlock.setDoubleComplexBlocks(mDoubleComplexBlocks);
+    mDoubleComplexBlock.setComplexBlockContent(mComplexBlockContent);
+    return mDoubleComplexBlock;
   }
 }

@@ -1,10 +1,11 @@
 package com.dragon.ide.objects;
 
+import com.dragon.ide.objects.blockcontent.SourceContent;
 import com.dragon.ide.utils.CodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Block implements Serializable {
+public class Block implements Serializable, Cloneable {
   private static final long serialVersionUID = 428383837L;
   private String color;
   private String name;
@@ -58,7 +59,7 @@ public class Block implements Serializable {
   }
 
   public String getRawCode() {
-    return this.rawCode;
+    return new String(this.rawCode);
   }
 
   public void setRawCode(String rawCode) {
@@ -72,7 +73,7 @@ public class Block implements Serializable {
   }
 
   public ArrayList<Object> getBlockContent() {
-    return this.blockContent;
+    return blockContent;
   }
 
   public void setBlockContent(ArrayList<Object> blockContent) {
@@ -88,5 +89,62 @@ public class Block implements Serializable {
 
   public void setReturns(String returns) {
     this.returns = returns;
+  }
+
+  @Override
+  public Block clone() throws CloneNotSupportedException {
+    String mColor;
+    if (getColor() != null) {
+      mColor = new String(getColor());
+    } else {
+      mColor = new String("");
+    }
+    String mName;
+    if (getName() != null) {
+      mName = new String(getName());
+    } else {
+      mName = new String("");
+    }
+    ArrayList<Object> mBlockContent;
+    if (getBlockContent() != null) {
+      mBlockContent = new ArrayList<Object>();
+      for (int i = 0; i < getBlockContent().size(); ++i) {
+        if (getBlockContent().get(i) instanceof ComplexBlockContent) {
+          if (getBlockContent().get(i) instanceof SourceContent) {
+            mBlockContent.add(((SourceContent) getBlockContent().get(i)).clone());
+          }
+        } else if (getBlockContent().get(i) instanceof BlockContent) {
+          mBlockContent.add(((BlockContent) getBlockContent().get(i)).clone());
+        }
+      }
+    } else {
+      mBlockContent = new ArrayList<Object>();
+    }
+    int mBlockType;
+    if (getBlockType() != 0) {
+      mBlockType = new Integer(getBlockType());
+    } else {
+      mBlockType = 0;
+    }
+    String mRawCode;
+    if (getRawCode() != null) {
+      mRawCode = new String(getRawCode());
+    } else {
+      mRawCode = new String("");
+    }
+    String mReturns;
+    if (getReturns() != null) {
+      mReturns = new String(getReturns());
+    } else {
+      mReturns = new String("");
+    }
+    Block mBlock = new Block();
+    mBlock.setColor(mColor);
+    mBlock.setName(mName);
+    mBlock.setBlockContent(mBlockContent);
+    mBlock.setBlockType(mBlockType);
+    mBlock.setRawCode(mRawCode);
+    mBlock.setReturns(mReturns);
+    return mBlock;
   }
 }
