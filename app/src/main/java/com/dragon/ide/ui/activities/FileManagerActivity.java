@@ -108,11 +108,15 @@ public class FileManagerActivity extends BaseActivity {
                   fis.close();
                   ois.close();
                   isLoaded = true;
-                  binding.list.setAdapter(
-                      new FileListAdapterItem(
-                          fileList, FileManagerActivity.this, projectName, projectPath));
-                  binding.list.setLayoutManager(new LinearLayoutManager(FileManagerActivity.this));
-                  showSection(4);
+                  runOnUiThread(
+                      () -> {
+                        binding.list.setAdapter(
+                            new FileListAdapterItem(
+                                fileList, FileManagerActivity.this, projectName, projectPath));
+                        binding.list.setLayoutManager(
+                            new LinearLayoutManager(FileManagerActivity.this));
+                        showSection(4);
+                      });
                 } catch (Exception e) {
                   runOnUiThread(
                       () -> {
@@ -198,5 +202,11 @@ public class FileManagerActivity extends BaseActivity {
     if (isLoaded) {
       saveFileList();
     }
+  }
+
+  @Override
+  protected void onResume() {
+    showFileList();
+    super.onResume();
   }
 }
