@@ -52,9 +52,34 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
         }
       }
     }
-    String innerBlockCode = blockListCode.toString();
-    blockRawCode =
-        blockRawCode.replaceAll(CodeReplacer.getReplacer("complexBlockContent"), innerBlockCode);
+    String innerBlockCode = new String(blockListCode.toString());
+
+    // Formatter
+
+    String[] lines = getRawCode().split("\n");
+    StringBuilder mainCode = new StringBuilder();
+
+    for (int i = 0; i < lines.length; ++i) {
+      String line = new String(lines[i]);
+      if (line.contains(CodeReplacer.getReplacer("complexBlockContent"))) {
+        String[] innerBlockCodeLines = new String(innerBlockCode).split("\n");
+        StringBuilder innerBlockCodeSB = new StringBuilder();
+        for (int i2 = 0; i2 < innerBlockCodeLines.length; ++i2) {
+          if (i2 != 0) {
+            innerBlockCodeSB.append("\n");
+            innerBlockCodeSB.append("\t");
+          }
+          innerBlockCodeSB.append(innerBlockCodeLines[i2]);
+        }
+        line = line.replaceAll(CodeReplacer.getReplacer("complexBlockContent"), innerBlockCodeSB.toString());
+      }
+      if (i != 0) {
+        mainCode.append("\n");
+      }
+      mainCode.append(line);
+    }
+
+    blockRawCode = mainCode.toString();
     blockRawCode = CodeReplacer.removeDragonIDEString(blockRawCode);
     return blockRawCode;
   }
