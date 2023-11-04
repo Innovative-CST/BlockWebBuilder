@@ -37,6 +37,9 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
     }
     StringBuilder blockListCode = new StringBuilder();
     for (int i = 0; i < getBlocks().size(); ++i) {
+      if (i != 0) {
+        blockListCode.append("\n");
+      }
       if (getBlocks().get(i) instanceof DoubleComplexBlock) {
         try {
           blockListCode.append(((DoubleComplexBlock) getBlocks().get(i)).clone().getCode());
