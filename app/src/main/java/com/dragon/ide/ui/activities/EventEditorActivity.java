@@ -1,5 +1,8 @@
 package com.dragon.ide.ui.activities;
 
+import android.content.ClipData;
+import android.os.Build;
+import android.widget.RelativeLayout;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.graphics.Color;
@@ -96,6 +99,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       showSection(2);
       binding.tvInfo.setText(getString(R.string.project_name_not_passed));
     }
+
+    binding.relativeBlockListEditorArea.setOnDragListener(this);
 
     /*
      * Load block shadow
@@ -307,54 +312,103 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         v.invalidate();
         return true;
       case DragEvent.ACTION_DRAG_LOCATION:
-        ((ViewGroup) v).addView(blockShadow, index);
-        if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
-          ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
-          ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
-              LinearLayout.LayoutParams.WRAP_CONTENT;
+        if (v instanceof LinearLayout) {
+          ((ViewGroup) v).addView(blockShadow, index);
+          if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
+            ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
+            ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
+                LinearLayout.LayoutParams.WRAP_CONTENT;
+          }
         }
         return true;
       case DragEvent.ACTION_DRAG_EXITED:
         return true;
       case DragEvent.ACTION_DROP:
-        if ((dragView instanceof BlockDefaultView)) {
-          if (((BlockDefaultView) dragView).getBlock().getBlockType()
-              == Block.BlockType.defaultBlock) {
-            BlockDefaultView blockView = new BlockDefaultView(this);
-            blockView.setLanguage(language);
-            blockView.setEnableEdit(true);
-            try {
-              Block block = ((BlockDefaultView) dragView).getBlock().clone();
-              blockView.setBlock(block);
-            } catch (CloneNotSupportedException e) {
-              blockView.setBlock(new Block());
+        if (v instanceof LinearLayout) {
+          if ((dragView instanceof BlockDefaultView)) {
+            if (((BlockDefaultView) dragView).getBlock().getBlockType()
+                == Block.BlockType.defaultBlock) {
+              BlockDefaultView blockView = new BlockDefaultView(this);
+              blockView.setLanguage(language);
+              blockView.setEnableEdit(true);
+              try {
+                Block block = ((BlockDefaultView) dragView).getBlock().clone();
+                blockView.setBlock(block);
+              } catch (CloneNotSupportedException e) {
+                blockView.setBlock(new Block());
+              }
+              ((LinearLayout) v).addView(blockView, index);
+              if (blockView.getLayoutParams() != null) {
+                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
+                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
+                    LinearLayout.LayoutParams.WRAP_CONTENT;
+              }
             }
-            ((LinearLayout) v).addView(blockView, index);
-            if (blockView.getLayoutParams() != null) {
-              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
-              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
-                  LinearLayout.LayoutParams.WRAP_CONTENT;
+          }
+
+          if ((dragView instanceof ComplexBlockView)) {
+            if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
+                == Block.BlockType.complexBlock) {
+              ComplexBlockView blockView = new ComplexBlockView(this);
+              blockView.setLanguage(language);
+              blockView.setEnableEdit(true);
+              try {
+                ComplexBlock complexBlock = ((ComplexBlockView) dragView).getComplexBlock().clone();
+                blockView.setComplexBlock(complexBlock);
+              } catch (CloneNotSupportedException e) {
+                blockView.setComplexBlock(new ComplexBlock());
+              }
+              ((LinearLayout) v).addView(blockView, index);
+              if (blockView.getLayoutParams() != null) {
+                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(4, -26, 0, 0);
+                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
+                    LinearLayout.LayoutParams.WRAP_CONTENT;
+              }
             }
           }
         }
-
-        if ((dragView instanceof ComplexBlockView)) {
-          if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
-              == Block.BlockType.complexBlock) {
-            ComplexBlockView blockView = new ComplexBlockView(this);
-            blockView.setLanguage(language);
-            blockView.setEnableEdit(true);
-            try {
-              ComplexBlock complexBlock = ((ComplexBlockView) dragView).getComplexBlock().clone();
-              blockView.setComplexBlock(complexBlock);
-            } catch (CloneNotSupportedException e) {
-              blockView.setComplexBlock(new ComplexBlock());
+        if (v instanceof RelativeLayout) {
+          if ((dragView instanceof BlockDefaultView)) {
+            if (((BlockDefaultView) dragView).getBlock().getBlockType()
+                == Block.BlockType.defaultBlock) {
+              BlockDefaultView blockView = new BlockDefaultView(this);
+              blockView.setLanguage(language);
+              blockView.setEnableEdit(true);
+              try {
+                Block block = ((BlockDefaultView) dragView).getBlock().clone();
+                blockView.setBlock(block);
+              } catch (CloneNotSupportedException e) {
+                blockView.setBlock(new Block());
+              }
+              ((RelativeLayout) v).addView(blockView, index);
+              if (blockView.getLayoutParams() != null) {
+                ((RelativeLayout.LayoutParams) blockView.getLayoutParams())
+                    .setMargins((int) dropX, (int) dropY, 0, 0);
+                ((RelativeLayout.LayoutParams) blockView.getLayoutParams()).width =
+                    RelativeLayout.LayoutParams.WRAP_CONTENT;
+              }
             }
-            ((LinearLayout) v).addView(blockView, index);
-            if (blockView.getLayoutParams() != null) {
-              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(4, -26, 0, 0);
-              ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
-                  LinearLayout.LayoutParams.WRAP_CONTENT;
+          }
+
+          if ((dragView instanceof ComplexBlockView)) {
+            if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
+                == Block.BlockType.complexBlock) {
+              ComplexBlockView blockView = new ComplexBlockView(this);
+              blockView.setLanguage(language);
+              blockView.setEnableEdit(true);
+              try {
+                ComplexBlock complexBlock = ((ComplexBlockView) dragView).getComplexBlock().clone();
+                blockView.setComplexBlock(complexBlock);
+              } catch (CloneNotSupportedException e) {
+                blockView.setComplexBlock(new ComplexBlock());
+              }
+              ((RelativeLayout) v).addView(blockView, index);
+              if (blockView.getLayoutParams() != null) {
+                ((RelativeLayout.LayoutParams) blockView.getLayoutParams())
+                    .setMargins((int) dropX, (int) dropY, 0, 0);
+                ((RelativeLayout.LayoutParams) blockView.getLayoutParams()).width =
+                    RelativeLayout.LayoutParams.WRAP_CONTENT;
+              }
             }
           }
         }
