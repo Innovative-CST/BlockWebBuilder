@@ -115,7 +115,16 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
     }
     ArrayList<Block> mBlocks;
     if (getBlocks() != null) {
-      mBlocks = (ArrayList<Block>) getBlocks().clone();
+      mBlocks = new ArrayList<Block>();
+      for (int i = 0; i < getBlocks().size(); ++i) {
+        if (getBlocks().get(i) instanceof DoubleComplexBlock) {
+          mBlocks.add(((DoubleComplexBlock) getBlocks().get(i)).clone());
+        } else if (getBlocks().get(i) instanceof ComplexBlock) {
+          mBlocks.add(((ComplexBlock) getBlocks().get(i)).clone());
+        } else if (getBlocks().get(i) instanceof Block) {
+          mBlocks.add(getBlocks().get(i).clone());
+        }
+      }
     } else {
       mBlocks = new ArrayList<Block>();
     }
