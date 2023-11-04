@@ -34,6 +34,9 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
     }
     StringBuilder blockListCode = new StringBuilder();
     for (int i = 0; i < getBlocks().size(); ++i) {
+      if (i != 0) {
+        blockListCode.append("\n");
+      }
       if (getBlocks().get(i) instanceof DoubleComplexBlock) {
         blockListCode.append(((DoubleComplexBlock) getBlocks().get(i)).getCode());
       } else {
@@ -61,6 +64,9 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
 
     StringBuilder complexBlockListCode = new StringBuilder();
     for (int i = 0; i < getDoubleComplexBlocks().size(); ++i) {
+      if (i != 0) {
+        complexBlockListCode.append("\n");
+      }
       if (getDoubleComplexBlocks().get(i) instanceof DoubleComplexBlock) {
         complexBlockListCode.append(((DoubleComplexBlock) getBlocks().get(i)).getCode());
       } else {

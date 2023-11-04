@@ -40,6 +40,7 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
       if (i != 0) {
         blockListCode.append("\n");
       }
+            
       if (getBlocks().get(i) instanceof DoubleComplexBlock) {
         try {
           blockListCode.append(((DoubleComplexBlock) getBlocks().get(i)).clone().getCode());
