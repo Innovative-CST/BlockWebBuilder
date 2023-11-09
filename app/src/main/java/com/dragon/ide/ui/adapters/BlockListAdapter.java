@@ -2,17 +2,20 @@ package com.dragon.ide.ui.adapters;
 
 import android.app.Activity;
 import android.content.ClipData;
+import android.graphics.Point;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import com.dragon.ide.R;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.objects.DoubleComplexBlock;
 import com.dragon.ide.ui.activities.EventEditorActivity;
 import com.dragon.ide.ui.view.BlockDefaultView;
 import com.dragon.ide.ui.view.ComplexBlockView;
+import com.dragon.ide.utils.Utils;
 import java.util.ArrayList;
 
 public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.ViewHolder> {
@@ -52,11 +55,16 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(complexBlockView);
 
                 ((EventEditorActivity) activity)
-                    .binding.blockListEditorArea.setOnDragListener(
-                        ((EventEditorActivity) activity));
+                    .binding
+                    .getRoot()
+                    .findViewById(R.id.blockListEditorArea)
+                    .setOnDragListener(((EventEditorActivity) activity));
 
                 LinearLayout blockListEditorArea =
-                    ((EventEditorActivity) activity).binding.blockListEditorArea;
+                    ((EventEditorActivity) activity)
+                        .binding
+                        .getRoot()
+                        .findViewById(R.id.blockListEditorArea);
 
                 addDragListener(blockListEditorArea, (EventEditorActivity) activity);
 
@@ -65,7 +73,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 } else {
                   complexBlockView.startDrag(data, shadow, complexBlockView, 1);
                 }
-                return true;
+                return false;
               });
         }
       } else if (list.get(_position) instanceof Block) {
@@ -79,11 +87,16 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(blockView);
 
                 ((EventEditorActivity) activity)
-                    .binding.blockListEditorArea.setOnDragListener(
-                        ((EventEditorActivity) activity));
+                    .binding
+                    .getRoot()
+                    .findViewById(R.id.blockListEditorArea)
+                    .setOnDragListener(((EventEditorActivity) activity));
 
                 LinearLayout blockListEditorArea =
-                    ((EventEditorActivity) activity).binding.blockListEditorArea;
+                    ((EventEditorActivity) activity)
+                        .binding
+                        .getRoot()
+                        .findViewById(R.id.blockListEditorArea);
 
                 addDragListener(blockListEditorArea, (EventEditorActivity) activity);
 
@@ -92,10 +105,16 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 } else {
                   blockView.startDrag(data, shadow, blockView, 1);
                 }
-                return true;
+                // blockView.setOnTouchListener((EventEditorActivity) activity);
+                return false;
               });
+          // blockView.setOnTouchListener((EventEditorActivity) activity);
         } else {
-          ((EventEditorActivity) activity).binding.blockListEditorArea.setOnDragListener(null);
+          ((EventEditorActivity) activity)
+              .binding
+              .getRoot()
+              .findViewById(R.id.blockListEditorArea)
+              .setOnDragListener(null);
         }
       }
     }

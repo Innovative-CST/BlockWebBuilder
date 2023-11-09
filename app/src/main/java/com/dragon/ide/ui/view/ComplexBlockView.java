@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.LinearLayout;
 import com.dragon.ide.R;
 import com.dragon.ide.objects.Block;
@@ -51,8 +52,57 @@ public class ComplexBlockView extends LinearLayout {
               getEnableEdit());
 
           addView(blockContent);
+          blocksView =
+              new LinearLayout(getContext()) {
+                @Override
+                public void addView(View arg0, int arg1) {
+                  super.addView(arg0, arg1);
+                  if (getBlocksView().getChildCount() == 0) {
+                    if (getBlocksView().getLayoutParams() != null) {
+                      ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
+                          .setMargins(0, -10, 0, 0);
+                    }
+                  } else {
+                    if (getBlocksView().getLayoutParams() != null) {
+                      ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
+                          .setMargins(0, -26, 0, 0);
+                    }
+                  }
+                }
 
-          blocksView = new LinearLayout(getContext());
+                @Override
+                public void addView(View arg0) {
+                  super.addView(arg0);
+                  if (getBlocksView().getChildCount() == 0) {
+                    if (getBlocksView().getLayoutParams() != null) {
+                      ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
+                          .setMargins(0, -10, 0, 0);
+                    }
+                  } else {
+                    if (getBlocksView().getLayoutParams() != null) {
+                      ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
+                          .setMargins(0, -26, 0, 0);
+                    }
+                  }
+                }
+
+                @Override
+                public void removeView(View arg0) {
+                  super.removeView(arg0);
+                  if (getBlocksView().getChildCount() == 0) {
+                    if (getBlocksView().getLayoutParams() != null) {
+                      ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
+                          .setMargins(0, -10, 0, 0);
+                    }
+                  } else {
+                    if (getBlocksView().getLayoutParams() != null) {
+                      ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
+                          .setMargins(0, -26, 0, 0);
+                    }
+                  }
+                }
+              };
+          blocksView.setTag("complexBlock");
           blocksView.setBackgroundResource(R.drawable.complex_block_bottom);
 
           Drawable blocksViewBackgroundDrawable = blocksView.getBackground();
@@ -64,14 +114,27 @@ public class ComplexBlockView extends LinearLayout {
           addView(blocksView);
 
           if (getEnableEdit()) {
-            if (blocksView.getLayoutParams() != null) {
-              ((LinearLayout.LayoutParams) blocksView.getLayoutParams()).setMargins(0, -26, 0, 0);
+            if (getBlocksView().getChildCount() == 0) {
+              if (blocksView.getLayoutParams() != null) {
+                ((LinearLayout.LayoutParams) blocksView.getLayoutParams()).setMargins(0, -10, 0, 0);
+              }
+            } else {
+              if (blocksView.getLayoutParams() != null) {
+                ((LinearLayout.LayoutParams) blocksView.getLayoutParams()).setMargins(0, -26, 0, 0);
+              }
             }
           } else {
             if (blocksView.getLayoutParams() != null) {
               ((LinearLayout.LayoutParams) blocksView.getLayoutParams()).setMargins(0, -10, 0, 0);
             }
           }
+          if (getBlocksView().getChildCount() == 0) {
+            if (getBlocksView().getLayoutParams() != null) {
+              ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
+                  .setMargins(0, -10, 0, 0);
+            }
+          }
+
           blocksView.setPadding(
               blocksView.getPaddingLeft() + 3,
               blocksView.getPaddingTop(),

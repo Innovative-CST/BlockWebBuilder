@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
 import android.widget.LinearLayout;
 import com.dragon.ide.R;
 import com.dragon.ide.objects.Block;
@@ -75,5 +76,10 @@ public class BlockDefaultView extends LinearLayout {
 
   public void setLanguage(String language) {
     this.language = language;
+  }
+
+  @Override
+  public boolean onInterceptTouchEvent(MotionEvent arg0) {
+    return !getEnableEdit();
   }
 }

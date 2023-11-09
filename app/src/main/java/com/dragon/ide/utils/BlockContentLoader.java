@@ -26,9 +26,13 @@ public class BlockContentLoader {
         if (blockContent.get(i) instanceof SourceContent) {
           final LinearLayout ll_source = new LinearLayout(view.getContext());
           ll_source.setPadding(25, 0, 25, 0);
-          ll_source.setBackgroundColor(Color.WHITE);
+          ll_source.setBackgroundColor(
+              ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
           final TextView tvTextContent = new TextView(view.getContext());
+          tvTextContent.setSingleLine(true);
           tvTextContent.setText(((SourceContent) blockContent.get(i)).getValue());
+          tvTextContent.setTextColor(
+              ColorUtils.getColor(activity, com.google.android.material.R.attr.colorOnSurface));
           ll_source.addView(tvTextContent, view.getChildCount() - 1);
 
           final LinearLayout.LayoutParams layoutParams =
@@ -52,8 +56,10 @@ public class BlockContentLoader {
         }
       } else if (blockContent.get(i) instanceof BlockContent) {
         TextView tvTextContent = new TextView(view.getContext());
+        tvTextContent.setSingleLine(true);
         tvTextContent.setText(((BlockContent) blockContent.get(i)).getText());
 
+        /*
         int backgroundColor = Color.parseColor(color);
         int red = Color.red(backgroundColor);
         int green = Color.green(backgroundColor);
@@ -66,7 +72,9 @@ public class BlockContentLoader {
 
         if (contrastRatio < contrastRatioThreshold) {
           tvTextContent.setTextColor(textColor);
-        }
+        }*/
+        tvTextContent.setTextColor(
+            ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
 
         view.addView(tvTextContent, view.getChildCount() - 1);
       }

@@ -56,7 +56,7 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
 
     // Formatter
 
-    String[] lines = getRawCode().split("\n");
+    String[] lines = blockRawCode.split("\n");
     StringBuilder mainCode = new StringBuilder();
 
     for (int i = 0; i < lines.length; ++i) {

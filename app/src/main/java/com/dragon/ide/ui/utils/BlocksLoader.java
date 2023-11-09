@@ -33,6 +33,8 @@ public class BlocksLoader {
                 if (i != 0) {
                   ((LinearLayout.LayoutParams) blockView.getLayoutParams())
                       .setMargins(0, -26, 0, 0);
+                } else {
+                  ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, 0, 0, 0);
                 }
               }
               ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
@@ -43,12 +45,6 @@ public class BlocksLoader {
                 blockView.getComplexBlock().getBlocks(),
                 blockView.getLanguage(),
                 activity);
-
-            if (blockView.getBlocksView().getChildCount() == 0) {
-              if (blockView.getBlocksView().getLayoutParams() != null) {
-                ((LinearLayout.LayoutParams) blockView.getBlocksView().getLayoutParams()).setMargins(0, -10, 0, 0);
-              }
-            }
           }
         } else if (blocks.get(i) instanceof Block) {
           if (blocks.get(i).getBlockType() == Block.BlockType.defaultBlock) {
@@ -68,6 +64,8 @@ public class BlocksLoader {
                 if (i != 0) {
                   ((LinearLayout.LayoutParams) blockView.getLayoutParams())
                       .setMargins(0, -26, 0, 0);
+                } else {
+                  ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, 0, 0, 0);
                 }
               }
               ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =

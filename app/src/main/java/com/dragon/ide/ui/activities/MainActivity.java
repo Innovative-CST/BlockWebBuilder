@@ -49,7 +49,6 @@ public class MainActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    com.tsd.SketchLogger.startLogging();
 
     // Inflate and get instance of binding.
     binding = ActivityMainBinding.inflate(getLayoutInflater());
