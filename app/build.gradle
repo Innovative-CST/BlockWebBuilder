@@ -30,7 +30,7 @@ def signingEnabled = false
 def keyStorePassword = ""
 
 if (KEYSTOREPASSWORD != null) {
-    password = KEYSTOREPASSWORD
+    keyStorePassword = KEYSTOREPASSWORD
     signingEnabled = true
 } else if (secretsPropertiesFile.exists()) {
     if (secretsProperties.getProperty('KEYSTOREPASSWORD') != null) {
@@ -70,6 +70,7 @@ android {
         applicationId "com.dragon.ide"
         minSdk 21
         targetSdk 28
+        compileSdkVersion 33
         versionCode getGitCommitCount()
         versionName "1.0 Alpha01-Snapshot-" + getCommitHash() + "-commit-no-" + getGitCommitCount().toString()
         
