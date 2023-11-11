@@ -47,13 +47,22 @@ android {
     namespace 'com.dragon.ide'
     compileSdk 33
     buildToolsVersion "33.0.2"
+    
+    def getCommitHash = { ->
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine "git", "rev-parse", "--short", "HEAD"
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
 
     defaultConfig {
         applicationId "com.dragon.ide"
         minSdk 21
         targetSdk 28
         versionCode 1
-        versionName "1.0Alpha01"
+        versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
         
         vectorDrawables { 
             useSupportLibrary true
