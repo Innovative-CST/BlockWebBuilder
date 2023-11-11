@@ -21,6 +21,15 @@ jobs:
       - name: Allow gradlew permission
         run: chmod +x ./gradlew
         
+      - name: Set environmental variables
+        shell: bash
+        env:
+            JSON_CONTENT: ${{ secrets.KEYSTOREPASSWORD }}
+        if: ${{ env.JSON_CONTENT != '' }}
+        run: |
+          printf 'KEYSTOREPASSWORD<<EOF\n%s\nEOF\n' "$JSON_CONTENT" >> $GITHUB_ENV
+
+        
       - name: Set up firebase
         shell: bash 
         env:

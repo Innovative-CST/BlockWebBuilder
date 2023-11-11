@@ -2,6 +2,7 @@ plugins {
     id "com.android.application"
 }
 
+def KEYSTOREPASSWORD = System.getenv('KEYSTOREPASSWORD')
 def secretsPropertiesFile = file('../secrets.properties')
 def secretsProperties = new Properties()
 
@@ -25,6 +26,19 @@ if (analyticsEnabled) {
     }
 }
 
+def signingEnabled = false
+def keyStorePassword = ""
+
+if (KEYSTOREPASSWORD != null) {
+    password = KEYSTOREPASSWORD
+    signingEnabled = true
+} else if (secretsPropertiesFile.exists()) {
+    if (secretsProperties.getProperty('KEYSTOREPASSWORD') != null) {
+        keyStorePassword = secretsProperties.getProperty('KEYSTOREPASSWORD')
+        signingEnabled = true
+    }
+}
+
 if (analyticsEnabled) {
     apply plugin: "com.google.gms.google-services"
 }
@@ -43,6 +57,25 @@ android {
         
         vectorDrawables { 
             useSupportLibrary true
+        }
+    }
+    
+    signingConfigs {
+        release {
+            if (signingEnabled) {
+                storeFile file("../keystore.jks")
+                storePassword keyStorePassword
+                keyAlias "DragonIDE"
+                keyPassword keyStorePassword
+            }
+        }
+        debug {
+            if (signingEnabled) {
+                storeFile file("../keystore.jks")
+                storePassword keyStorePassword
+                keyAlias "DragonIDE"
+                keyPassword keyStorePassword
+            }
         }
     }
 
