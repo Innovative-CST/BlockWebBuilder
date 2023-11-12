@@ -47,7 +47,9 @@ public class EditorScrollView extends FrameLayout {
   @Override
   public boolean onInterceptTouchEvent(MotionEvent motion) {
     if (!getEnableScroll()) {
-      return false;
+      if (getScaleY() == 0) {
+        return false;
+      }
     }
     if (!useScroll) {
       return false;
@@ -79,7 +81,40 @@ public class EditorScrollView extends FrameLayout {
     int n = 0;
     int n2 = 0;
     if (!getEnableScroll()) {
-      return false;
+      if (getScrollY() == 0) {
+        return false;
+      } else {
+        final View child = this.getChildAt(0);
+        final int action = motion.getAction();
+        final float x = motion.getX();
+        final float y = motion.getY();
+        if (action == MotionEvent.ACTION_DOWN) {
+          initialXTE = x;
+          initialYTE = y;
+        }
+        if (action == MotionEvent.ACTION_UP) {
+          initialXTE = -1.0f;
+          initialYTE = -1.0f;
+        }
+        if (action == MotionEvent.ACTION_MOVE) {
+          if (initialXTE < 0.0f) {
+            initialXTE = x;
+          }
+          if (initialYTE < 0.0f) {
+            initialYTE = y;
+          }
+          final int b2 = (int) (initialYTE - y);
+          initialXTE = x;
+          initialYTE = y;
+          
+          if (b2 < 0) {
+            if ((Math.abs(b2) <= getScrollY())) {
+              scrollBy(0, b2);
+            }
+          }
+        }
+        return true;
+      }
     }
     if (!useScroll) {
       return false;
