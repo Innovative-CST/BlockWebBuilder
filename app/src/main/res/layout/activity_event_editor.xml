@@ -79,9 +79,7 @@
                         android:orientation="vertical"
                         android:foregroundGravity="top"
                         android:id="@+id/relativeBlockListEditorArea"
-                        android:padding="8dp">
-
-                    </com.dragon.ide.ui.view.editor.Editor>
+                        android:padding="8dp" />
 
                 </LinearLayout>
 

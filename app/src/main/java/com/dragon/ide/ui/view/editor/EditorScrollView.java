@@ -5,7 +5,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import com.dragon.ide.utils.Utils;
 
 public class EditorScrollView extends FrameLayout {
   private float x;
@@ -110,7 +112,7 @@ public class EditorScrollView extends FrameLayout {
           scrollBy(b, 0);
         }
       } else {
-        if (getScrollX() < getWidth()) {
+        if (getScrollX() + ((View) getParent()).getWidth() < getWidth()) {
           scrollBy(b, 0);
         }
       }
@@ -120,8 +122,14 @@ public class EditorScrollView extends FrameLayout {
           scrollBy(0, b2);
         }
       } else {
-        if (getScrollY() < getHeight()) {
-          scrollBy(0, b2);
+        if (getParent() != null) {
+          if (getScrollY() + ((View) getParent()).getHeight() < getHeight()) {
+            scrollBy(0, b2);
+          }
+        } else {
+          if (getScrollY() + Utils.dpToPx(getContext(), 300f) < getHeight()) {
+            scrollBy(0, b2);
+          }
         }
       }
     }
@@ -138,18 +146,30 @@ public class EditorScrollView extends FrameLayout {
 
   public boolean getEnableScroll() {
     boolean b = false;
-    final int childCount = getChildCount();
-    if (0 < childCount) {
-      for (int i = 0; i < childCount; ++i) {
-        final View child = getChildAt(i);
-        final int width = child.getWidth();
-        final int height = child.getHeight();
-        if (getWidth() < getPaddingLeft() + width + getPaddingRight()
-            || getHeight() < getPaddingTop() + height + getPaddingBottom()) {
-          b = true;
+    if (getParent() != null) {
+      final int childCount = getChildCount();
+      if (0 < childCount) {
+        for (int i = 0; i < childCount; ++i) {
+          final View child = getChildAt(i);
+          final int width = child.getWidth();
+          final int height = child.getHeight();
+          if (((ViewGroup) getParent()).getWidth()
+                  < getPaddingLeft()
+                      + child.getPaddingRight()
+                      + width
+                      + child.getPaddingLeft()
+                      + getPaddingRight()
+              || ((ViewGroup) getParent()).getHeight()
+                  < getPaddingTop()
+                      + child.getPaddingTop()
+                      + height
+                      + child.getPaddingBottom()
+                      + getPaddingBottom()) {
+            b = true;
+          }
         }
       }
     }
-    return true;
+    return b;
   }
 }

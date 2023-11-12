@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -82,6 +83,22 @@ public class Editor extends EditorScrollView {
     setUpDimension();
   }
 
+  @Override
+  public boolean onInterceptTouchEvent(MotionEvent motion) {
+    if (!super.onInterceptTouchEvent(motion)) {
+      setUpDimension();
+    }
+    return super.onInterceptTouchEvent(motion);
+  }
+
+  @Override
+  public boolean onTouchEvent(MotionEvent motion) {
+    if (!super.onTouchEvent(motion)) {
+      setUpDimension();
+    }
+    return super.onTouchEvent(motion);
+  }
+
   public void initEditor() {
     LinearLayout blockListEditorArea = new LinearLayout(getContext());
     blockListEditorArea.setLayoutParams(
@@ -96,7 +113,9 @@ public class Editor extends EditorScrollView {
         new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     defineBlockLayout.setBackgroundResource(R.drawable.define_block);
-    defineBlockLayout.setBackgroundTintList(ColorStateList.valueOf(ColorUtils.getColor(getContext(), com.google.android.material.R.attr.colorPrimaryContainer)));
+    defineBlockLayout.setBackgroundTintList(
+        ColorStateList.valueOf(
+            ColorUtils.getColor(getContext(), com.google.android.material.R.attr.colorPrimary)));
 
     LinearLayout innerLayout = new LinearLayout(getContext());
     innerLayout.setLayoutParams(
@@ -108,7 +127,8 @@ public class Editor extends EditorScrollView {
         new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     defineTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-    defineTextView.setTextColor(ColorUtils.getColor(getContext(), com.google.android.material.R.attr.colorOnPrimaryContainer));
+    defineTextView.setTextColor(
+        ColorUtils.getColor(getContext(), com.google.android.material.R.attr.colorOnPrimary));
     defineTextView.setText("Define your event here");
 
     innerLayout.addView(defineTextView);
