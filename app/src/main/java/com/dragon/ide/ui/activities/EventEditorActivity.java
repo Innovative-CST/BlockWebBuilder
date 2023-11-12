@@ -283,24 +283,39 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     binding = null;
   }
 
-  public void handleShadowRemove() {
-    if (blockShadow.getParent() != null) {
-      if (((ViewGroup) blockShadow.getParent()).getChildCount() > 1) {
-        if (((ViewGroup) blockShadow.getParent()).getChildAt(0).getTag() != null) {
-          if (((ViewGroup) blockShadow.getParent()).getChildAt(0).getTag() instanceof String) {
-            if (((ViewGroup) blockShadow.getParent()).getChildAt(0).getTag().equals("shadow")) {
-              if (((ViewGroup) blockShadow.getParent()).getId()
-                  != R.id.relativeBlockListEditorArea) {
-                if (((ViewGroup) blockShadow.getParent()).getChildAt(1).getLayoutParams() != null) {
-                  ((LinearLayout.LayoutParams)
-                          ((ViewGroup) blockShadow.getParent()).getChildAt(1).getLayoutParams())
-                      .setMargins(0, 0, 0, 0);
+  public void handleShadowRemove(ViewGroup v) {
+    if (v.getTag() != null) {
+      if (v.getTag() instanceof String) {
+        if (((String) v.getTag()).equals("blockDropN")) {
+          if (blockShadow.getParent() != null) {
+            if (((ViewGroup) blockShadow.getParent()).getChildCount() > 1) {
+              if (((ViewGroup) blockShadow.getParent()).getChildAt(0).getTag() != null) {
+                if (((ViewGroup) blockShadow.getParent()).getChildAt(0).getTag()
+                    instanceof String) {
+                  if (((ViewGroup) blockShadow.getParent())
+                      .getChildAt(0)
+                      .getTag()
+                      .equals("shadow")) {
+                    if (((ViewGroup) blockShadow.getParent()).getId()
+                        != R.id.relativeBlockListEditorArea) {
+                      if (((ViewGroup) blockShadow.getParent()).getChildAt(1).getLayoutParams()
+                          != null) {
+                        ((LinearLayout.LayoutParams)
+                                ((ViewGroup) blockShadow.getParent())
+                                    .getChildAt(1)
+                                    .getLayoutParams())
+                            .setMargins(0, 0, 0, 0);
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         }
       }
+    }
+    if (blockShadow.getParent() != null) {
       ((ViewGroup) blockShadow.getParent()).removeView(blockShadow);
     }
   }
@@ -313,7 +328,9 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     float dropX = dragEvent.getX();
     float dropY = dragEvent.getY();
 
-    handleShadowRemove();
+    if (v instanceof LinearLayout) {
+      handleShadowRemove((LinearLayout) v);
+    }
 
     for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) {
       View child = ((ViewGroup) v).getChildAt(i);

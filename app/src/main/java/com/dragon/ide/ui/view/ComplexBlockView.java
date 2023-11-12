@@ -102,7 +102,7 @@ public class ComplexBlockView extends LinearLayout {
                   }
                 }
               };
-          blocksView.setTag("complexBlock");
+          blocksView.setTag("blockDropN");
           blocksView.setBackgroundResource(R.drawable.complex_block_bottom);
 
           Drawable blocksViewBackgroundDrawable = blocksView.getBackground();
