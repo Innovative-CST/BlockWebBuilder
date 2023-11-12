@@ -106,7 +106,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
 
     blockShadow = new LinearLayout(this);
     blockShadow.setTag("shadow");
-    // blockShadow.setOnTouchListener(this);
     blockShadow.setBackgroundResource(R.drawable.block_default);
 
     Drawable backgroundDrawable = blockShadow.getBackground();
@@ -284,14 +283,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     binding = null;
   }
 
-  @Override
-  public boolean onDrag(View v, DragEvent dragEvent) {
-    final int action = dragEvent.getAction();
-    View dragView = (View) dragEvent.getLocalState();
-    int index = 0;
-    float dropX = dragEvent.getX();
-    float dropY = dragEvent.getY();
-
+  public void handleShadowRemove() {
     if (blockShadow.getParent() != null) {
       if (((ViewGroup) blockShadow.getParent()).getChildCount() > 1) {
         if (((ViewGroup) blockShadow.getParent()).getChildAt(0).getTag() != null) {
@@ -311,6 +303,17 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       }
       ((ViewGroup) blockShadow.getParent()).removeView(blockShadow);
     }
+  }
+
+  @Override
+  public boolean onDrag(View v, DragEvent dragEvent) {
+    final int action = dragEvent.getAction();
+    View dragView = (View) dragEvent.getLocalState();
+    int index = 0;
+    float dropX = dragEvent.getX();
+    float dropY = dragEvent.getY();
+
+    handleShadowRemove();
 
     for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) {
       View child = ((ViewGroup) v).getChildAt(i);
