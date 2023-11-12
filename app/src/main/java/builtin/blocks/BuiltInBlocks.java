@@ -6,6 +6,7 @@ import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.BlocksHolder;
 import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.objects.ComplexBlockContent;
+import com.dragon.ide.objects.blockcontent.BooleanContent;
 import com.dragon.ide.objects.blockcontent.SourceContent;
 import com.dragon.ide.utils.CodeReplacer;
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class BuiltInBlocks {
     block3Content1.setText("if");
     block3ContentList.add(block3Content1);
 
-    SourceContent block3Content2 = new SourceContent();
+    BooleanContent block3Content2 = new BooleanContent();
     block3Content2.setId("parameter");
     block3ContentList.add(block3Content2);
 
