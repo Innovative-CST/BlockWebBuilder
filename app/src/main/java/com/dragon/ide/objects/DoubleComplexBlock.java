@@ -1,5 +1,6 @@
 package com.dragon.ide.objects;
 
+import com.dragon.ide.objects.blockcontent.BooleanContent;
 import com.dragon.ide.objects.blockcontent.SourceContent;
 import com.dragon.ide.utils.CodeReplacer;
 import java.io.Serializable;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cloneable {
   public static final long serialVersionUID = 428383841L;
   private ArrayList<Block> doubleComplexBlocks;
-  private ArrayList<Object> complexBlockContent;
+  private ArrayList<BlockContent> complexBlockContent;
 
   public ArrayList<Block> getDoubleComplexBlocks() {
     if (doubleComplexBlocks != null) {
@@ -87,11 +88,11 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
     return new String(blockRawCode);
   }
 
-  public ArrayList<Object> getComplexBlockContent() {
+  public ArrayList<BlockContent> getComplexBlockContent() {
     return this.complexBlockContent;
   }
 
-  public void setComplexBlockContent(ArrayList<Object> conplexBlockContent) {
+  public void setComplexBlockContent(ArrayList<BlockContent> conplexBlockContent) {
     this.complexBlockContent = complexBlockContent;
   }
 
@@ -110,9 +111,9 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
     } else {
       mName = new String("");
     }
-    ArrayList<Object> mBlockContent;
+    ArrayList<BlockContent> mBlockContent;
     if (getBlockContent() != null) {
-      mBlockContent = new ArrayList<Object>();
+      mBlockContent = new ArrayList<BlockContent>();
       for (int i = 0; i < getBlockContent().size(); ++i) {
         if (getBlockContent().get(i) instanceof ComplexBlockContent) {
           if (getBlockContent().get(i) instanceof SourceContent) {
@@ -123,7 +124,7 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
         }
       }
     } else {
-      mBlockContent = new ArrayList<Object>();
+      mBlockContent = new ArrayList<BlockContent>();
     }
     int mBlockType;
     if (getBlockType() != 0) {
@@ -173,20 +174,22 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
     } else {
       mDoubleComplexBlocks = new ArrayList<Block>();
     }
-    ArrayList<Object> mComplexBlockContent;
+    ArrayList<BlockContent> mComplexBlockContent;
     if (getComplexBlockContent() != null) {
-      mComplexBlockContent = new ArrayList<Object>();
+      mComplexBlockContent = new ArrayList<BlockContent>();
       for (int i = 0; i < getComplexBlockContent().size(); ++i) {
         if (getComplexBlockContent().get(i) instanceof ComplexBlockContent) {
-          if (getComplexBlockContent().get(i) instanceof SourceContent) {
-            mComplexBlockContent.add(((SourceContent) getComplexBlockContent().get(i)).clone());
+          if (getBlockContent().get(i) instanceof SourceContent) {
+            mBlockContent.add(((SourceContent) getBlockContent().get(i)).clone());
+          } else if (getBlockContent().get(i) instanceof BooleanContent) {
+            mBlockContent.add(((BooleanContent) getBlockContent().get(i)).clone());
           }
         } else if (getBlockContent().get(i) instanceof BlockContent) {
           mComplexBlockContent.add(((BlockContent) getComplexBlockContent().get(i)).clone());
         }
       }
     } else {
-      mComplexBlockContent = new ArrayList<Object>();
+      mComplexBlockContent = new ArrayList<BlockContent>();
     }
     mDoubleComplexBlock.setColor(mColor);
     mDoubleComplexBlock.setName(mName);

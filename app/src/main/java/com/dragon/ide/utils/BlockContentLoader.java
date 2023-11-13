@@ -2,20 +2,25 @@ package com.dragon.ide.utils;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.dragon.ide.R;
 import com.dragon.ide.listeners.ValueListener;
 import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.ComplexBlockContent;
+import com.dragon.ide.objects.blockcontent.BooleanContent;
 import com.dragon.ide.objects.blockcontent.SourceContent;
 import com.dragon.ide.ui.dialogs.eventeditor.ValueEditorDialog;
 import java.util.ArrayList;
 
 public class BlockContentLoader {
   public static void loadBlockContent(
-      ArrayList<Object> blockContent,
+      ArrayList<BlockContent> blockContent,
       ViewGroup view,
       String color,
       String language,
@@ -53,6 +58,16 @@ public class BlockContentLoader {
                 new BlockContentLoader()
                 .new SourceContentClickListener(tvTextContent, sc, activity, language));
           }
+        } else if (blockContent.get(i) instanceof BooleanContent) {
+          final LinearLayout ll_boolean = new LinearLayout(view.getContext());
+          ll_boolean.setBackgroundResource(R.drawable.boolean_bg);
+          Drawable backgroundDrawableBoolean = ll_boolean.getBackground();
+          backgroundDrawableBoolean.setTint(Color.parseColor("#ffffff"));
+          backgroundDrawableBoolean.setTintMode(PorterDuff.Mode.SRC_IN);
+          ll_boolean.setBackground(backgroundDrawableBoolean);
+          ll_boolean.setAlpha(0.4f);
+
+          view.addView(ll_boolean, view.getChildCount());
         }
       } else if (blockContent.get(i) instanceof BlockContent) {
         TextView tvTextContent = new TextView(view.getContext());

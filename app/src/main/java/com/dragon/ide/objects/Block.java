@@ -1,5 +1,6 @@
 package com.dragon.ide.objects;
 
+import com.dragon.ide.objects.blockcontent.BooleanContent;
 import com.dragon.ide.objects.blockcontent.SourceContent;
 import com.dragon.ide.utils.CodeReplacer;
 import java.io.Serializable;
@@ -9,7 +10,7 @@ public class Block implements Serializable, Cloneable {
   private static final long serialVersionUID = 428383837L;
   private String color;
   private String name;
-  private ArrayList<Object> blockContent;
+  private ArrayList<BlockContent> blockContent;
   private int BlockType;
   private String rawCode;
   private String returns;
@@ -72,11 +73,11 @@ public class Block implements Serializable, Cloneable {
     public static final int doubleComplexBlock = 2;
   }
 
-  public ArrayList<Object> getBlockContent() {
+  public ArrayList<BlockContent> getBlockContent() {
     return blockContent;
   }
 
-  public void setBlockContent(ArrayList<Object> blockContent) {
+  public void setBlockContent(ArrayList<BlockContent> blockContent) {
     this.blockContent = blockContent;
   }
 
@@ -105,20 +106,22 @@ public class Block implements Serializable, Cloneable {
     } else {
       mName = new String("");
     }
-    ArrayList<Object> mBlockContent;
+    ArrayList<BlockContent> mBlockContent;
     if (getBlockContent() != null) {
-      mBlockContent = new ArrayList<Object>();
+      mBlockContent = new ArrayList<BlockContent>();
       for (int i = 0; i < getBlockContent().size(); ++i) {
         if (getBlockContent().get(i) instanceof ComplexBlockContent) {
           if (getBlockContent().get(i) instanceof SourceContent) {
             mBlockContent.add(((SourceContent) getBlockContent().get(i)).clone());
+          } else if (getBlockContent().get(i) instanceof BooleanContent) {
+            mBlockContent.add(((BooleanContent) getBlockContent().get(i)).clone());
           }
         } else if (getBlockContent().get(i) instanceof BlockContent) {
           mBlockContent.add(((BlockContent) getBlockContent().get(i)).clone());
         }
       }
     } else {
-      mBlockContent = new ArrayList<Object>();
+      mBlockContent = new ArrayList<BlockContent>();
     }
     int mBlockType;
     if (getBlockType() != 0) {

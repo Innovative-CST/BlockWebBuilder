@@ -1,6 +1,8 @@
 package builtin.blocks;
 
 import android.graphics.Color;
+import android.util.Log;
+import android.widget.Toast;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.BlocksHolder;
@@ -26,7 +28,7 @@ public class BuiltInBlocks {
     blockInHolder1.setName("addSource");
     blockInHolder1.setRawCode("DevKumar DragonIDE parameter DevKumar");
 
-    ArrayList<Object> block1ContentList = new ArrayList<Object>();
+    ArrayList<BlockContent> block1ContentList = new ArrayList<BlockContent>();
 
     BlockContent block1Content1 = new BlockContent();
     block1Content1.setText("add source");
@@ -44,7 +46,7 @@ public class BuiltInBlocks {
     blockInHolder2.setName("Test");
     blockInHolder2.setRawCode("I am block code DevKumar DragonIDE parameter DevKumar");
 
-    ArrayList<Object> block2ContentList = new ArrayList<Object>();
+    ArrayList<BlockContent> block2ContentList = new ArrayList<BlockContent>();
 
     BlockContent block2Content1 = new BlockContent();
     block2Content1.setText("Test block code");
@@ -62,22 +64,21 @@ public class BuiltInBlocks {
     blockInHolder3.setName("if");
     StringBuilder blockInHolder3StringBuilder = new StringBuilder();
     blockInHolder3StringBuilder.append("if (");
-    blockInHolder3StringBuilder.append(CodeReplacer.getReplacer("parameter"));
+    blockInHolder3StringBuilder.append(CodeReplacer.getReplacer("condition"));
     blockInHolder3StringBuilder.append(") {\n\t");
     blockInHolder3StringBuilder.append(CodeReplacer.getReplacer("complexBlockContent"));
     blockInHolder3StringBuilder.append("\n}");
     blockInHolder3.setRawCode(blockInHolder3StringBuilder.toString());
 
-    ArrayList<Object> block3ContentList = new ArrayList<Object>();
+    ArrayList<BlockContent> block3ContentList = new ArrayList<BlockContent>();
 
     BlockContent block3Content1 = new BlockContent();
     block3Content1.setText("if");
     block3ContentList.add(block3Content1);
 
     BooleanContent block3Content2 = new BooleanContent();
-    block3Content2.setId("parameter");
+    block3Content2.setId("condition");
     block3ContentList.add(block3Content2);
-
     blockInHolder3.setBlockContent(block3ContentList);
 
     blockList.add(blockInHolder1);

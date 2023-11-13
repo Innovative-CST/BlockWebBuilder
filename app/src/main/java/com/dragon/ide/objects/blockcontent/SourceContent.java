@@ -36,7 +36,7 @@ public class SourceContent extends ComplexBlockContent implements Cloneable {
     if (getId() != null) {
       mId = new String(getId());
     } else {
-      mId = new String();
+      mId = new String("");
     }
     String mSurrounder;
     if (getSurrounder() != null) {
@@ -48,7 +48,7 @@ public class SourceContent extends ComplexBlockContent implements Cloneable {
     if (getType() == 0) {
       mType = new Integer(getType());
     } else {
-      mType = 0;
+      mType = BlockContent.BlockContentType.InputSourceCode;
     }
     String mAcceptance;
     if (getAcceptance() != null) {

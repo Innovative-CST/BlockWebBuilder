@@ -5,21 +5,22 @@ import com.dragon.ide.objects.ComplexBlockContent;
 
 public class BooleanContent extends ComplexBlockContent implements Cloneable {
   public BooleanContent() {
-    setAcceptance("boolean");
+    setAcceptance("");
+    setSurrounder("");
     setText("");
-    setType(BlockContent.BlockContentType.Boolean);
-    setSupportCodeEditor(false);
-    setOnClick(ComplexBlockContent.onClickTypes.noAction);
+    setValue("");
+    setType(BlockContent.BlockContentType.InputSourceCode);
+    setSupportCodeEditor(true);
+    setOnClick(ComplexBlockContent.onClickTypes.valueEditor);
   }
 
   @Override
   public String getValue() {
-    if (super.getValue() != null) {
-      StringBuilder value = new StringBuilder();
-      value.append(new String(getValue()));
-      return value.toString();
-    }
-    return "0";
+    StringBuilder value = new StringBuilder();
+    value.append(new String(getSurrounder()));
+    value.append(new String(super.getValue()));
+    value.append(new String(getSurrounder()));
+    return value.toString();
   }
 
   @Override
@@ -35,7 +36,7 @@ public class BooleanContent extends ComplexBlockContent implements Cloneable {
     if (getId() != null) {
       mId = new String(getId());
     } else {
-      mId = new String();
+      mId = new String("");
     }
     String mSurrounder;
     if (getSurrounder() != null) {
@@ -47,7 +48,7 @@ public class BooleanContent extends ComplexBlockContent implements Cloneable {
     if (getType() == 0) {
       mType = new Integer(getType());
     } else {
-      mType = 0;
+      mType = BlockContent.BlockContentType.InputSourceCode;
     }
     String mAcceptance;
     if (getAcceptance() != null) {
