@@ -65,7 +65,6 @@ public class BlockContentLoader {
           backgroundDrawableBoolean.setTintMode(PorterDuff.Mode.SRC_IN);
           ll_boolean.setBackground(backgroundDrawableBoolean);
           ll_boolean.setAlpha(0.4f);
-
           view.addView(ll_boolean, view.getChildCount());
         }
       } else if (blockContent.get(i) instanceof BlockContent) {

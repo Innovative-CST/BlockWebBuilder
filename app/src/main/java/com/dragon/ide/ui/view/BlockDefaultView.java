@@ -13,7 +13,7 @@ import com.dragon.ide.objects.DoubleComplexBlock;
 import com.dragon.ide.utils.BlockContentLoader;
 
 public class BlockDefaultView extends LinearLayout {
-  public String returns;
+  public String[] returns;
   public Block block;
   public boolean enableEdit = false;
   public String language;
@@ -32,7 +32,7 @@ public class BlockDefaultView extends LinearLayout {
       this.block = new Block();
     }
 
-    returns = new String(block.getReturns());
+    returns = block.getReturns().clone();
 
     if (!(block instanceof DoubleComplexBlock) && !(block instanceof ComplexBlock)) {
       if (block instanceof Block) {
@@ -51,11 +51,11 @@ public class BlockDefaultView extends LinearLayout {
     invalidate();
   }
 
-  public String getReturns() {
+  public String[] getReturns() {
     if (returns != null) {
       return this.returns;
     }
-    return "";
+    return new String[0];
   }
 
   public Block getBlock() {

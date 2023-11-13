@@ -138,11 +138,11 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
     } else {
       mRawCode = new String("");
     }
-    String mReturns;
+    String[] mReturns;
     if (getReturns() != null) {
-      mReturns = new String(getReturns());
+      mReturns = getReturns().clone();
     } else {
-      mReturns = new String("");
+      mReturns = new String[0];
     }
     ArrayList<Block> mBlocks;
     if (getBlocks() != null) {
