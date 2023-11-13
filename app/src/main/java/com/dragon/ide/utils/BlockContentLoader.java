@@ -59,7 +59,7 @@ public class BlockContentLoader {
           }
         } else if (blockContent.get(i) instanceof BooleanContent) {
           final LinearLayout ll_boolean = new LinearLayout(view.getContext());
-          ll_boolean.setBackgroundResource(R.drawable.boolean_bg);
+          ll_boolean.setBackgroundResource(R.drawable.block_boolean_bg);
           Drawable backgroundDrawableBoolean = ll_boolean.getBackground();
           backgroundDrawableBoolean.setTint(ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
           backgroundDrawableBoolean.setTintMode(PorterDuff.Mode.SRC_IN);
