@@ -61,7 +61,7 @@ public class BlockContentLoader {
           final LinearLayout ll_boolean = new LinearLayout(view.getContext());
           ll_boolean.setBackgroundResource(R.drawable.boolean_bg);
           Drawable backgroundDrawableBoolean = ll_boolean.getBackground();
-          backgroundDrawableBoolean.setTint(Color.parseColor("#ffffff"));
+          backgroundDrawableBoolean.setTint(ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
           backgroundDrawableBoolean.setTintMode(PorterDuff.Mode.SRC_IN);
           ll_boolean.setBackground(backgroundDrawableBoolean);
           ll_boolean.setAlpha(0.4f);
