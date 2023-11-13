@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.dragon.ide.R;
 import com.dragon.ide.objects.Block;
@@ -46,6 +48,7 @@ public class BlockDefaultView extends LinearLayout {
         }
       }
     }
+    setGravity(Gravity.CENTER_VERTICAL);
     BlockContentLoader.loadBlockContent(
         block.getBlockContent(), this, block.getColor(), getLanguage(), activity, getEnableEdit());
     invalidate();

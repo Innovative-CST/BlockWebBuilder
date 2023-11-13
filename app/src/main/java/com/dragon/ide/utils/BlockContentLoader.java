@@ -35,6 +35,8 @@ public class BlockContentLoader {
           final TextView tvTextContent = new TextView(view.getContext());
           tvTextContent.setSingleLine(true);
           tvTextContent.setText(((SourceContent) blockContent.get(i)).getValue());
+          updateContentPaddingWithText(tvTextContent, ll_source);
+          tvTextContent.setTextSize(12);
           tvTextContent.setTextColor(
               ColorUtils.getColor(activity, com.google.android.material.R.attr.colorOnSurface));
           ll_source.addView(tvTextContent, view.getChildCount() - 1);
@@ -55,16 +57,17 @@ public class BlockContentLoader {
           if (enableEdit) {
             ll_source.setOnClickListener(
                 new BlockContentLoader()
-                .new SourceContentClickListener(tvTextContent, sc, activity, language));
+                .new SourceContentClickListener(tvTextContent, sc, activity, language, ll_source));
           }
         } else if (blockContent.get(i) instanceof BooleanContent) {
           final LinearLayout ll_boolean = new LinearLayout(view.getContext());
           ll_boolean.setBackgroundResource(R.drawable.block_boolean_bg);
           Drawable backgroundDrawableBoolean = ll_boolean.getBackground();
-          backgroundDrawableBoolean.setTint(ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
+          backgroundDrawableBoolean.setTint(
+              ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
           backgroundDrawableBoolean.setTintMode(PorterDuff.Mode.SRC_IN);
           ll_boolean.setBackground(backgroundDrawableBoolean);
-          ll_boolean.setAlpha(0.4f);
+          ll_boolean.setAlpha(0.5f);
           view.addView(ll_boolean, view.getChildCount());
         }
       } else if (blockContent.get(i) instanceof BlockContent) {
@@ -73,7 +76,7 @@ public class BlockContentLoader {
         tvTextContent.setText(blockContent.get(i).getText());
         tvTextContent.setTextColor(
             ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
-
+        tvTextContent.setTextSize(12);
         view.addView(tvTextContent, view.getChildCount() - 1);
       }
     }
@@ -84,13 +87,19 @@ public class BlockContentLoader {
     public SourceContent blockContent;
     public Activity activity;
     public String language;
+    public LinearLayout ll_source;
 
     public SourceContentClickListener(
-        TextView param1, SourceContent param2, Activity param3, String param4) {
+        TextView param1,
+        SourceContent param2,
+        Activity param3,
+        String param4,
+        LinearLayout param5) {
       tvTextContent = param1;
       blockContent = param2;
       activity = param3;
       language = param4;
+      ll_source = param5;
     }
 
     @Override
@@ -106,12 +115,21 @@ public class BlockContentLoader {
                 public void onSubmitted(String value) {
                   blockContent.setValue(value);
                   tvTextContent.setText(blockContent.getValue());
+                  updateContentPaddingWithText(tvTextContent, ll_source);
                 }
 
                 @Override
                 public void onError(String error) {}
               });
       valueEditorDialog.show();
+    }
+  }
+
+  public static void updateContentPaddingWithText(TextView tv, LinearLayout ll) {
+    if (tv.getText().length() == 0) {
+      ll.setPadding(25, 0, 25, 0);
+    } else {
+      ll.setPadding(8, 0, 8, 0);
     }
   }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.dragon.ide.R;
@@ -52,6 +53,7 @@ public class ComplexBlockView extends LinearLayout {
               getEnableEdit());
 
           addView(blockContent);
+          blockContent.setGravity(Gravity.CENTER_VERTICAL);
           blocksView =
               new LinearLayout(getContext()) {
                 @Override
