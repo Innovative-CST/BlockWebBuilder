@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.dragon.ide.R;
 import com.dragon.ide.listeners.ValueListener;
 import com.dragon.ide.objects.BlockContent;
@@ -72,22 +71,7 @@ public class BlockContentLoader {
       } else if (blockContent.get(i) instanceof BlockContent) {
         TextView tvTextContent = new TextView(view.getContext());
         tvTextContent.setSingleLine(true);
-        tvTextContent.setText(((BlockContent) blockContent.get(i)).getText());
-
-        /*
-        int backgroundColor = Color.parseColor(color);
-        int red = Color.red(backgroundColor);
-        int green = Color.green(backgroundColor);
-        int blue = Color.blue(backgroundColor);
-
-        double luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
-        double contrastRatioThreshold = 1.4;
-        int textColor = (luminance > 0.5 * 255) ? Color.BLACK : Color.WHITE;
-        double contrastRatio = (luminance + 0.05) / (0.05 + 0.05);
-
-        if (contrastRatio < contrastRatioThreshold) {
-          tvTextContent.setTextColor(textColor);
-        }*/
+        tvTextContent.setText(blockContent.get(i).getText());
         tvTextContent.setTextColor(
             ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
 
