@@ -54,12 +54,6 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(complexBlockView);
 
-                //                ((EventEditorActivity) activity)
-                //                    .binding
-                //                    .getRoot()
-                //                    .findViewById(R.id.blockListEditorArea)
-                //                    .setOnDragListener(((EventEditorActivity) activity));
-
                 addDragListener(
                     ((EventEditorActivity) activity).binding.relativeBlockListEditorArea,
                     (EventEditorActivity) activity,
@@ -82,12 +76,6 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
             (view) -> {
               ClipData data = ClipData.newPlainText("", "");
               View.DragShadowBuilder shadow = new View.DragShadowBuilder(blockView);
-
-              //              ((EventEditorActivity) activity)
-              //                  .binding
-              //                  .getRoot()
-              //                  .findViewById(R.id.blockListEditorArea)
-              //                  .setOnDragListener(((EventEditorActivity) activity));
 
               addDragListener(
                   ((EventEditorActivity) activity).binding.relativeBlockListEditorArea,

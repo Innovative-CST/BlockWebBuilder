@@ -86,6 +86,7 @@ public class BuiltInBlocks {
     blockInHolder4.setBlockType(Block.BlockType.returnWithTypeBoolean);
     blockInHolder4.setName("true");
     blockInHolder4.setRawCode("true");
+    blockInHolder4.setReturns("boolean");
 
     ArrayList<BlockContent> block4ContentList = new ArrayList<BlockContent>();
 

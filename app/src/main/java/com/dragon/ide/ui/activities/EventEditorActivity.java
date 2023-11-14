@@ -313,6 +313,14 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             }
           }
         }
+      } else if (v.getTag() instanceof String[]) {
+        for (String str : (String[]) v.getTag()) {
+          if (str.equals("boolean")) {
+            if (v.getChildCount() > 1) {
+              v.getChildAt(1).setVisibility(View.VISIBLE);
+            }
+          }
+        }
       }
     }
     if (blockShadow.getParent() != null) {
@@ -359,80 +367,122 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       case DragEvent.ACTION_DRAG_EXITED:
         return true;
       case DragEvent.ACTION_DROP:
-        if (v instanceof LinearLayout) {
-          if ((dragView instanceof BlockDefaultView)) {
-            if (((BlockDefaultView) dragView).getBlock().getBlockType()
-                == Block.BlockType.defaultBlock) {
-              BlockDefaultView blockView = new BlockDefaultView(this);
-              blockView.setLanguage(language);
-              blockView.setEnableEdit(true);
-              try {
-                Block block = ((BlockDefaultView) dragView).getBlock().clone();
-                blockView.setBlock(block);
-              } catch (CloneNotSupportedException e) {
-                blockView.setBlock(new Block());
-              }
-              ((LinearLayout) v).addView(blockView, index);
-              if (blockView.getLayoutParams() != null) {
-                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
-                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
-                    LinearLayout.LayoutParams.WRAP_CONTENT;
-              }
-              if (((int) v.getId()) != R.id.relativeBlockListEditorArea) {
-                if (index == 0) {
-                  if (((LinearLayout.LayoutParams) blockView.getLayoutParams()) != null) {
+        if (v.getTag() != null) {
+          if (v.getTag() instanceof String) {
+            if (((String) v.getTag()).equals("blockDroppingArea")) {
+              if ((dragView instanceof BlockDefaultView)) {
+                if (((BlockDefaultView) dragView).getBlock().getBlockType()
+                    == Block.BlockType.defaultBlock) {
+                  BlockDefaultView blockView = new BlockDefaultView(this);
+                  blockView.setLanguage(language);
+                  blockView.setEnableEdit(true);
+                  try {
+                    Block block = ((BlockDefaultView) dragView).getBlock().clone();
+                    blockView.setBlock(block);
+                  } catch (CloneNotSupportedException e) {
+                    blockView.setBlock(new Block());
+                  }
+                  ((LinearLayout) v).addView(blockView, index);
+                  if (blockView.getLayoutParams() != null) {
                     ((LinearLayout.LayoutParams) blockView.getLayoutParams())
-                        .setMargins(0, 0, 0, 0);
-                    if (((LinearLayout) v).getChildCount() > 1) {
-                      if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
-                        ((LinearLayout.LayoutParams)
-                                ((LinearLayout) v).getChildAt(1).getLayoutParams())
-                            .setMargins(0, -26, 0, 0);
+                        .setMargins(0, -26, 0, 0);
+                    ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
+                        LinearLayout.LayoutParams.WRAP_CONTENT;
+                  }
+                  if (v.getId() != R.id.relativeBlockListEditorArea) {
+                    if (index == 0) {
+                      if (((LinearLayout.LayoutParams) blockView.getLayoutParams()) != null) {
+                        ((LinearLayout.LayoutParams) blockView.getLayoutParams())
+                            .setMargins(0, 0, 0, 0);
+                        if (((LinearLayout) v).getChildCount() > 1) {
+                          if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
+                            ((LinearLayout.LayoutParams)
+                                    ((LinearLayout) v).getChildAt(1).getLayoutParams())
+                                .setMargins(0, -26, 0, 0);
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              if ((dragView instanceof ComplexBlockView)) {
+                if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
+                    == Block.BlockType.complexBlock) {
+                  ComplexBlockView blockView = new ComplexBlockView(this);
+                  blockView.setLanguage(language);
+                  blockView.setEnableEdit(true);
+                  try {
+                    ComplexBlock complexBlock =
+                        ((ComplexBlockView) dragView).getComplexBlock().clone();
+                    blockView.setComplexBlock(complexBlock);
+                  } catch (CloneNotSupportedException e) {
+                    blockView.setComplexBlock(new ComplexBlock());
+                  }
+                  ((LinearLayout) v).addView(blockView, index);
+                  if (blockView.getLayoutParams() != null) {
+                    ((LinearLayout.LayoutParams) blockView.getLayoutParams())
+                        .setMargins(0, -26, 0, 0);
+                    ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
+                        LinearLayout.LayoutParams.WRAP_CONTENT;
+                  }
+
+                  if (v.getId() != R.id.relativeBlockListEditorArea) {
+                    if (index == 0) {
+                      if (((LinearLayout.LayoutParams) blockView.getLayoutParams()) != null) {
+                        ((LinearLayout.LayoutParams) blockView.getLayoutParams())
+                            .setMargins(0, 0, 0, 0);
+                        if (((LinearLayout) v).getChildCount() > 1) {
+                          if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
+                            ((LinearLayout.LayoutParams)
+                                    ((LinearLayout) v).getChildAt(1).getLayoutParams())
+                                .setMargins(0, -26, 0, 0);
+                          }
+                        }
                       }
                     }
                   }
                 }
               }
             }
-          }
-
-          if ((dragView instanceof ComplexBlockView)) {
-            if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
-                == Block.BlockType.complexBlock) {
-              ComplexBlockView blockView = new ComplexBlockView(this);
-              blockView.setLanguage(language);
-              blockView.setEnableEdit(true);
-              try {
-                ComplexBlock complexBlock = ((ComplexBlockView) dragView).getComplexBlock().clone();
-                blockView.setComplexBlock(complexBlock);
-              } catch (CloneNotSupportedException e) {
-                blockView.setComplexBlock(new ComplexBlock());
-              }
-              ((LinearLayout) v).addView(blockView, index);
-              if (blockView.getLayoutParams() != null) {
-                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
-                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
-                    LinearLayout.LayoutParams.WRAP_CONTENT;
-              }
-
-              if (v.getId() != R.id.relativeBlockListEditorArea) {
-                if (index == 0) {
-                  if (((LinearLayout.LayoutParams) blockView.getLayoutParams()) != null) {
-                    ((LinearLayout.LayoutParams) blockView.getLayoutParams())
-                        .setMargins(0, 0, 0, 0);
-                    if (((LinearLayout) v).getChildCount() > 1) {
-                      if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
-                        ((LinearLayout.LayoutParams)
-                                ((LinearLayout) v).getChildAt(1).getLayoutParams())
-                            .setMargins(0, -26, 0, 0);
-                      }
-                    }
+          } else if (v.getTag() instanceof String[]) {
+            for (String str : (String[]) v.getTag()) {
+              if (str.equals("boolean")) {
+                BlockDefaultView blockView = new BlockDefaultView(this);
+                blockView.setLanguage(language);
+                blockView.setEnableEdit(true);
+                try {
+                  Block block = ((BlockDefaultView) dragView).getBlock().clone();
+                  blockView.setBlock(block);
+                } catch (CloneNotSupportedException e) {
+                  blockView.setBlock(new Block());
+                }
+                if (((ViewGroup) v).getChildCount() != 0) {
+                  View view = ((ViewGroup) v).getChildAt(0);
+                  if (((ViewGroup) view).getParent() != null) {
+                    ((ViewGroup) ((ViewGroup) view).getParent()).removeView(view);
                   }
+                  binding.relativeBlockListEditorArea.addView(view);
+                  FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(-2, -2);
+                  lp.setMargins(
+                      (int) dropX + binding.relativeBlockListEditorArea.getScrollX(),
+                      (int) dropY + binding.relativeBlockListEditorArea.getScrollY(),
+                      0,
+                      0);
+                  view.setLayoutParams(lp);
+                }
+
+                ((ViewGroup) v).addView(blockView);
+                if (blockView.getLayoutParams() != null) {
+                  ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
+                      LinearLayout.LayoutParams.WRAP_CONTENT;
                 }
               }
             }
           }
         }
+
         if (v instanceof FrameLayout) {
           if ((dragView instanceof BlockDefaultView)) {
             BlockDefaultView blockView = new BlockDefaultView(this);
@@ -519,25 +569,60 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   }
 
   private void handleShadowOnLocation(final View v, final int index) {
-    if (!(v instanceof FrameLayout)) {
-      ((ViewGroup) v).addView(blockShadow, index);
-      if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
-        ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
-        ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
-            LinearLayout.LayoutParams.WRAP_CONTENT;
-      }
-      if (v.getId() != R.id.blockListEditorArea) {
-        if (index == 0) {
-          if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
-            ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, 0, 0, 0);
-            if (((LinearLayout) v).getChildCount() > 1) {
-              if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
-                ((LinearLayout.LayoutParams) ((LinearLayout) v).getChildAt(1).getLayoutParams())
+    if (v.getTag() != null) {
+      if (v.getTag() instanceof String) {
+        if (((String) v.getTag()).equals("blockDroppingArea")) {
+          blockShadow.setBackgroundResource(R.drawable.block_default);
+
+          Drawable backgroundDrawable = blockShadow.getBackground();
+          backgroundDrawable.setTint(Color.BLACK);
+          backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+          blockShadow.setBackground(backgroundDrawable);
+          if (v.getId() != R.id.blockListEditorArea) {
+            if (index != 0) {
+              if (((ViewGroup) blockShadow).getLayoutParams() != null) {
+                ((LinearLayout.LayoutParams) blockShadow.getLayoutParams())
                     .setMargins(0, -26, 0, 0);
               }
+            } else {
+              ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, 0, 0, 0);
+              if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
+                if (((LinearLayout) v).getChildCount() > 0) {
+                  if (((LinearLayout) v).getChildAt(0).getLayoutParams() != null) {
+                    ((LinearLayout.LayoutParams) ((LinearLayout) v).getChildAt(0).getLayoutParams())
+                        .setMargins(0, -26, 0, 0);
+                  }
+                }
+              }
+            }
+
+          } else {
+            if (((ViewGroup) blockShadow).getLayoutParams() != null) {
+              ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
             }
           }
+          ((ViewGroup) v).addView(blockShadow, index);
         }
+      } else if (v.getTag() instanceof String[]) {
+        for (String str : (String[]) v.getTag()) {
+          if (str.equals("boolean")) {
+            blockShadow.setBackgroundResource(R.drawable.block_boolean);
+
+            Drawable backgroundDrawable = blockShadow.getBackground();
+            backgroundDrawable.setTint(Color.BLACK);
+            backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+            blockShadow.setBackground(backgroundDrawable);
+            if (((ViewGroup) v).getChildCount() != 0) {
+              ((ViewGroup) v).getChildAt(0).setVisibility(View.GONE);
+            }
+            ((ViewGroup) v).addView(blockShadow, 0);
+          }
+        }
+      }
+
+      if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
+        ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
+            LinearLayout.LayoutParams.WRAP_CONTENT;
       }
     }
   }

@@ -59,15 +59,38 @@ public class BlockContentLoader {
                 .new SourceContentClickListener(tvTextContent, sc, activity, language, ll_source));
           }
         } else if (blockContent.get(i) instanceof BooleanContent) {
-          final LinearLayout ll_boolean = new LinearLayout(view.getContext());
+          final LinearLayout ll_boolean =
+              new LinearLayout(view.getContext()) {
+                @Override
+                public void addView(View v) {
+                  super.addView(v);
+                  setAlpha(1f);
+                }
+
+                @Override
+                public void addView(View v, int index) {
+                  super.addView(v, index);
+                  setAlpha(1f);
+                }
+
+                @Override
+                public void removeView(View v) {
+                  super.removeView(v);
+                  if (getChildCount() == 0) {
+                    setAlpha(0.3f);
+                  } else {
+                    setAlpha(1f);
+                  }
+                }
+              };
           ll_boolean.setTag(((ComplexBlockContent) blockContent.get(i)).getAcceptance());
           ll_boolean.setBackgroundResource(R.drawable.block_boolean_bg);
           Drawable backgroundDrawableBoolean = ll_boolean.getBackground();
           backgroundDrawableBoolean.setTint(
-              ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
+              ColorUtils.getColor(activity, com.google.android.material.R.attr.colorOnSurface));
           backgroundDrawableBoolean.setTintMode(PorterDuff.Mode.SRC_IN);
           ll_boolean.setBackground(backgroundDrawableBoolean);
-          ll_boolean.setAlpha(0.5f);
+          ll_boolean.setAlpha(0.3f);
           view.addView(ll_boolean, view.getChildCount());
         }
       } else if (blockContent.get(i) instanceof BlockContent) {
