@@ -57,6 +57,15 @@ android {
         return stdout.toString().trim()
     }
 
+    def getCommitSha = { ->
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine "git", "rev-parse", "HEAD"
+            standardOutput = stdout
+        }
+        return "\"" + stdout.toString().trim() + "\""
+    }
+
     def getGitCommitCount = { ->
         def stdout = new ByteArrayOutputStream()
         exec {
@@ -73,12 +82,13 @@ android {
         compileSdkVersion 33
         versionCode getGitCommitCount()
         versionName "1.0 Alpha01-Snapshot-" + getCommitHash() + "-commit-no-" + getGitCommitCount().toString()
-        
+        buildConfigField "String", "commitSha", getCommitSha()
+        buildConfigField "boolean", "isRelease", "false"
         vectorDrawables { 
             useSupportLibrary true
         }
     }
-    
+
     signingConfigs {
         release {
             if (signingEnabled) {
@@ -112,6 +122,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 
