@@ -348,27 +348,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         v.invalidate();
         return true;
       case DragEvent.ACTION_DRAG_LOCATION:
-        if (v instanceof LinearLayout) {
-          ((ViewGroup) v).addView(blockShadow, index);
-          if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
-            ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
-            ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
-                LinearLayout.LayoutParams.WRAP_CONTENT;
-          }
-          if (v.getId() != R.id.relativeBlockListEditorArea) {
-            if (index == 0) {
-              if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
-                ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, 0, 0, 0);
-                if (((LinearLayout) v).getChildCount() > 1) {
-                  if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
-                    ((LinearLayout.LayoutParams) ((LinearLayout) v).getChildAt(1).getLayoutParams())
-                        .setMargins(0, -26, 0, 0);
-                  }
-                }
-              }
-            }
-          }
-        }
+        handleShadowOnLocation(v, index);
         return true;
       case DragEvent.ACTION_DRAG_EXITED:
         return true;
@@ -533,6 +513,30 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         break;
     }
     return false;
+  }
+
+  private void handleShadowOnLocation(final View v, final int index) {
+    if (v instanceof LinearLayout) {
+      ((ViewGroup) v).addView(blockShadow, index);
+      if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
+        ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
+        ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
+            LinearLayout.LayoutParams.WRAP_CONTENT;
+      }
+      if (v.getId() != R.id.relativeBlockListEditorArea) {
+        if (index == 0) {
+          if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
+            ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, 0, 0, 0);
+            if (((LinearLayout) v).getChildCount() > 1) {
+              if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
+                ((LinearLayout.LayoutParams) ((LinearLayout) v).getChildAt(1).getLayoutParams())
+                    .setMargins(0, -26, 0, 0);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   public void loadBlocks(Event e) {
