@@ -286,7 +286,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   public void handleShadowRemove(ViewGroup v) {
     if (v.getTag() != null) {
       if (v.getTag() instanceof String) {
-        if (((String) v.getTag()).equals("blockDropN")) {
+        if (((String) v.getTag()).equals("blockDroppingArea")) {
           if (blockShadow.getParent() != null) {
             if (((ViewGroup) blockShadow.getParent()).getChildCount() > 1) {
               if (((ViewGroup) blockShadow.getParent()).getChildAt(0).getTag() != null) {
@@ -338,6 +338,12 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         index = i + 1;
       } else {
         break;
+      }
+    }
+
+    if (v.getId() == R.id.blockListEditorArea) {
+      if (index == 0) {
+        index = 1;
       }
     }
 
@@ -429,39 +435,36 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         }
         if (v instanceof FrameLayout) {
           if ((dragView instanceof BlockDefaultView)) {
-            if (((BlockDefaultView) dragView).getBlock().getBlockType()
-                == Block.BlockType.defaultBlock) {
-              BlockDefaultView blockView = new BlockDefaultView(this);
-              blockView.setLanguage(language);
-              blockView.setEnableEdit(true);
-              try {
-                Block block = ((BlockDefaultView) dragView).getBlock().clone();
-                blockView.setBlock(block);
-              } catch (CloneNotSupportedException e) {
-                blockView.setBlock(new Block());
-              }
-              ((FrameLayout) v).addView(blockView);
-              if (blockView.getLayoutParams() != null) {
-                blockView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
-                blockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                blockView.requestLayout();
-                ((FrameLayout.LayoutParams) blockView.getLayoutParams())
-                    .setMargins(
-                        (int) dropX
-                            + binding.relativeBlockListEditorArea.getScrollX()
-                            - ((8
-                                * (blockView.getWidth()
-                                    + blockView.getPaddingLeft()
-                                    + blockView.getPaddingRight()))),
-                        (int) dropY
-                            + binding.relativeBlockListEditorArea.getScrollY()
-                            - ((2
-                                * (blockView.getHeight()
-                                    + blockView.getPaddingTop()
-                                    + blockView.getPaddingRight()))),
-                        0,
-                        0);
-              }
+            BlockDefaultView blockView = new BlockDefaultView(this);
+            blockView.setLanguage(language);
+            blockView.setEnableEdit(true);
+            try {
+              Block block = ((BlockDefaultView) dragView).getBlock().clone();
+              blockView.setBlock(block);
+            } catch (CloneNotSupportedException e) {
+              blockView.setBlock(new Block());
+            }
+            ((FrameLayout) v).addView(blockView);
+            if (blockView.getLayoutParams() != null) {
+              blockView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+              blockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+              blockView.requestLayout();
+              ((FrameLayout.LayoutParams) blockView.getLayoutParams())
+                  .setMargins(
+                      (int) dropX
+                          + binding.relativeBlockListEditorArea.getScrollX()
+                          - ((8
+                              * (blockView.getWidth()
+                                  + blockView.getPaddingLeft()
+                                  + blockView.getPaddingRight()))),
+                      (int) dropY
+                          + binding.relativeBlockListEditorArea.getScrollY()
+                          - ((2
+                              * (blockView.getHeight()
+                                  + blockView.getPaddingTop()
+                                  + blockView.getPaddingBottom()))),
+                      0,
+                      0);
             }
           }
 
@@ -495,7 +498,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                             - ((2
                                 * (blockView.getHeight()
                                     + blockView.getPaddingTop()
-                                    + blockView.getPaddingRight()))),
+                                    + blockView.getPaddingBottom()))),
                         0,
                         0);
               }
@@ -516,14 +519,14 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   }
 
   private void handleShadowOnLocation(final View v, final int index) {
-    if (v instanceof LinearLayout) {
+    if (!(v instanceof FrameLayout)) {
       ((ViewGroup) v).addView(blockShadow, index);
       if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
         ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
         ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
             LinearLayout.LayoutParams.WRAP_CONTENT;
       }
-      if (v.getId() != R.id.relativeBlockListEditorArea) {
+      if (v.getId() != R.id.blockListEditorArea) {
         if (index == 0) {
           if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
             ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, 0, 0, 0);

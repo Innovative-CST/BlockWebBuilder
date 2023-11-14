@@ -13,7 +13,7 @@ public class Block implements Serializable, Cloneable {
   private ArrayList<BlockContent> blockContent;
   private int BlockType;
   private String rawCode;
-  private String[] returns;
+  private String returns;
 
   public String getColor() {
     if (this.color != null) {
@@ -71,6 +71,7 @@ public class Block implements Serializable, Cloneable {
     public static final int defaultBlock = 0;
     public static final int complexBlock = 1;
     public static final int doubleComplexBlock = 2;
+    public static final int returnWithTypeBoolean = 3;
   }
 
   public ArrayList<BlockContent> getBlockContent() {
@@ -81,14 +82,14 @@ public class Block implements Serializable, Cloneable {
     this.blockContent = blockContent;
   }
 
-  public String[] getReturns() {
+  public String getReturns() {
     if (returns != null) {
       return this.returns;
     }
-    return new String[0];
+    return new String("");
   }
 
-  public void setReturns(String[] returns) {
+  public void setReturns(String returns) {
     this.returns = returns;
   }
 
@@ -135,11 +136,11 @@ public class Block implements Serializable, Cloneable {
     } else {
       mRawCode = new String("");
     }
-    String[] mReturns;
+    String mReturns;
     if (getReturns() != null) {
-      mReturns = getReturns().clone();
+      mReturns = new String(getReturns());
     } else {
-      mReturns = new String[0];
+      mReturns = new String("");
     }
     Block mBlock = new Block();
     mBlock.setColor(mColor);

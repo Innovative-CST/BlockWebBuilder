@@ -5,7 +5,7 @@ import com.dragon.ide.objects.ComplexBlockContent;
 
 public class StringContent extends ComplexBlockContent implements Cloneable {
   public StringContent() {
-    setAcceptance("string");
+    setAcceptance(new String[]{"String"});
     setSurrounder("\"");
     setText("");
     setValue("");
@@ -50,11 +50,11 @@ public class StringContent extends ComplexBlockContent implements Cloneable {
     } else {
       mType = 0;
     }
-    String mAcceptance;
+    String[] mAcceptance;
     if (getAcceptance() != null) {
-      mAcceptance = new String(getAcceptance());
+      mAcceptance = getAcceptance().clone();
     } else {
-      mAcceptance = new String("");
+      mAcceptance = new String[0];
     }
     boolean mSupportCodeEditor;
     mSupportCodeEditor = new Boolean(getSupportCodeEditor());

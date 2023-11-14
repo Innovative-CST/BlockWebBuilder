@@ -54,19 +54,17 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(complexBlockView);
 
-                ((EventEditorActivity) activity)
-                    .binding
-                    .getRoot()
-                    .findViewById(R.id.blockListEditorArea)
-                    .setOnDragListener(((EventEditorActivity) activity));
+                //                ((EventEditorActivity) activity)
+                //                    .binding
+                //                    .getRoot()
+                //                    .findViewById(R.id.blockListEditorArea)
+                //                    .setOnDragListener(((EventEditorActivity) activity));
 
-                LinearLayout blockListEditorArea =
-                    ((EventEditorActivity) activity)
-                        .binding
-                        .getRoot()
-                        .findViewById(R.id.blockListEditorArea);
-
-                addDragListener(blockListEditorArea, (EventEditorActivity) activity);
+                addDragListener(
+                    ((EventEditorActivity) activity).binding.relativeBlockListEditorArea,
+                    (EventEditorActivity) activity,
+                    ((ComplexBlock) list.get(_position)).getReturns(),
+                    ((ComplexBlock) list.get(_position)).getBlockType());
 
                 if (Build.VERSION.SDK_INT >= 24) {
                   complexBlockView.startDragAndDrop(data, shadow, complexBlockView, 1);
@@ -77,45 +75,33 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
               });
         }
       } else if (list.get(_position) instanceof Block) {
-        if (list.get(_position).getBlockType() == Block.BlockType.defaultBlock) {
-          BlockDefaultView blockView = new BlockDefaultView(activity);
-          blockView.setBlock(list.get(_position));
-          v.addView(blockView);
-          blockView.setOnLongClickListener(
-              (view) -> {
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadow = new View.DragShadowBuilder(blockView);
+        BlockDefaultView blockView = new BlockDefaultView(activity);
+        blockView.setBlock(list.get(_position));
+        v.addView(blockView);
+        blockView.setOnLongClickListener(
+            (view) -> {
+              ClipData data = ClipData.newPlainText("", "");
+              View.DragShadowBuilder shadow = new View.DragShadowBuilder(blockView);
 
-                ((EventEditorActivity) activity)
-                    .binding
-                    .getRoot()
-                    .findViewById(R.id.blockListEditorArea)
-                    .setOnDragListener(((EventEditorActivity) activity));
+              //              ((EventEditorActivity) activity)
+              //                  .binding
+              //                  .getRoot()
+              //                  .findViewById(R.id.blockListEditorArea)
+              //                  .setOnDragListener(((EventEditorActivity) activity));
 
-                LinearLayout blockListEditorArea =
-                    ((EventEditorActivity) activity)
-                        .binding
-                        .getRoot()
-                        .findViewById(R.id.blockListEditorArea);
+              addDragListener(
+                  ((EventEditorActivity) activity).binding.relativeBlockListEditorArea,
+                  (EventEditorActivity) activity,
+                  ((Block) list.get(_position)).getReturns(),
+                  ((Block) list.get(_position)).getBlockType());
 
-                addDragListener(blockListEditorArea, (EventEditorActivity) activity);
-
-                if (Build.VERSION.SDK_INT >= 24) {
-                  blockView.startDragAndDrop(data, shadow, blockView, 1);
-                } else {
-                  blockView.startDrag(data, shadow, blockView, 1);
-                }
-                // blockView.setOnTouchListener((EventEditorActivity) activity);
-                return false;
-              });
-          // blockView.setOnTouchListener((EventEditorActivity) activity);
-        } else {
-          ((EventEditorActivity) activity)
-              .binding
-              .getRoot()
-              .findViewById(R.id.blockListEditorArea)
-              .setOnDragListener(null);
-        }
+              if (Build.VERSION.SDK_INT >= 24) {
+                blockView.startDragAndDrop(data, shadow, blockView, 1);
+              } else {
+                blockView.startDrag(data, shadow, blockView, 1);
+              }
+              return false;
+            });
       }
     }
   }
@@ -131,11 +117,46 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
     }
   }
 
-  public static void addDragListener(ViewGroup view, View.OnDragListener listener) {
+  public static void addDragListener(
+      ViewGroup view, View.OnDragListener listener, String returns, int type) {
     for (int i = 0; i < view.getChildCount(); ++i) {
-      if (view.getChildAt(i) instanceof ComplexBlockView) {
-        ((ComplexBlockView) view.getChildAt(i)).getBlocksView().setOnDragListener(listener);
-        addDragListener(((ComplexBlockView) view.getChildAt(i)).getBlocksView(), listener);
+      boolean isDropable = false;
+      if (view.getChildAt(i) instanceof ViewGroup) {
+        addDragListener((ViewGroup) view.getChildAt(i), listener, returns, type);
+      }
+      if (type == Block.BlockType.defaultBlock
+          || type == Block.BlockType.complexBlock
+          || type == Block.BlockType.doubleComplexBlock) {
+        if (view.getChildAt(i).getTag() != null) {
+          if (view.getChildAt(i).getTag() instanceof String) {
+            if (((String) view.getChildAt(i).getTag()).equals("blockDroppingArea")) {
+              view.getChildAt(i).setOnDragListener(listener);
+              isDropable = true;
+            }
+          }
+        }
+      } else if (type == Block.BlockType.returnWithTypeBoolean) {
+        if (view.getChildAt(i).getTag() != null) {
+          if (view.getChildAt(i).getTag() instanceof String[]) {
+            boolean containsTargetString = false;
+
+            for (String str : (String[]) view.getChildAt(i).getTag()) {
+              if (str.equals(returns)) {
+                if (str.equals("boolean")) {
+                  containsTargetString = true;
+                  break;
+                }
+              }
+            }
+            if (containsTargetString) {
+              view.getChildAt(i).setOnDragListener(listener);
+              isDropable = true;
+            }
+          }
+        }
+      }
+      if (!isDropable) {
+        view.getChildAt(i).setOnDragListener(null);
       }
     }
   }

@@ -104,7 +104,7 @@ public class ComplexBlockView extends LinearLayout {
                   }
                 }
               };
-          blocksView.setTag("blockDropN");
+          blocksView.setTag("blockDroppingArea");
           blocksView.setBackgroundResource(R.drawable.complex_block_bottom);
 
           Drawable blocksViewBackgroundDrawable = blocksView.getBackground();

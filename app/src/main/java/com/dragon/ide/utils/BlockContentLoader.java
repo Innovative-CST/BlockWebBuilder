@@ -1,7 +1,6 @@
 package com.dragon.ide.utils;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -61,6 +60,7 @@ public class BlockContentLoader {
           }
         } else if (blockContent.get(i) instanceof BooleanContent) {
           final LinearLayout ll_boolean = new LinearLayout(view.getContext());
+          ll_boolean.setTag(((ComplexBlockContent) blockContent.get(i)).getAcceptance());
           ll_boolean.setBackgroundResource(R.drawable.block_boolean_bg);
           Drawable backgroundDrawableBoolean = ll_boolean.getBackground();
           backgroundDrawableBoolean.setTint(

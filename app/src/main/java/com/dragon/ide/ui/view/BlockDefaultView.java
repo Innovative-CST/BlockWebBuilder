@@ -15,7 +15,7 @@ import com.dragon.ide.objects.DoubleComplexBlock;
 import com.dragon.ide.utils.BlockContentLoader;
 
 public class BlockDefaultView extends LinearLayout {
-  public String[] returns;
+  public String returns;
   public Block block;
   public boolean enableEdit = false;
   public String language;
@@ -34,12 +34,19 @@ public class BlockDefaultView extends LinearLayout {
       this.block = new Block();
     }
 
-    returns = block.getReturns().clone();
+    returns = new String(block.getReturns());
 
     if (!(block instanceof DoubleComplexBlock) && !(block instanceof ComplexBlock)) {
       if (block instanceof Block) {
         if (block.getBlockType() == Block.BlockType.defaultBlock) {
           setBackgroundResource(R.drawable.block_default);
+
+          Drawable backgroundDrawable = getBackground();
+          backgroundDrawable.setTint(Color.parseColor(block.getColor()));
+          backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+          setBackground(backgroundDrawable);
+        } else if (block.getBlockType() == Block.BlockType.returnWithTypeBoolean) {
+          setBackgroundResource(R.drawable.block_boolean);
 
           Drawable backgroundDrawable = getBackground();
           backgroundDrawable.setTint(Color.parseColor(block.getColor()));
@@ -54,11 +61,11 @@ public class BlockDefaultView extends LinearLayout {
     invalidate();
   }
 
-  public String[] getReturns() {
+  public String getReturns() {
     if (returns != null) {
       return this.returns;
     }
-    return new String[0];
+    return new String("");
   }
 
   public Block getBlock() {

@@ -131,11 +131,11 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
     } else {
       mRawCode = new String("");
     }
-    String[] mReturns;
+    String mReturns;
     if (getReturns() != null) {
-      mReturns = getReturns().clone();
+      mReturns = new String(getReturns());
     } else {
-      mReturns = new String[0];
+      mReturns = new String("");
     }
     ArrayList<Block> mBlocks;
     if (getBlocks() != null) {

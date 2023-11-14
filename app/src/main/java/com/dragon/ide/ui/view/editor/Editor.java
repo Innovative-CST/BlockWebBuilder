@@ -106,6 +106,7 @@ public class Editor extends EditorScrollView {
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     blockListEditorArea.setOrientation(LinearLayout.VERTICAL);
     blockListEditorArea.setId(R.id.blockListEditorArea);
+    blockListEditorArea.setTag("blockDroppingArea");
     blockListEditorArea.setPadding(0, 0, 0, Utils.dpToPx(getContext(), 8f));
 
     LinearLayout defineBlockLayout = new LinearLayout(getContext());

@@ -8,7 +8,7 @@ public class ComplexBlockContent extends BlockContent implements Serializable, C
   private String id; // similar to replacer
   private String surrounder;
   private int type;
-  private String acceptance; // Which type of block can replace this
+  private String[] acceptance; // Which type of block can replace this
   private boolean supportCodeEditor;
   private int onClick;
 
@@ -44,11 +44,11 @@ public class ComplexBlockContent extends BlockContent implements Serializable, C
     this.surrounder = surrounder;
   }
 
-  public String getAcceptance() {
+  public String[] getAcceptance() {
     return this.acceptance;
   }
 
-  public void setAcceptance(String acceptance) {
+  public void setAcceptance(String[] acceptance) {
     this.acceptance = acceptance;
   }
 
@@ -101,11 +101,11 @@ public class ComplexBlockContent extends BlockContent implements Serializable, C
     } else {
       mType = 0;
     }
-    String mAcceptance;
+    String[] mAcceptance;
     if (getAcceptance() != null) {
-      mAcceptance = new String(getAcceptance());
+      mAcceptance = getAcceptance().clone();
     } else {
-      mAcceptance = new String("");
+      mAcceptance = new String[0];
     }
     boolean mSupportCodeEditor;
     mSupportCodeEditor = new Boolean(getSupportCodeEditor());
