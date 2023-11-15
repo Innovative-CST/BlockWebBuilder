@@ -27,7 +27,7 @@ public class EditorScrollView extends FrameLayout {
     initialYTE = -1.0f;
     useScroll = true;
     validScroll = 0;
-    isScrollValueAchieved = true;
+    isScrollValueAchieved = false;
     initialX = 0.0f;
     initialY = 0.0f;
   }
@@ -106,7 +106,7 @@ public class EditorScrollView extends FrameLayout {
           final int b2 = (int) (initialYTE - y);
           initialXTE = x;
           initialYTE = y;
-          
+
           if (b2 < 0) {
             if ((Math.abs(b2) <= getScrollY())) {
               scrollBy(0, b2);
@@ -190,12 +190,14 @@ public class EditorScrollView extends FrameLayout {
           final int height = child.getHeight();
           if (((ViewGroup) getParent()).getWidth()
                   < getPaddingLeft()
+                      + child.getX()
                       + child.getPaddingRight()
                       + width
                       + child.getPaddingLeft()
                       + getPaddingRight()
               || ((ViewGroup) getParent()).getHeight()
                   < getPaddingTop()
+                      + child.getY()
                       + child.getPaddingTop()
                       + height
                       + child.getPaddingBottom()
