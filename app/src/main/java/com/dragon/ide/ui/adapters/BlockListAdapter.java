@@ -2,20 +2,18 @@ package com.dragon.ide.ui.adapters;
 
 import android.app.Activity;
 import android.content.ClipData;
-import android.graphics.Point;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import com.dragon.ide.R;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.objects.DoubleComplexBlock;
 import com.dragon.ide.ui.activities.EventEditorActivity;
 import com.dragon.ide.ui.view.BlockDefaultView;
 import com.dragon.ide.ui.view.ComplexBlockView;
-import com.dragon.ide.utils.Utils;
+import com.dragon.ide.utils.DropTargetUtils;
 import java.util.ArrayList;
 
 public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.ViewHolder> {
@@ -54,7 +52,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadow = new View.DragShadowBuilder(complexBlockView);
 
-                addDragListener(
+                DropTargetUtils.addDragTarget(
                     ((EventEditorActivity) activity).binding.relativeBlockListEditorArea,
                     (EventEditorActivity) activity,
                     ((ComplexBlock) list.get(_position)).getReturns(),
@@ -77,7 +75,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
               ClipData data = ClipData.newPlainText("", "");
               View.DragShadowBuilder shadow = new View.DragShadowBuilder(blockView);
 
-              addDragListener(
+              DropTargetUtils.addDragTarget(
                   ((EventEditorActivity) activity).binding.relativeBlockListEditorArea,
                   (EventEditorActivity) activity,
                   ((Block) list.get(_position)).getReturns(),
@@ -102,50 +100,6 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
   public class ViewHolder extends RecyclerView.ViewHolder {
     public ViewHolder(View v) {
       super(v);
-    }
-  }
-
-  public static void addDragListener(
-      ViewGroup view, View.OnDragListener listener, String returns, int type) {
-    for (int i = 0; i < view.getChildCount(); ++i) {
-      boolean isDropable = false;
-      if (view.getChildAt(i) instanceof ViewGroup) {
-        addDragListener((ViewGroup) view.getChildAt(i), listener, returns, type);
-      }
-      if (type == Block.BlockType.defaultBlock
-          || type == Block.BlockType.complexBlock
-          || type == Block.BlockType.doubleComplexBlock) {
-        if (view.getChildAt(i).getTag() != null) {
-          if (view.getChildAt(i).getTag() instanceof String) {
-            if (((String) view.getChildAt(i).getTag()).equals("blockDroppingArea")) {
-              view.getChildAt(i).setOnDragListener(listener);
-              isDropable = true;
-            }
-          }
-        }
-      } else if (type == Block.BlockType.returnWithTypeBoolean) {
-        if (view.getChildAt(i).getTag() != null) {
-          if (view.getChildAt(i).getTag() instanceof String[]) {
-            boolean containsTargetString = false;
-
-            for (String str : (String[]) view.getChildAt(i).getTag()) {
-              if (str.equals(returns)) {
-                if (str.equals("boolean")) {
-                  containsTargetString = true;
-                  break;
-                }
-              }
-            }
-            if (containsTargetString) {
-              view.getChildAt(i).setOnDragListener(listener);
-              isDropable = true;
-            }
-          }
-        }
-      }
-      if (!isDropable) {
-        view.getChildAt(i).setOnDragListener(null);
-      }
     }
   }
 }
