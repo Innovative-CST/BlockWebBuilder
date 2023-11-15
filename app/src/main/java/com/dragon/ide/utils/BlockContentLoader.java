@@ -9,11 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.dragon.ide.R;
 import com.dragon.ide.listeners.ValueListener;
+import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.ComplexBlockContent;
 import com.dragon.ide.objects.blockcontent.BooleanContent;
 import com.dragon.ide.objects.blockcontent.SourceContent;
 import com.dragon.ide.ui.dialogs.eventeditor.ValueEditorDialog;
+import com.dragon.ide.ui.view.BlockDefaultView;
 import java.util.ArrayList;
 
 public class BlockContentLoader {
@@ -59,18 +61,25 @@ public class BlockContentLoader {
                 .new SourceContentClickListener(tvTextContent, sc, activity, language, ll_source));
           }
         } else if (blockContent.get(i) instanceof BooleanContent) {
+          final ComplexBlockContent cbc = ((ComplexBlockContent) blockContent.get(i));
           final LinearLayout ll_boolean =
               new LinearLayout(view.getContext()) {
                 @Override
                 public void addView(View v) {
                   super.addView(v);
                   setAlpha(1f);
+                  if (v instanceof BlockDefaultView) {
+                    cbc.setBlock(((BlockDefaultView) v).getBlock());
+                  }
                 }
 
                 @Override
                 public void addView(View v, int index) {
                   super.addView(v, index);
                   setAlpha(1f);
+                  if (v instanceof BlockDefaultView) {
+                    cbc.setBlock(((BlockDefaultView) v).getBlock());
+                  }
                 }
 
                 @Override
@@ -80,6 +89,9 @@ public class BlockContentLoader {
                     setAlpha(0.3f);
                   } else {
                     setAlpha(1f);
+                  }
+                  if (v instanceof BlockDefaultView) {
+                    cbc.setBlock(((BlockDefaultView) v).getBlock());
                   }
                 }
               };
@@ -91,6 +103,18 @@ public class BlockContentLoader {
           backgroundDrawableBoolean.setTintMode(PorterDuff.Mode.SRC_IN);
           ll_boolean.setBackground(backgroundDrawableBoolean);
           ll_boolean.setAlpha(0.3f);
+          if (((ComplexBlockContent) blockContent.get(i)).getBlock() != null) {
+            BlockDefaultView blockView = new BlockDefaultView(activity);
+            blockView.setLanguage(language);
+            blockView.setEnableEdit(enableEdit);
+            try {
+              Block block = ((ComplexBlockContent) blockContent.get(i)).getBlock().clone();
+              blockView.setBlock(block);
+            } catch (CloneNotSupportedException e) {
+              blockView.setBlock(new Block());
+            }
+            ll_boolean.addView(blockView);
+          }
           view.addView(ll_boolean, view.getChildCount());
         }
       } else if (blockContent.get(i) instanceof BlockContent) {

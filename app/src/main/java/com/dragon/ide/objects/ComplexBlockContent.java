@@ -11,6 +11,7 @@ public class ComplexBlockContent extends BlockContent implements Serializable, C
   private String[] acceptance; // Which type of block can replace this
   private boolean supportCodeEditor;
   private int onClick;
+  private Block block;
 
   public String getValue() {
     return this.value;
@@ -18,6 +19,7 @@ public class ComplexBlockContent extends BlockContent implements Serializable, C
 
   public void setValue(String value) {
     this.value = value;
+    this.block = null;
   }
 
   public String getId() {
@@ -117,6 +119,12 @@ public class ComplexBlockContent extends BlockContent implements Serializable, C
     } else {
       mText = new String("");
     }
+    Block mBlock;
+    if (getBlock() != null) {
+      mBlock = getBlock().clone();
+    } else {
+      mBlock = null;
+    }
 
     mComplexBlockContent.setText(mText);
     mComplexBlockContent.setValue(mValue);
@@ -125,7 +133,27 @@ public class ComplexBlockContent extends BlockContent implements Serializable, C
     mComplexBlockContent.setType(mType);
     mComplexBlockContent.setAcceptance(mAcceptance);
     mComplexBlockContent.setSupportCodeEditor(mSupportCodeEditor);
+    mComplexBlockContent.setBlock(mBlock);
 
     return mComplexBlockContent;
+  }
+
+  public Block getBlock() {
+    return this.block;
+  }
+
+  public void setBlock(Block block) {
+    this.value = "";
+    this.block = block;
+  }
+
+  public String getCode() {
+    if (block != null) {
+      return new String(block.getCode());
+    } else if (getValue() != "") {
+      return value;
+    } else {
+      return getValue();
+    }
   }
 }

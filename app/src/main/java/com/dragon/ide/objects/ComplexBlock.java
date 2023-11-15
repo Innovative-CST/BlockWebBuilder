@@ -32,7 +32,7 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
               blockRawCode.replaceAll(
                   CodeReplacer.getReplacer(
                       ((ComplexBlockContent) getBlockContent().get(i)).getId()),
-                  ((ComplexBlockContent) getBlockContent().get(i)).getValue());
+                  ((ComplexBlockContent) getBlockContent().get(i)).getCode());
         }
       }
     }

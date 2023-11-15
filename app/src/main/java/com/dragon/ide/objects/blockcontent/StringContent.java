@@ -1,11 +1,12 @@
 package com.dragon.ide.objects.blockcontent;
 
+import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.ComplexBlockContent;
 
 public class StringContent extends ComplexBlockContent implements Cloneable {
   public StringContent() {
-    setAcceptance(new String[]{"String"});
+    setAcceptance(new String[] {"String"});
     setSurrounder("\"");
     setText("");
     setValue("");
@@ -66,6 +67,12 @@ public class StringContent extends ComplexBlockContent implements Cloneable {
     } else {
       mText = new String("");
     }
+    Block mBlock;
+    if (getBlock() != null) {
+      mBlock = getBlock().clone();
+    } else {
+      mBlock = null;
+    }
 
     mComplexBlockContent.setText(mText);
     mComplexBlockContent.setValue(mValue);
@@ -74,6 +81,7 @@ public class StringContent extends ComplexBlockContent implements Cloneable {
     mComplexBlockContent.setType(mType);
     mComplexBlockContent.setAcceptance(mAcceptance);
     mComplexBlockContent.setSupportCodeEditor(mSupportCodeEditor);
+    mComplexBlockContent.setBlock(mBlock);
 
     return mComplexBlockContent;
   }
