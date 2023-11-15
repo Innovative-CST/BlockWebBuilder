@@ -96,10 +96,26 @@ public class BuiltInBlocks {
 
     blockInHolder4.setBlockContent(block4ContentList);
 
+    Block blockInHolder5 = new Block();
+    blockInHolder5.setColor("#009900");
+    blockInHolder5.setBlockType(Block.BlockType.returnWithTypeBoolean);
+    blockInHolder5.setName("false");
+    blockInHolder5.setRawCode("false");
+    blockInHolder5.setReturns("boolean");
+
+    ArrayList<BlockContent> block5ContentList = new ArrayList<BlockContent>();
+
+    BlockContent block5Content1 = new BlockContent();
+    block5Content1.setText("false");
+    block5ContentList.add(block5Content1);
+
+    blockInHolder5.setBlockContent(block5ContentList);
+
     blockList.add(blockInHolder1);
     blockList.add(blockInHolder2);
     blockList.add(blockInHolder3);
     blockList.add(blockInHolder4);
+    blockList.add(blockInHolder5);
 
     holder1.setBlocks(blockList);
 
