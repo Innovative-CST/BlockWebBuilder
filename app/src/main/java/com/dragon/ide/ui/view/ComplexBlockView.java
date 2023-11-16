@@ -1,17 +1,22 @@
 package com.dragon.ide.ui.view;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.dragon.ide.R;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.objects.DoubleComplexBlock;
+import com.dragon.ide.ui.activities.EventEditorActivity;
 import com.dragon.ide.utils.BlockContentLoader;
+import com.dragon.ide.utils.DropTargetUtils;
 
 public class ComplexBlockView extends LinearLayout {
   public ComplexBlock block;
@@ -144,6 +149,28 @@ public class ComplexBlockView extends LinearLayout {
               blocksView.getPaddingBottom());
         }
       }
+    }
+    if (activity instanceof EventEditorActivity) {
+      setOnLongClickListener(
+          (view) -> {
+            ClipData data = ClipData.newPlainText("", "");
+            View.DragShadowBuilder shadow = new View.DragShadowBuilder(this);
+
+            DropTargetUtils.addDragTarget(
+                ((EventEditorActivity) activity).binding.relativeBlockListEditorArea,
+                (EventEditorActivity) activity,
+                block.getReturns(),
+                block.getBlockType());
+
+            getBlocksView().setOnDragListener(null);
+
+            if (Build.VERSION.SDK_INT >= 24) {
+              startDragAndDrop(data, shadow, this, 1);
+            } else {
+              startDrag(data, shadow, this, 1);
+            }
+            return false;
+          });
     }
     invalidate();
   }

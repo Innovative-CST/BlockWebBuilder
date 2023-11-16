@@ -362,7 +362,9 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         v.invalidate();
         return true;
       case DragEvent.ACTION_DRAG_LOCATION:
-        handleShadowOnLocation(v, index);
+        if (v instanceof LinearLayout) {
+          handleShadowOnLocation(v, index);
+        }
         return true;
       case DragEvent.ACTION_DRAG_EXITED:
         return true;
@@ -373,14 +375,27 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
               if ((dragView instanceof BlockDefaultView)) {
                 if (((BlockDefaultView) dragView).getBlock().getBlockType()
                     == Block.BlockType.defaultBlock) {
-                  BlockDefaultView blockView = new BlockDefaultView(this);
-                  blockView.setLanguage(language);
-                  blockView.setEnableEdit(true);
-                  try {
-                    Block block = ((BlockDefaultView) dragView).getBlock().clone();
-                    blockView.setBlock(block);
-                  } catch (CloneNotSupportedException e) {
-                    blockView.setBlock(new Block());
+
+                  BlockDefaultView blockView = null;
+                  if (!(((BlockDefaultView) dragView).getEnableEdit())) {
+                    blockView = new BlockDefaultView(this);
+                    blockView.setLanguage(language);
+                    blockView.setEnableEdit(true);
+                    try {
+                      Block block = ((BlockDefaultView) dragView).getBlock().clone();
+                      blockView.setBlock(block);
+                    } catch (CloneNotSupportedException e) {
+                      blockView.setBlock(new Block());
+                    }
+                  } else {
+                    blockView = (BlockDefaultView) dragView;
+                    if (dragView.getParent() != null) {
+                      int index2 = ((ViewGroup) dragView.getParent()).indexOfChild(dragView);
+                      ((ViewGroup) blockView.getParent()).removeView(blockView);
+                      if (index2 < index) {
+                        index = index - 1;
+                      }
+                    }
                   }
                   ((LinearLayout) v).addView(blockView, index);
                   if (blockView.getLayoutParams() != null) {
@@ -389,7 +404,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                     ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                         LinearLayout.LayoutParams.WRAP_CONTENT;
                   }
-                  if (v.getId() != R.id.relativeBlockListEditorArea) {
+                  if (v.getId() != R.id.relativeBlockListEditorArea
+                      || v.getId() != R.id.blockListEditorArea) {
                     if (index == 0) {
                       if (((LinearLayout.LayoutParams) blockView.getLayoutParams()) != null) {
                         ((LinearLayout.LayoutParams) blockView.getLayoutParams())
@@ -410,15 +426,27 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
               if ((dragView instanceof ComplexBlockView)) {
                 if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
                     == Block.BlockType.complexBlock) {
-                  ComplexBlockView blockView = new ComplexBlockView(this);
-                  blockView.setLanguage(language);
-                  blockView.setEnableEdit(true);
-                  try {
-                    ComplexBlock complexBlock =
-                        ((ComplexBlockView) dragView).getComplexBlock().clone();
-                    blockView.setComplexBlock(complexBlock);
-                  } catch (CloneNotSupportedException e) {
-                    blockView.setComplexBlock(new ComplexBlock());
+                  ComplexBlockView blockView = null;
+                  if (!(((ComplexBlockView) dragView).getEnableEdit())) {
+                    blockView = new ComplexBlockView(this);
+                    blockView.setLanguage(language);
+                    blockView.setEnableEdit(true);
+                    try {
+                      ComplexBlock complexBlock =
+                          ((ComplexBlockView) dragView).getComplexBlock().clone();
+                      blockView.setComplexBlock(complexBlock);
+                    } catch (CloneNotSupportedException e) {
+                      blockView.setComplexBlock(new ComplexBlock());
+                    }
+                  } else {
+                    blockView = (ComplexBlockView) dragView;
+                    if (dragView.getParent() != null) {
+                      int index2 = ((ViewGroup) dragView.getParent()).indexOfChild(dragView);
+                      ((ViewGroup) blockView.getParent()).removeView(blockView);
+                      if (index2 < index) {
+                        index = index - 1;
+                      }
+                    }
                   }
                   ((LinearLayout) v).addView(blockView, index);
                   if (blockView.getLayoutParams() != null) {
@@ -428,7 +456,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                         LinearLayout.LayoutParams.WRAP_CONTENT;
                   }
 
-                  if (v.getId() != R.id.relativeBlockListEditorArea) {
+                  if (v.getId() != R.id.relativeBlockListEditorArea
+                      || v.getId() != R.id.blockListEditorArea) {
                     if (index == 0) {
                       if (((LinearLayout.LayoutParams) blockView.getLayoutParams()) != null) {
                         ((LinearLayout.LayoutParams) blockView.getLayoutParams())
@@ -481,18 +510,24 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
               }
             }
           }
-        }
-
-        if (v instanceof FrameLayout) {
+        } else if (v.getId() == R.id.relativeBlockListEditorArea) {
           if ((dragView instanceof BlockDefaultView)) {
-            BlockDefaultView blockView = new BlockDefaultView(this);
-            blockView.setLanguage(language);
-            blockView.setEnableEdit(true);
-            try {
-              Block block = ((BlockDefaultView) dragView).getBlock().clone();
-              blockView.setBlock(block);
-            } catch (CloneNotSupportedException e) {
-              blockView.setBlock(new Block());
+            BlockDefaultView blockView = null;
+            if (!(((BlockDefaultView) dragView).getEnableEdit())) {
+              blockView = new BlockDefaultView(this);
+              blockView.setLanguage(language);
+              blockView.setEnableEdit(true);
+              try {
+                Block block = ((BlockDefaultView) dragView).getBlock().clone();
+                blockView.setBlock(block);
+              } catch (CloneNotSupportedException e) {
+                blockView.setBlock(new Block());
+              }
+            } else {
+              blockView = (BlockDefaultView) dragView;
+              if (blockView.getParent() != null) {
+                ((ViewGroup) blockView.getParent()).removeView(blockView);
+              }
             }
             ((FrameLayout) v).addView(blockView);
             if (blockView.getLayoutParams() != null) {
@@ -521,14 +556,23 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
           if ((dragView instanceof ComplexBlockView)) {
             if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
                 == Block.BlockType.complexBlock) {
-              ComplexBlockView blockView = new ComplexBlockView(this);
-              blockView.setLanguage(language);
-              blockView.setEnableEdit(true);
-              try {
-                ComplexBlock complexBlock = ((ComplexBlockView) dragView).getComplexBlock().clone();
-                blockView.setComplexBlock(complexBlock);
-              } catch (CloneNotSupportedException e) {
-                blockView.setComplexBlock(new ComplexBlock());
+              ComplexBlockView blockView = null;
+              if (!(((ComplexBlockView) dragView).getEnableEdit())) {
+                blockView = new ComplexBlockView(this);
+                blockView.setLanguage(language);
+                blockView.setEnableEdit(true);
+                try {
+                  ComplexBlock complexBlock =
+                      ((ComplexBlockView) dragView).getComplexBlock().clone();
+                  blockView.setComplexBlock(complexBlock);
+                } catch (CloneNotSupportedException e) {
+                  blockView.setComplexBlock(new ComplexBlock());
+                }
+              } else {
+                blockView = (ComplexBlockView) dragView;
+                if (blockView.getParent() != null) {
+                  ((ViewGroup) blockView.getParent()).removeView(blockView);
+                }
               }
               ((FrameLayout) v).addView(blockView);
               if (blockView.getLayoutParams() != null) {
@@ -578,33 +622,28 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
           backgroundDrawable.setTint(Color.BLACK);
           backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
           blockShadow.setBackground(backgroundDrawable);
-          if (v.getId() != R.id.blockListEditorArea) {
-            if (index != 0) {
+          ((ViewGroup) v).addView(blockShadow, index);
+          if (((ViewGroup) blockShadow).getLayoutParams() != null) {
+            ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
+          }
+          if (v.getId() != R.id.blockListEditorArea
+              || v.getId() != R.id.relativeBlockListEditorArea) {
+            if (index == 0) {
               if (((ViewGroup) blockShadow).getLayoutParams() != null) {
-                ((LinearLayout.LayoutParams) blockShadow.getLayoutParams())
-                    .setMargins(0, -26, 0, 0);
-              }
-            } else {
-              ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, 0, 0, 0);
-              if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
-                if (((LinearLayout) v).getChildCount() > 0) {
-                  if (((LinearLayout) v).getChildAt(0).getLayoutParams() != null) {
-                    ((LinearLayout.LayoutParams) ((LinearLayout) v).getChildAt(0).getLayoutParams())
+                ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, 0, 0, 0);
+                if (((LinearLayout) v).getChildCount() > 1) {
+                  if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
+                    ((LinearLayout.LayoutParams) ((LinearLayout) v).getChildAt(1).getLayoutParams())
                         .setMargins(0, -26, 0, 0);
                   }
                 }
               }
             }
-
-          } else {
-            if (((ViewGroup) blockShadow).getLayoutParams() != null) {
-              ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).setMargins(0, -26, 0, 0);
-            }
           }
-          ((ViewGroup) v).addView(blockShadow, index);
         }
       } else if (v.getTag() instanceof String[]) {
         for (String str : (String[]) v.getTag()) {
+          ((ViewGroup) v).addView(blockShadow, 0);
           if (str.equals("boolean")) {
             blockShadow.setBackgroundResource(R.drawable.block_boolean);
 
@@ -615,11 +654,13 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             if (((ViewGroup) v).getChildCount() != 0) {
               ((ViewGroup) v).getChildAt(0).setVisibility(View.GONE);
             }
-            ((ViewGroup) v).addView(blockShadow, 0);
+            if (v.getParent() != null) {
+              ((ViewGroup) blockShadow.getParent()).removeView(blockShadow);
+            }
+            ((ViewGroup) v).addView(blockShadow, index);
           }
         }
       }
-
       if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
         ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).width =
             LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -632,7 +673,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         binding.getRoot().findViewById(R.id.blockListEditorArea), e.getBlocks(), language, this);
   }
 
-  public void saveFileList() {
+  public void saveFileList(boolean exitAfterSave) {
     Executor executor = Executors.newSingleThreadExecutor();
     executor.execute(
         () -> {
@@ -643,7 +684,9 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             oos.writeObject(fileList);
             fos.close();
             oos.close();
-            finish();
+            if (exitAfterSave) {
+              finish();
+            }
           } catch (Exception e) {
           }
         });
@@ -654,7 +697,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   public void onBackPressed() {
     if (isLoaded) {
       updateBlocks(binding.getRoot().findViewById(R.id.blockListEditorArea));
-      saveFileList();
+      saveFileList(true);
     }
   }
 
@@ -662,7 +705,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   protected void onPause() {
     if (isLoaded) {
       updateBlocks(binding.getRoot().findViewById(R.id.blockListEditorArea));
-      saveFileList();
+      saveFileList(false);
     }
     super.onPause();
   }

@@ -1,18 +1,23 @@
 package com.dragon.ide.ui.view;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.dragon.ide.R;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.objects.DoubleComplexBlock;
+import com.dragon.ide.ui.activities.EventEditorActivity;
 import com.dragon.ide.utils.BlockContentLoader;
+import com.dragon.ide.utils.DropTargetUtils;
 
 public class BlockDefaultView extends LinearLayout {
   public String returns;
@@ -58,6 +63,26 @@ public class BlockDefaultView extends LinearLayout {
     setGravity(Gravity.CENTER_VERTICAL);
     BlockContentLoader.loadBlockContent(
         block.getBlockContent(), this, block.getColor(), getLanguage(), activity, getEnableEdit());
+    if (activity instanceof EventEditorActivity) {
+      setOnLongClickListener(
+          (view) -> {
+            ClipData data = ClipData.newPlainText("", "");
+            View.DragShadowBuilder shadow = new View.DragShadowBuilder(this);
+
+            DropTargetUtils.addDragTarget(
+                ((EventEditorActivity) activity).binding.relativeBlockListEditorArea,
+                (EventEditorActivity) activity,
+                block.getReturns(),
+                block.getBlockType());
+
+            if (Build.VERSION.SDK_INT >= 24) {
+              startDragAndDrop(data, shadow, this, 1);
+            } else {
+              startDrag(data, shadow, this, 1);
+            }
+            return false;
+          });
+    }
     invalidate();
   }
 
