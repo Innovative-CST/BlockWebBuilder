@@ -316,7 +316,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       } else if (v.getTag() instanceof String[]) {
         for (String str : (String[]) v.getTag()) {
           if (str.equals("boolean")) {
-            if (v.getChildCount() > 1) {
+            if (v.getChildCount() == 2) {
               v.getChildAt(1).setVisibility(View.VISIBLE);
             }
           }
@@ -390,11 +390,15 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   } else {
                     blockView = (BlockDefaultView) dragView;
                     if (dragView.getParent() != null) {
-                      int index2 = ((ViewGroup) dragView.getParent()).indexOfChild(dragView);
-                      ((ViewGroup) blockView.getParent()).removeView(blockView);
-                      if (index2 < index) {
-                        index = index - 1;
+                      if (((ViewGroup) dragView.getParent()).getId() == R.id.blockListEditorArea) {
+                        int index2 = ((ViewGroup) dragView.getParent()).indexOfChild(dragView);
+                        if (index2 < index) {
+                          if (((ViewGroup) v).getId() == R.id.blockListEditorArea) {
+                            index = index - 1;
+                          }
+                        }
                       }
+                      ((ViewGroup) blockView.getParent()).removeView(blockView);
                     }
                   }
                   ((LinearLayout) v).addView(blockView, index);
@@ -441,11 +445,15 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   } else {
                     blockView = (ComplexBlockView) dragView;
                     if (dragView.getParent() != null) {
-                      int index2 = ((ViewGroup) dragView.getParent()).indexOfChild(dragView);
-                      ((ViewGroup) blockView.getParent()).removeView(blockView);
-                      if (index2 < index) {
-                        index = index - 1;
+                      if (((ViewGroup) dragView.getParent()).getId() == R.id.blockListEditorArea) {
+                        int index2 = ((ViewGroup) dragView.getParent()).indexOfChild(dragView);
+                        if (index2 < index) {
+                          if (((ViewGroup) v).getId() == R.id.blockListEditorArea) {
+                            index = index - 1;
+                          }
+                        }
                       }
+                      ((ViewGroup) blockView.getParent()).removeView(blockView);
                     }
                   }
                   ((LinearLayout) v).addView(blockView, index);
@@ -513,22 +521,27 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         } else if (v.getId() == R.id.relativeBlockListEditorArea) {
           if ((dragView instanceof BlockDefaultView)) {
             BlockDefaultView blockView = null;
-            if (!(((BlockDefaultView) dragView).getEnableEdit())) {
-              blockView = new BlockDefaultView(this);
-              blockView.setLanguage(language);
-              blockView.setEnableEdit(true);
-              try {
-                Block block = ((BlockDefaultView) dragView).getBlock().clone();
-                blockView.setBlock(block);
-              } catch (CloneNotSupportedException e) {
-                blockView.setBlock(new Block());
-              }
-            } else {
-              blockView = (BlockDefaultView) dragView;
-              if (blockView.getParent() != null) {
-                ((ViewGroup) blockView.getParent()).removeView(blockView);
+            // if (!(((BlockDefaultView) dragView).getEnableEdit())) {
+            blockView = new BlockDefaultView(this);
+            blockView.setLanguage(language);
+            blockView.setEnableEdit(true);
+            try {
+              Block block = ((BlockDefaultView) dragView).getBlock().clone();
+              blockView.setBlock(block);
+            } catch (CloneNotSupportedException e) {
+              blockView.setBlock(new Block());
+            }
+            if (((BlockDefaultView) dragView).getEnableEdit()) {
+              if (dragView.getParent() != null) {
+                ((ViewGroup) dragView.getParent()).removeView(dragView);
               }
             }
+            //            } else {
+            //              blockView = (BlockDefaultView) dragView;
+            //              if (blockView.getParent() != null) {
+            //                ((ViewGroup) blockView.getParent()).removeView(blockView);
+            //              }
+            //          }
             ((FrameLayout) v).addView(blockView);
             if (blockView.getLayoutParams() != null) {
               blockView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -557,23 +570,27 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
                 == Block.BlockType.complexBlock) {
               ComplexBlockView blockView = null;
-              if (!(((ComplexBlockView) dragView).getEnableEdit())) {
-                blockView = new ComplexBlockView(this);
-                blockView.setLanguage(language);
-                blockView.setEnableEdit(true);
-                try {
-                  ComplexBlock complexBlock =
-                      ((ComplexBlockView) dragView).getComplexBlock().clone();
-                  blockView.setComplexBlock(complexBlock);
-                } catch (CloneNotSupportedException e) {
-                  blockView.setComplexBlock(new ComplexBlock());
-                }
-              } else {
-                blockView = (ComplexBlockView) dragView;
-                if (blockView.getParent() != null) {
-                  ((ViewGroup) blockView.getParent()).removeView(blockView);
+              //              if (!(((ComplexBlockView) dragView).getEnableEdit())) {
+              blockView = new ComplexBlockView(this);
+              blockView.setLanguage(language);
+              blockView.setEnableEdit(true);
+              try {
+                ComplexBlock complexBlock = ((ComplexBlockView) dragView).getComplexBlock().clone();
+                blockView.setComplexBlock(complexBlock);
+              } catch (CloneNotSupportedException e) {
+                blockView.setComplexBlock(new ComplexBlock());
+              }
+              if (((ComplexBlockView) dragView).getEnableEdit()) {
+                if (dragView.getParent() != null) {
+                  ((ViewGroup) dragView.getParent()).removeView(dragView);
                 }
               }
+              //              } else {
+              //                blockView = (ComplexBlockView) dragView;
+              //                if (blockView.getParent() != null) {
+              //                  ((ViewGroup) blockView.getParent()).removeView(blockView);
+              //                }
+              //              }
               ((FrameLayout) v).addView(blockView);
               if (blockView.getLayoutParams() != null) {
                 blockView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -651,13 +668,13 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             backgroundDrawable.setTint(Color.BLACK);
             backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
             blockShadow.setBackground(backgroundDrawable);
-            if (((ViewGroup) v).getChildCount() != 0) {
+            if (((ViewGroup) v).getChildCount() > 0) {
               ((ViewGroup) v).getChildAt(0).setVisibility(View.GONE);
             }
             if (v.getParent() != null) {
               ((ViewGroup) blockShadow.getParent()).removeView(blockShadow);
             }
-            ((ViewGroup) v).addView(blockShadow, index);
+            ((ViewGroup) v).addView(blockShadow, 0);
           }
         }
       }
