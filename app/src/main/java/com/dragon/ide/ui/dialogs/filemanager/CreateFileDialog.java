@@ -109,7 +109,11 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
           if (FileNameValidator.isValidFileName(binding.fileName.getText().toString())) {
             boolean isNameInUse = false;
             for (int i = 0; i < fileList.size(); ++i) {
-              if (fileList.get(i).getFilePath() == binding.fileName.getText().toString()) {
+              if (fileList
+                  .get(i)
+                  .getFilePath()
+                  .toLowerCase()
+                  .equals(binding.fileName.getText().toString().toLowerCase())) {
                 int fileType = fileList.get(i).getFileType();
                 int fileCreatingButton = binding.fileTypeChooser.getCheckedButtonId();
                 if (fileCreatingButton == R.id.html) {
