@@ -91,7 +91,7 @@ public class BlockContentLoader {
                     setAlpha(1f);
                   }
                   if (v instanceof BlockDefaultView) {
-                    cbc.setBlock(((BlockDefaultView) v).getBlock());
+                    cbc.setValue("");
                   }
                 }
               };
