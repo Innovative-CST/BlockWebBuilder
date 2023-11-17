@@ -390,9 +390,28 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   } else {
                     blockView = (BlockDefaultView) dragView;
                     if (dragView.getParent() != null) {
-                      if (((ViewGroup) dragView.getParent()).getId() != R.id.relativeBlockListEditorArea) {
+                      if (((ViewGroup) dragView.getParent()).getId()
+                          != R.id.relativeBlockListEditorArea) {
                         int index2 = ((ViewGroup) dragView.getParent()).indexOfChild(dragView);
                         if (index2 < index) {
+                          if (((ViewGroup) dragView.getParent()).getId()
+                              != R.id.blockListEditorArea) {
+                            if (index2 == 0) {
+                              if (((ViewGroup) dragView.getParent()).getChildCount() > 1) {
+                                if (((ViewGroup) dragView.getParent())
+                                        .getChildAt(1)
+                                        .getLayoutParams()
+                                    != null) {
+                                  ((LinearLayout.LayoutParams)
+                                          ((ViewGroup) dragView.getParent())
+                                              .getChildAt(1)
+                                              .getLayoutParams())
+                                      .setMargins(0, 0, 0, 0);
+                                }
+                              }
+                            }
+                          }
+
                           if (((ViewGroup) v).getId() != R.id.relativeBlockListEditorArea) {
                             index = index - 1;
                           }
@@ -445,9 +464,28 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   } else {
                     blockView = (ComplexBlockView) dragView;
                     if (dragView.getParent() != null) {
-                      if (((ViewGroup) dragView.getParent()).getId() != R.id.relativeBlockListEditorArea) {
+                      if (((ViewGroup) dragView.getParent()).getId()
+                          != R.id.relativeBlockListEditorArea) {
                         int index2 = ((ViewGroup) dragView.getParent()).indexOfChild(dragView);
                         if (index2 < index) {
+                          if (((ViewGroup) dragView.getParent()).getId()
+                              != R.id.blockListEditorArea) {
+                            if (index2 == 0) {
+                              if (((ViewGroup) dragView.getParent()).getChildCount() > 1) {
+                                if (((ViewGroup) dragView.getParent())
+                                        .getChildAt(1)
+                                        .getLayoutParams()
+                                    != null) {
+                                  ((LinearLayout.LayoutParams)
+                                          ((ViewGroup) dragView.getParent())
+                                              .getChildAt(1)
+                                              .getLayoutParams())
+                                      .setMargins(0, 0, 0, 0);
+                                }
+                              }
+                            }
+                          }
+
                           if (((ViewGroup) v).getId() != R.id.relativeBlockListEditorArea) {
                             index = index - 1;
                           }
