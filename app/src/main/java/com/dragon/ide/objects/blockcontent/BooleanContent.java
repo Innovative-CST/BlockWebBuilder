@@ -81,7 +81,9 @@ public class BooleanContent extends ComplexBlockContent implements Cloneable {
     mComplexBlockContent.setType(mType);
     mComplexBlockContent.setAcceptance(mAcceptance);
     mComplexBlockContent.setSupportCodeEditor(mSupportCodeEditor);
-    mComplexBlockContent.setBlock(mBlock);
+    if (mBlock != null) {
+      mComplexBlockContent.setBlock(mBlock);
+    }
 
     return mComplexBlockContent;
   }

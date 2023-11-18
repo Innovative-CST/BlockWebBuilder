@@ -133,7 +133,9 @@ public class ComplexBlockContent extends BlockContent implements Serializable, C
     mComplexBlockContent.setType(mType);
     mComplexBlockContent.setAcceptance(mAcceptance);
     mComplexBlockContent.setSupportCodeEditor(mSupportCodeEditor);
-    mComplexBlockContent.setBlock(mBlock);
+    if (mBlock != null) {
+      mComplexBlockContent.setBlock(mBlock);
+    }
 
     return mComplexBlockContent;
   }
