@@ -44,16 +44,12 @@ public class BlockDefaultView extends LinearLayout {
     if (!(block instanceof DoubleComplexBlock) && !(block instanceof ComplexBlock)) {
       if (block instanceof Block) {
         if (block.getBlockType() == Block.BlockType.defaultBlock) {
-          setBackgroundResource(R.drawable.block_default);
-
-          Drawable backgroundDrawable = getBackground();
+          Drawable backgroundDrawable = getResources().getDrawable(R.drawable.block_default);
           backgroundDrawable.setTint(Color.parseColor(block.getColor()));
           backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
           setBackground(backgroundDrawable);
         } else if (block.getBlockType() == Block.BlockType.returnWithTypeBoolean) {
-          setBackgroundResource(R.drawable.block_boolean);
-
-          Drawable backgroundDrawable = getBackground();
+          Drawable backgroundDrawable = getResources().getDrawable(R.drawable.block_boolean);
           backgroundDrawable.setTint(Color.parseColor(block.getColor()));
           backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
           setBackground(backgroundDrawable);

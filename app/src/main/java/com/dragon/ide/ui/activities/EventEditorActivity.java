@@ -348,6 +348,19 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         break;
       }
     }
+    if (v instanceof LinearLayout) {
+      if (((LinearLayout) v).getOrientation() == LinearLayout.HORIZONTAL) {
+        index = 0;
+        for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) {
+          View child = ((ViewGroup) v).getChildAt(i);
+          if (dropX > child.getX() + child.getWidth() / 2) {
+            index = i + 1;
+          } else {
+            break;
+          }
+        }
+      }
+    }
 
     if (v.getId() == R.id.blockListEditorArea) {
       if (index == 0) {

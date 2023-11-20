@@ -58,6 +58,10 @@ public class ComplexBlockView extends LinearLayout {
               getEnableEdit());
 
           addView(blockContent);
+          if (blockContent.getLayoutParams() != null) {
+            blockContent.getLayoutParams().width = -2;
+            blockContent.getLayoutParams().height = -2;
+          }
           blockContent.setGravity(Gravity.CENTER_VERTICAL);
           blocksView =
               new LinearLayout(getContext()) {
@@ -119,6 +123,10 @@ public class ComplexBlockView extends LinearLayout {
 
           blocksView.setOrientation(LinearLayout.VERTICAL);
           addView(blocksView);
+          if (blocksView.getLayoutParams() != null) {
+            blocksView.getLayoutParams().width = -2;
+            blocksView.getLayoutParams().height = -2;
+          }
 
           if (getEnableEdit()) {
             if (getBlocksView().getChildCount() == 0) {
