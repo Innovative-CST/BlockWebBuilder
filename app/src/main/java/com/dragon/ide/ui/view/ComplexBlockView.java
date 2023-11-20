@@ -43,9 +43,7 @@ public class ComplexBlockView extends LinearLayout {
         if (block.getBlockType() == Block.BlockType.complexBlock) {
           LinearLayout blockContent = new LinearLayout(getContext());
           if (!block.getEnableSideAttachableBlock()) {
-            blockContent.setBackgroundResource(R.drawable.complex_block);
-
-            Drawable backgroundDrawable = blockContent.getBackground();
+            Drawable backgroundDrawable = getResources().getDrawable(R.drawable.complex_block);
             backgroundDrawable.setTint(Color.parseColor(block.getColor()));
             backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
             blockContent.setBackground(backgroundDrawable);
