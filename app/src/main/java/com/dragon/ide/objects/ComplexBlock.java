@@ -152,7 +152,22 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
     } else {
       mBlocks = new ArrayList<Block>();
     }
-
+    ArrayList<Block> mSideAttachableBlock;
+    if (getSideAttachableBlock() != null) {
+      mSideAttachableBlock = new ArrayList<Block>();
+      for (int i = 0; i < getSideAttachableBlock().size(); ++i) {
+        if (getSideAttachableBlock().get(i) instanceof DoubleComplexBlock) {
+          mSideAttachableBlock.add(((DoubleComplexBlock) getSideAttachableBlock().get(i)).clone());
+        } else if (getSideAttachableBlock().get(i) instanceof ComplexBlock) {
+          mSideAttachableBlock.add(((ComplexBlock) getSideAttachableBlock().get(i)).clone());
+        } else if (getSideAttachableBlock().get(i) instanceof Block) {
+          mSideAttachableBlock.add(getSideAttachableBlock().get(i).clone());
+        }
+      }
+    } else {
+      mSideAttachableBlock = new ArrayList<Block>();
+    }
+    boolean mEnableSideAttachableBlock = new Boolean(getEnableSideAttachableBlock());
     mComplexBlock.setColor(mColor);
     mComplexBlock.setName(mName);
     mComplexBlock.setBlockContent(mBlockContent);
@@ -160,6 +175,8 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
     mComplexBlock.setRawCode(mRawCode);
     mComplexBlock.setReturns(mReturns);
     mComplexBlock.setBlocks(mBlocks);
+    mComplexBlock.setEnableSideAttachableBlock(mEnableSideAttachableBlock);
+    mComplexBlock.setSideAttachableBlock(mSideAttachableBlock);
     return mComplexBlock;
   }
 }

@@ -14,6 +14,8 @@ public class Block implements Serializable, Cloneable {
   private int BlockType;
   private String rawCode;
   private String returns;
+  private boolean enableSideAttachableBlock;
+  private ArrayList<Block> sideAttachableBlock;
 
   public String getColor() {
     if (this.color != null) {
@@ -93,6 +95,22 @@ public class Block implements Serializable, Cloneable {
     this.returns = returns;
   }
 
+  public ArrayList<Block> getSideAttachableBlock() {
+    return this.sideAttachableBlock;
+  }
+
+  public void setSideAttachableBlock(ArrayList<Block> sideAttachableBlock) {
+    this.sideAttachableBlock = sideAttachableBlock;
+  }
+
+  public boolean getEnableSideAttachableBlock() {
+    return this.enableSideAttachableBlock;
+  }
+
+  public void setEnableSideAttachableBlock(boolean enableSideAttachableBlock) {
+    this.enableSideAttachableBlock = enableSideAttachableBlock;
+  }
+
   @Override
   public Block clone() throws CloneNotSupportedException {
     String mColor;
@@ -142,6 +160,22 @@ public class Block implements Serializable, Cloneable {
     } else {
       mReturns = new String("");
     }
+    ArrayList<Block> mSideAttachableBlock;
+    if (getSideAttachableBlock() != null) {
+      mSideAttachableBlock = new ArrayList<Block>();
+      for (int i = 0; i < getSideAttachableBlock().size(); ++i) {
+        if (getSideAttachableBlock().get(i) instanceof DoubleComplexBlock) {
+          mSideAttachableBlock.add(((DoubleComplexBlock) getSideAttachableBlock().get(i)).clone());
+        } else if (getSideAttachableBlock().get(i) instanceof ComplexBlock) {
+          mSideAttachableBlock.add(((ComplexBlock) getSideAttachableBlock().get(i)).clone());
+        } else if (getSideAttachableBlock().get(i) instanceof Block) {
+          mSideAttachableBlock.add(getSideAttachableBlock().get(i).clone());
+        }
+      }
+    } else {
+      mSideAttachableBlock = new ArrayList<Block>();
+    }
+    boolean mEnableSideAttachableBlock = new Boolean(getEnableSideAttachableBlock());
     Block mBlock = new Block();
     mBlock.setColor(mColor);
     mBlock.setName(mName);
@@ -149,6 +183,8 @@ public class Block implements Serializable, Cloneable {
     mBlock.setBlockType(mBlockType);
     mBlock.setRawCode(mRawCode);
     mBlock.setReturns(mReturns);
+    mBlock.setEnableSideAttachableBlock(mEnableSideAttachableBlock);
+    mBlock.setSideAttachableBlock(mSideAttachableBlock);
     return mBlock;
   }
 }

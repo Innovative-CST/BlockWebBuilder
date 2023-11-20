@@ -191,6 +191,22 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
     } else {
       mComplexBlockContent = new ArrayList<BlockContent>();
     }
+    ArrayList<Block> mSideAttachableBlock;
+    if (getSideAttachableBlock() != null) {
+      mSideAttachableBlock = new ArrayList<Block>();
+      for (int i = 0; i < getSideAttachableBlock().size(); ++i) {
+        if (getSideAttachableBlock().get(i) instanceof DoubleComplexBlock) {
+          mSideAttachableBlock.add(((DoubleComplexBlock) getSideAttachableBlock().get(i)).clone());
+        } else if (getSideAttachableBlock().get(i) instanceof ComplexBlock) {
+          mSideAttachableBlock.add(((ComplexBlock) getSideAttachableBlock().get(i)).clone());
+        } else if (getSideAttachableBlock().get(i) instanceof Block) {
+          mSideAttachableBlock.add(getSideAttachableBlock().get(i).clone());
+        }
+      }
+    } else {
+      mSideAttachableBlock = new ArrayList<Block>();
+    }
+    boolean mEnableSideAttachableBlock = new Boolean(getEnableSideAttachableBlock());
     mDoubleComplexBlock.setColor(mColor);
     mDoubleComplexBlock.setName(mName);
     mDoubleComplexBlock.setBlockContent(mBlockContent);
@@ -200,6 +216,8 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
     mDoubleComplexBlock.setBlocks(mBlocks);
     mDoubleComplexBlock.setDoubleComplexBlocks(mDoubleComplexBlocks);
     mDoubleComplexBlock.setComplexBlockContent(mComplexBlockContent);
+    mDoubleComplexBlock.setEnableSideAttachableBlock(mEnableSideAttachableBlock);
+    mDoubleComplexBlock.setSideAttachableBlock(mSideAttachableBlock);
     return mDoubleComplexBlock;
   }
 }
