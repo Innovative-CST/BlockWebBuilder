@@ -53,7 +53,9 @@ public class Event implements Serializable {
     for (int i = 0; i < getBlocks().size(); ++i) {
       if (getBlocks().get(i) instanceof Block) {
         eventCode.append(new String(getBlocks().get(i).getCode()));
-        eventCode.append("\n");
+        if (i + 1 != getBlocks().size()) {
+          eventCode.append("\n");
+        }
       }
     }
     String eventFinalCode = new String(getRawCode());
@@ -71,7 +73,9 @@ public class Event implements Serializable {
         sb.append(s);
       }
       sb.append(lines[i]);
-      sb.append("\n");
+      if (i + 1 != lines.length) {
+        sb.append("\n");
+      }
     }
     return sb.toString();
   }
