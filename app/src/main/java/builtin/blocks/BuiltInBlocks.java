@@ -42,9 +42,10 @@ public class BuiltInBlocks {
 
     Block blockInHolder2 = new Block();
     blockInHolder2.setColor("#ff0000");
-    blockInHolder2.setBlockType(Block.BlockType.defaultBlock);
+    blockInHolder2.setBlockType(Block.BlockType.sideAttachableBlock);
     blockInHolder2.setName("Test");
-    blockInHolder2.setRawCode("I am block code DevKumar DragonIDE parameter DevKumar");
+    blockInHolder2.setEnableSideAttachableBlock(true);
+    blockInHolder2.setRawCode("I am block code DevKumar DragonIDE parameter DevKumar ");
 
     ArrayList<BlockContent> block2ContentList = new ArrayList<BlockContent>();
 
@@ -111,11 +112,31 @@ public class BuiltInBlocks {
 
     blockInHolder5.setBlockContent(block5ContentList);
 
+    Block blockInHolder6 = new Block();
+    blockInHolder6.setColor("#ff0000");
+    blockInHolder6.setBlockType(Block.BlockType.defaultBlock);
+    blockInHolder6.setName("Test");
+    blockInHolder6.setEnableSideAttachableBlock(true);
+    blockInHolder6.setRawCode("I am block code DevKumar DragonIDE parameter DevKumar ");
+
+    ArrayList<BlockContent> block6ContentList = new ArrayList<BlockContent>();
+
+    BlockContent block6Content1 = new BlockContent();
+    block6Content1.setText("Test block code");
+    block6ContentList.add(block6Content1);
+
+    SourceContent block6Content2 = new SourceContent();
+    block6Content2.setId("parameter");
+    block6ContentList.add(block6Content2);
+
+    blockInHolder6.setBlockContent(block6ContentList);
+
     blockList.add(blockInHolder1);
     blockList.add(blockInHolder2);
     blockList.add(blockInHolder3);
     blockList.add(blockInHolder4);
     blockList.add(blockInHolder5);
+    blockList.add(blockInHolder6);
 
     holder1.setBlocks(blockList);
 

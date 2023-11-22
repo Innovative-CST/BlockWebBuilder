@@ -25,7 +25,23 @@ public class BlocksHandler {
           arr.add(complexBlock);
         } else if (view.getChildAt(i) instanceof BlockDefaultView) {
           try {
-            arr.add(((BlockDefaultView) view.getChildAt(i)).getBlock().clone());
+            Block block = ((BlockDefaultView) view.getChildAt(i)).getBlock().clone();
+            if (block.getEnableSideAttachableBlock()) {
+              ArrayList<Block> attachedBlocks = new ArrayList<Block>();
+              for (int i2 = 0; i2 < ((BlockDefaultView) view.getChildAt(i)).getChildCount(); ++i2) {
+                if (i2 != 0) {
+                  if (((BlockDefaultView) view.getChildAt(i)).getChildAt(i2)
+                      instanceof BlockDefaultView) {
+                    attachedBlocks.add(
+                        ((BlockDefaultView) ((BlockDefaultView) view.getChildAt(i)).getChildAt(i2))
+                            .getBlock()
+                            .clone());
+                  }
+                }
+              }
+              block.setSideAttachableBlock(attachedBlocks);
+            }
+            arr.add(block);
           } catch (CloneNotSupportedException e) {
             arr.add(new Block());
           }

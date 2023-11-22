@@ -44,6 +44,15 @@ public class DropTargetUtils {
           }
         }
       }
+    } else if (type == Block.BlockType.sideAttachableBlock) {
+      if (view.getTag() != null) {
+        if (view.getTag() instanceof String) {
+          if (((String) view.getTag()).equals("sideAttachableDropArea")) {
+            view.setOnDragListener(listener);
+            isDropable = true;
+          }
+        }
+      }
     }
     if (view.getId() == R.id.relativeBlockListEditorArea) {
       view.setOnDragListener(listener);

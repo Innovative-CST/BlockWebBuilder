@@ -9,7 +9,6 @@ import android.os.Build;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.dragon.ide.R;
 import com.dragon.ide.objects.Block;
@@ -25,6 +24,7 @@ public class BlockDefaultView extends LinearLayout {
   public boolean enableEdit = false;
   public String language;
   public Activity activity;
+  public LinearLayout blockContent;
 
   public BlockDefaultView(Activity context) {
     super(context);
@@ -41,6 +41,8 @@ public class BlockDefaultView extends LinearLayout {
 
     returns = new String(block.getReturns());
 
+    blockContent = new LinearLayout(getContext());
+
     if (!(block instanceof DoubleComplexBlock) && !(block instanceof ComplexBlock)) {
       if (block instanceof Block) {
         if (block.getBlockType() == Block.BlockType.defaultBlock) {
@@ -48,19 +50,36 @@ public class BlockDefaultView extends LinearLayout {
             Drawable backgroundDrawable = getResources().getDrawable(R.drawable.block_default);
             backgroundDrawable.setTint(Color.parseColor(block.getColor()));
             backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
-            setBackground(backgroundDrawable);
+            blockContent.setBackground(backgroundDrawable);
+          } else {
+            setTag("sideAttachableDropArea");
+            Drawable backgroundDrawable =
+                getResources().getDrawable(R.drawable.default_block_attachable);
+            backgroundDrawable.setTint(Color.parseColor(block.getColor()));
+            backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+            blockContent.setBackground(backgroundDrawable);
           }
         } else if (block.getBlockType() == Block.BlockType.returnWithTypeBoolean) {
           Drawable backgroundDrawable = getResources().getDrawable(R.drawable.block_boolean);
           backgroundDrawable.setTint(Color.parseColor(block.getColor()));
           backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
-          setBackground(backgroundDrawable);
+          blockContent.setBackground(backgroundDrawable);
+        } else if (block.getBlockType() == Block.BlockType.sideAttachableBlock) {
+          Drawable backgroundDrawable = getResources().getDrawable(R.drawable.side_attachable);
+          backgroundDrawable.setTint(Color.parseColor(block.getColor()));
+          backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+          blockContent.setBackground(backgroundDrawable);
         }
       }
     }
-    setGravity(Gravity.CENTER_VERTICAL);
+    blockContent.setGravity(Gravity.CENTER_VERTICAL);
     BlockContentLoader.loadBlockContent(
-        block.getBlockContent(), this, block.getColor(), getLanguage(), activity, getEnableEdit());
+        block.getBlockContent(),
+        blockContent,
+        block.getColor(),
+        getLanguage(),
+        activity,
+        getEnableEdit());
     if (activity instanceof EventEditorActivity) {
       setOnLongClickListener(
           (view) -> {
@@ -81,7 +100,12 @@ public class BlockDefaultView extends LinearLayout {
             return false;
           });
     }
+    addView(blockContent);
     invalidate();
+  }
+
+  public LinearLayout getBlockContent() {
+    return this.blockContent;
   }
 
   public String getReturns() {

@@ -35,7 +35,8 @@ public class BlockContentLoader {
               ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
           final TextView tvTextContent = new TextView(view.getContext());
           tvTextContent.setSingleLine(true);
-          tvTextContent.setText(((SourceContent) blockContent.get(i)).getValue());
+          tvTextContent.setText(
+              Utils.setWordLimitOnString(50, ((SourceContent) blockContent.get(i)).getValue()));
           updateContentPaddingWithText(tvTextContent, ll_source);
           tvTextContent.setTextSize(12);
           tvTextContent.setTextColor(
@@ -161,7 +162,7 @@ public class BlockContentLoader {
                 @Override
                 public void onSubmitted(String value) {
                   blockContent.setValue(value);
-                  tvTextContent.setText(blockContent.getValue());
+                  tvTextContent.setText(Utils.setWordLimitOnString(50, value));
                   updateContentPaddingWithText(tvTextContent, ll_source);
                 }
 
