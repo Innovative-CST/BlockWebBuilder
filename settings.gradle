@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 rootProject.name = "DragonIDE"
 
 include(":app")
+include(":common")
+include(":editor")

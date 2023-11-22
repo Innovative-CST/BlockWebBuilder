@@ -1,0 +1,94 @@
+<!-- ***** BEGIN LICENSE BLOCK *****
+ *
+ *  This file is part of Android Code Editor.
+ *
+ *  Android Code Editor is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Android Code Editor is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *   along with Android Code Editor.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * ***** END LICENSE BLOCK ***** 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="js/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/ext-language_tools.js"></script>
+    <title>CodeEditor</title>
+    
+    <!-- themes -->
+    <link rel="stylesheet" href="css/themes/dracula.css">
+    <link rel="stylesheet" href="css/themes/monokai.css">
+    <link rel="stylesheet" href="css/themes/chrome.css">
+    <link rel="stylesheet" href="css/themes/clouds.css">
+    <link rel="stylesheet" href="css/themes/crimson-editor.css">
+    <link rel="stylesheet" href="css/themes/dawn.css">
+</head>
+
+<body>
+    <!-- Project -->
+    <div id="editor"></div>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        #editor {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+
+    <script>
+        var editor = ace.edit("editor");
+        editor.session.setUseSoftTabs(true);
+        editor.setOptions({
+            cursorStyle: "slim",
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true,
+            useWorker: true,
+        });
+        setEditorTheme();
+        setCode();
+        setLanguageMode();
+
+        function setEditorTheme() {
+            editor.setTheme('ace/theme/' + aceEditor.getAceEditorTheme());
+        }
+
+        function setLanguageMode() {
+            editor.session.setMode("ace/mode/" + aceEditor.getLanguageMode());
+        }
+
+        function updateFontSize() {
+            document.getElementById('editor').style.fontSize = aceEditor.getZoom();
+        }
+
+        function setCode() {
+            editor.setValue(aceEditor.setCode());
+            editor.clearSelection();
+        }
+
+        function putCodeToJava() {
+            aceEditor.getCode(editor.getValue());
+        }
+    </script>
+</body>
+
+</html>
