@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.graphics.Color;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutSouceCodeDialogBinding;
+import com.dragon.ide.utils.ColorUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import editor.tsd.editors.ace.AceEditorColors;
 import editor.tsd.tools.Themes;
 import editor.tsd.widget.CodeEditorLayout;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
@@ -15,16 +17,22 @@ public class ShowSourceCodeDialog extends MaterialAlertDialogBuilder {
     LayoutSouceCodeDialogBinding binding =
         LayoutSouceCodeDialogBinding.inflate(activity.getLayoutInflater());
     setTitle(R.string.source_code);
-    binding.editor.setEditor(CodeEditorLayout.SoraCodeEditor);
-    binding.editor.setCode(code);
-    binding.editor.setTheme(Themes.SoraEditorTheme.Light.Quietlight);
+    AceEditorColors aceEditorColors = new AceEditorColors();
+    aceEditorColors.setEditorBackground("#00000000");
+    aceEditorColors.setActiveLineColor("#0000002d");
+    aceEditorColors.setGutterActiveLineColor("#0000002d");
+    aceEditorColors.setGutterBackground("#00000000");
+    aceEditorColors.setGutterTextColor(
+        String.format(
+            "#%06X",
+            (0xFFFFFF
+                & ColorUtils.getColor(
+                    activity, com.google.android.material.R.attr.colorOnSurfaceVariant))));
+    aceEditorColors.apply(activity);
+    binding.editor.setEditor(CodeEditorLayout.AceCodeEditor);
+    binding.editor.setTheme(Themes.AceEditorTheme.Light.Chrome);
     binding.editor.setLanguageMode(language);
-    binding.editor.getSoraCodeEditor().setEditable(false);
-    binding
-        .editor
-        .getSoraCodeEditor()
-        .getColorScheme()
-        .setColor(EditorColorScheme.CURRENT_LINE, Color.parseColor("#11000000"));
+    binding.editor.setCode(code);
     setView(binding.getRoot());
     setPositiveButton(R.string.cancel, (param1, param2) -> {});
   }

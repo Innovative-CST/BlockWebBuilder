@@ -7,13 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Process;
 import android.util.Log;
-import android.widget.Toast;
 import com.dragon.ide.ui.activities.DebugActivity;
 import com.dragon.ide.utils.Environments;
 import com.google.android.material.color.DynamicColors;
-import editor.tsd.editors.sora.lang.textmate.provider.TextMateProvider;
-import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
-import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
+import editor.tsd.editors.AceEditor;
 
 public class MyApplication extends Application {
   private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
@@ -54,11 +51,6 @@ public class MyApplication extends Application {
           }
         });
 
-    FileProviderRegistry.getInstance().addFileProvider(new AssetsFileResolver(getAssets()));
-    try {
-      TextMateProvider.loadGrammars();
-    } catch (Exception e) {
-      Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-    }
+    AceEditor.install(this);
   }
 }
