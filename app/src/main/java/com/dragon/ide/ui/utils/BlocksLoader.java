@@ -8,6 +8,7 @@ import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.ui.view.BlockDefaultView;
 import com.dragon.ide.ui.view.ComplexBlockView;
+import com.dragon.ide.utils.Utils;
 import java.util.ArrayList;
 
 public class BlocksLoader {
@@ -70,6 +71,21 @@ public class BlocksLoader {
               }
               ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                   LinearLayout.LayoutParams.WRAP_CONTENT;
+            }
+            if (blockView.getBlock().getEnableSideAttachableBlock()) {
+              for (int i2 = 0; i2 < blockView.getBlock().getSideAttachableBlock().size(); ++i2) {
+                BlockDefaultView sideBlockView = new BlockDefaultView(activity);
+                sideBlockView.setLanguage(language);
+                sideBlockView.setEnableEdit(true);
+                try {
+                  sideBlockView.setBlock(
+                      blockView.getBlock().getSideAttachableBlock().get(i2).clone());
+                } catch (CloneNotSupportedException e) {
+                  sideBlockView.setBlock(new Block());
+                }
+                blockView.addView(sideBlockView);
+                Utils.setMargins(sideBlockView, -16, 0, 0, 0);
+              }
             }
           }
         }

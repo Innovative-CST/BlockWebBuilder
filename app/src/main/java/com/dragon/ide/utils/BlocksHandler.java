@@ -2,6 +2,8 @@ package com.dragon.ide.utils;
 
 import android.app.Activity;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import com.dragon.ide.MyApplication;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.ComplexBlock;
 import com.dragon.ide.objects.Event;
@@ -29,9 +31,12 @@ public class BlocksHandler {
             if (block.getEnableSideAttachableBlock()) {
               ArrayList<Block> attachedBlocks = new ArrayList<Block>();
               for (int i2 = 0; i2 < ((BlockDefaultView) view.getChildAt(i)).getChildCount(); ++i2) {
-                if (i2 != 0) {
-                  if (((BlockDefaultView) view.getChildAt(i)).getChildAt(i2)
-                      instanceof BlockDefaultView) {
+                if (((BlockDefaultView) view.getChildAt(i)).getChildAt(i2)
+                    instanceof BlockDefaultView) {
+                  if (((BlockDefaultView) ((BlockDefaultView) view.getChildAt(i)).getChildAt(i2))
+                          .getBlock()
+                          .getBlockType()
+                      == Block.BlockType.sideAttachableBlock) {
                     attachedBlocks.add(
                         ((BlockDefaultView) ((BlockDefaultView) view.getChildAt(i)).getChildAt(i2))
                             .getBlock()

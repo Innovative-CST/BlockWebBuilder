@@ -6,7 +6,9 @@ import android.widget.LinearLayout;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutSouceCodeDialogBinding;
 import com.dragon.ide.listeners.ValueListener;
+import com.dragon.ide.utils.ColorUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import editor.tsd.editors.ace.AceEditorColors;
 import editor.tsd.tools.EditorListeners;
 import editor.tsd.tools.Themes;
 import editor.tsd.widget.CodeEditorLayout;
@@ -19,19 +21,22 @@ public class ValueEditorDialog extends MaterialAlertDialogBuilder {
     setTitle(R.string.value_editor);
     LayoutSouceCodeDialogBinding binding =
         LayoutSouceCodeDialogBinding.inflate(activity.getLayoutInflater());
-    binding.editor.setEditor(CodeEditorLayout.SoraCodeEditor);
+    AceEditorColors aceEditorColors = new AceEditorColors();
+    aceEditorColors.setEditorBackground("#00000000");
+    aceEditorColors.setActiveLineColor("#0000002d");
+    aceEditorColors.setGutterActiveLineColor("#0000002d");
+    aceEditorColors.setGutterBackground("#00000000");
+    aceEditorColors.setGutterTextColor(
+        String.format(
+            "#%06X",
+            (0xFFFFFF
+                & ColorUtils.getColor(
+                    activity, com.google.android.material.R.attr.colorOnSurfaceVariant))));
+    aceEditorColors.apply(activity);
+    binding.editor.setEditor(CodeEditorLayout.AceCodeEditor);
     binding.editor.setCode(value);
-    binding.editor.setTheme(Themes.SoraEditorTheme.Light.Quietlight);
+    binding.editor.setTheme(Themes.AceEditorTheme.Light.Default);
     binding.editor.setLanguageMode(language);
-    binding
-        .editor
-        .getSoraCodeEditor()
-        .getColorScheme()
-        .setColor(EditorColorScheme.CURRENT_LINE, Color.parseColor("#11000000"));
-    if (binding.editor.getSoraEditor().getCodeEditor().getLayoutParams() != null) {
-      ((LinearLayout.LayoutParams) binding.editor.getLayoutParams()).width =
-          LinearLayout.LayoutParams.MATCH_PARENT;
-    }
     setView(binding.getRoot());
     setPositiveButton(
         R.string.done,
