@@ -550,6 +550,9 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                     attachableBlockView.setEnableEdit(true);
                     attachableBlockView.setBlock(blockDefaultView.getBlock());
                   }
+                  if (index == 0) {
+                    index = 1;
+                  }
                   ((ViewGroup) v).addView(attachableBlockView, index);
                   Utils.setMargins(attachableBlockView, -16, 0, 0, 0);
                 }
