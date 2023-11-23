@@ -593,7 +593,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         } else if (v.getId() == R.id.relativeBlockListEditorArea) {
           if ((dragView instanceof BlockDefaultView)) {
             BlockDefaultView blockView = null;
-            // if (!(((BlockDefaultView) dragView).getEnableEdit())) {
             blockView = new BlockDefaultView(this);
             blockView.setLanguage(language);
             blockView.setEnableEdit(true);
@@ -608,12 +607,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                 ((ViewGroup) dragView.getParent()).removeView(dragView);
               }
             }
-            //            } else {
-            //              blockView = (BlockDefaultView) dragView;
-            //              if (blockView.getParent() != null) {
-            //                ((ViewGroup) blockView.getParent()).removeView(blockView);
-            //              }
-            //          }
             ((FrameLayout) v).addView(blockView);
             if (blockView.getLayoutParams() != null) {
               blockView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -642,7 +635,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             if (((ComplexBlockView) dragView).getComplexBlock().getBlockType()
                 == Block.BlockType.complexBlock) {
               ComplexBlockView blockView = null;
-              //              if (!(((ComplexBlockView) dragView).getEnableEdit())) {
               blockView = new ComplexBlockView(this);
               blockView.setLanguage(language);
               blockView.setEnableEdit(true);
@@ -657,12 +649,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   ((ViewGroup) dragView.getParent()).removeView(dragView);
                 }
               }
-              //              } else {
-              //                blockView = (ComplexBlockView) dragView;
-              //                if (blockView.getParent() != null) {
-              //                  ((ViewGroup) blockView.getParent()).removeView(blockView);
-              //                }
-              //              }
               ((FrameLayout) v).addView(blockView);
               if (blockView.getLayoutParams() != null) {
                 blockView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;

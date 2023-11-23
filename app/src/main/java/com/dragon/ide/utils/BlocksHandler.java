@@ -1,12 +1,8 @@
 package com.dragon.ide.utils;
 
-import android.app.Activity;
 import android.view.ViewGroup;
-import android.widget.Toast;
-import com.dragon.ide.MyApplication;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.ComplexBlock;
-import com.dragon.ide.objects.Event;
 import com.dragon.ide.ui.view.BlockDefaultView;
 import com.dragon.ide.ui.view.ComplexBlockView;
 import java.util.ArrayList;

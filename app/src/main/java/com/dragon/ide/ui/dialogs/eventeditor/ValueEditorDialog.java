@@ -1,8 +1,6 @@
 package com.dragon.ide.ui.dialogs.eventeditor;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.widget.LinearLayout;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutSouceCodeDialogBinding;
 import com.dragon.ide.listeners.ValueListener;
@@ -12,7 +10,6 @@ import editor.tsd.editors.ace.AceEditorColors;
 import editor.tsd.tools.EditorListeners;
 import editor.tsd.tools.Themes;
 import editor.tsd.widget.CodeEditorLayout;
-import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
 public class ValueEditorDialog extends MaterialAlertDialogBuilder {
   public ValueEditorDialog(

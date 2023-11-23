@@ -1,7 +1,6 @@
 package com.dragon.ide.ui.dialogs.eventList;
 
 import android.app.Activity;
-import android.graphics.Color;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutSouceCodeDialogBinding;
 import com.dragon.ide.utils.ColorUtils;
@@ -9,7 +8,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import editor.tsd.editors.ace.AceEditorColors;
 import editor.tsd.tools.Themes;
 import editor.tsd.widget.CodeEditorLayout;
-import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
 public class ShowSourceCodeDialog extends MaterialAlertDialogBuilder {
   public ShowSourceCodeDialog(Activity activity, String code, String language) {
