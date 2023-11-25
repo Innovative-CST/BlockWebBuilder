@@ -10,7 +10,7 @@ public final class Environments {
   public static File BLOCKS;
 
   public static void init() {
-    IDEDIR = new File(Environment.getExternalStorageDirectory(), ".DragonIDE");
+    IDEDIR = new File(new File("/data/data/com.dragon.ide/files"), ".DragonIDE");
     PROJECTS = new File(IDEDIR, "Projects");
     RESOURCES = new File(IDEDIR, "res");
     BLOCKS = new File(RESOURCES, "block");
