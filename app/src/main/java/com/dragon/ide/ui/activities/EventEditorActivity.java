@@ -539,9 +539,21 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                         == Block.BlockType.sideAttachableBlock
                     || blockDefaultView.getBlock().getBlockType() == Block.BlockType.defaultBlock) {
                   BlockDefaultView attachableBlockView = null;
+                  if (index == 0) {
+                    index = 1;
+                  }
                   if (blockDefaultView.getEnableEdit()) {
                     attachableBlockView = blockDefaultView;
                     if (attachableBlockView.getParent() != null) {
+                      int index2 =
+                          ((ViewGroup) attachableBlockView.getParent())
+                              .indexOfChild(attachableBlockView);
+                      if (index2 < index) {
+                        if (((ViewGroup) attachableBlockView.getParent()).getId()
+                            != R.id.relativeBlockListEditorArea) {
+                          index = index - 1;
+                        }
+                      }
                       ((ViewGroup) attachableBlockView.getParent()).removeView(attachableBlockView);
                     }
                   } else {
@@ -549,9 +561,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                     attachableBlockView.setLanguage(language);
                     attachableBlockView.setEnableEdit(true);
                     attachableBlockView.setBlock(blockDefaultView.getBlock());
-                  }
-                  if (index == 0) {
-                    index = 1;
                   }
                   ((ViewGroup) v).addView(attachableBlockView, index);
                   Utils.setMargins(attachableBlockView, -16, 0, 0, 0);
