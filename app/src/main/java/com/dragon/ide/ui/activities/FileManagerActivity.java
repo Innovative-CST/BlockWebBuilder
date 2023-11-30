@@ -57,6 +57,8 @@ public class FileManagerActivity extends BaseActivity {
     if (getIntent().hasExtra("projectName")) {
       projectName = getIntent().getStringExtra("projectName");
       projectPath = getIntent().getStringExtra("projectPath");
+      // Set toolbar title to project name
+      binding.toolbar.setTitle(projectName);
     } else {
       showSection(5);
       binding.errorText.setText(getString(R.string.project_name_not_passed));
