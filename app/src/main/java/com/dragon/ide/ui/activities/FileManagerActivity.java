@@ -111,11 +111,6 @@ public class FileManagerActivity extends BaseActivity {
                           }
                         });
                   } catch (DeserializationException e) {
-                    runOnUiThread(
-                        () -> {
-                          showSection(5);
-                          binding.errorText.setText(e.getMessage());
-                        });
                   }
                 }
               } else {
