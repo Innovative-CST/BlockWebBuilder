@@ -1,5 +1,7 @@
 package com.dragon.ide.ui.activities;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import com.dragon.ide.ui.adapters.FileListAdapterItem;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
@@ -99,6 +101,7 @@ public class FileManagerActivity extends BaseActivity {
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
               if (ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).exists()) {
+                ArrayList<WebFile> fileList = new ArrayList<WebFile>();
                 for (File fileDirectory :
                     ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).listFiles()) {
                   try {
@@ -106,12 +109,30 @@ public class FileManagerActivity extends BaseActivity {
                         ProjectFileUtils.getProjectWebFile(fileDirectory),
                         new TaskListener() {
                           @Override
-                          public void onSuccess(Object result) {
-                              
+                          public void onSuccess(Object webFile) {
+                            fileList.add((WebFile) webFile);
                           }
                         });
                   } catch (DeserializationException e) {
                   }
+                }
+                if (fileList.size() > 0) {
+                  runOnUiThread(
+                      () -> {
+                        binding.list.setAdapter(
+                            new FileListAdapterItem(
+                                fileList, FileManagerActivity.this, projectName, projectPath));
+                        binding.list.setLayoutManager(
+                            new LinearLayoutManager(FileManagerActivity.this));
+                        showSection(4);
+                      });
+                } else {
+                  isLoaded = true;
+                  runOnUiThread(
+                      () -> {
+                        showSection(5);
+                        binding.errorText.setText(getString(R.string.no_files_yet));
+                      });
                 }
               } else {
                 isLoaded = true;
@@ -133,6 +154,9 @@ public class FileManagerActivity extends BaseActivity {
         });
   }
 
+  /*
+   * Method for switching display of various layouts
+   */
   public void showSection(int section) {
     binding.loading.setVisibility(View.GONE);
     binding.noFilesYet.setVisibility(View.GONE);
