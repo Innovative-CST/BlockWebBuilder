@@ -186,14 +186,28 @@ public class FileManagerActivity extends BaseActivity {
     Executor executor = Executors.newSingleThreadExecutor();
     executor.execute(
         () -> {
-          try {
-            FileOutputStream fos =
-                new FileOutputStream(new File(new File(projectPath), "Files.txt"));
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(fileList);
-            fos.close();
-            oos.close();
-          } catch (Exception e) {
+          for (int i = 0; i < fileList.size(); ++i) {
+            try {
+              File webFileDestination =
+                  ProjectFileUtils.getProjectWebFile(
+                      new File(
+                          ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)),
+                          fileList
+                              .get(i)
+                              .getFilePath()
+                              .concat(
+                                  WebFile.getSupportedFileSuffix(fileList.get(i).getFileType()))));
+              if (!webFileDestination.getParentFile().exists()) {
+                webFileDestination.getParentFile().mkdirs();
+              }
+
+              FileOutputStream fos = new FileOutputStream(webFileDestination);
+              ObjectOutputStream oos = new ObjectOutputStream(fos);
+              oos.writeObject(fileList.get(i));
+              fos.close();
+              oos.close();
+            } catch (Exception e) {
+            }
           }
         });
   }

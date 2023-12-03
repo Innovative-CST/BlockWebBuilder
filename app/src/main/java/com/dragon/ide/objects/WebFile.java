@@ -8,7 +8,6 @@ public class WebFile implements Serializable {
   public static final long serialVersionUID = 428383835L;
   private String filePath;
   private int fileType;
-  private ArrayList<WebFile> fileList;
   private ArrayList<Event> events;
   private String rawCode;
 
@@ -26,14 +25,6 @@ public class WebFile implements Serializable {
 
   public void setFileType(int fileType) {
     this.fileType = fileType;
-  }
-
-  public ArrayList<WebFile> getFileList() {
-    return this.fileList;
-  }
-
-  public void setFileList(ArrayList<WebFile> fileList) {
-    this.fileList = fileList;
   }
 
   public ArrayList<Event> getEvents() {
