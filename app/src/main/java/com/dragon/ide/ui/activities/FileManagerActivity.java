@@ -5,17 +5,17 @@ import static com.dragon.ide.utils.Environments.PROJECTS;
 import android.os.Bundle;
 import android.view.View;
 import androidx.annotation.MainThread;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityFileManagerBinding;
+import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.WebFile;
-import com.dragon.ide.ui.adapters.FileListAdapterItem;
 import com.dragon.ide.ui.dialogs.filemanager.CreateFileDialog;
+import com.dragon.ide.utils.DeserializationException;
+import com.dragon.ide.utils.DeserializerUtils;
+import com.dragon.ide.utils.ProjectFileUtils;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -98,35 +98,25 @@ public class FileManagerActivity extends BaseActivity {
               showSection(5);
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
-              if (new File(new File(projectPath), "Files.txt").exists()) {
-                try {
-                  FileInputStream fis =
-                      new FileInputStream(new File(new File(projectPath), "Files.txt"));
-                  ObjectInputStream ois = new ObjectInputStream(fis);
-                  Object obj = ois.readObject();
-                  if (obj instanceof ArrayList) {
-                    fileList = (ArrayList<WebFile>) obj;
+              if (ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).exists()) {
+                for (File fileDirectory :
+                    ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).listFiles()) {
+                  try {
+                    DeserializerUtils.deserializeWebfile(
+                        ProjectFileUtils.getProjectWebFile(fileDirectory),
+                        new TaskListener() {
+                          @Override
+                          public void onSuccess(Object result) {
+                              
+                          }
+                        });
+                  } catch (DeserializationException e) {
+                    runOnUiThread(
+                        () -> {
+                          showSection(5);
+                          binding.errorText.setText(e.getMessage());
+                        });
                   }
-                  fis.close();
-                  ois.close();
-                  isLoaded = true;
-                  runOnUiThread(
-                      () -> {
-                        binding.list.setAdapter(
-                            new FileListAdapterItem(
-                                fileList, FileManagerActivity.this, projectName, projectPath));
-                        binding.list.setLayoutManager(
-                            new LinearLayoutManager(FileManagerActivity.this));
-                        showSection(4);
-                      });
-                } catch (Exception e) {
-                  runOnUiThread(
-                      () -> {
-                        isLoaded = true;
-                        showSection(5);
-                        binding.errorText.setText(
-                            getString(R.string.an_error_occured_while_parsing_file_list));
-                      });
                 }
               } else {
                 isLoaded = true;
