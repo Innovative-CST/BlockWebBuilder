@@ -47,7 +47,6 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
                             .getFilePath()
                             .concat(WebFile.getSupportedFileSuffix(webFile.getFileType())))).getAbsolutePath());
             if (activity instanceof FileManagerActivity) {
-              ((FileManagerActivity) activity).getFileListRecyclerView();
               ((FileManagerActivity) activity)
                   .getFileListRecyclerView()
                   .setAdapter(
