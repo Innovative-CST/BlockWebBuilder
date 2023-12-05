@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 public class FileManagerActivity extends BaseActivity {
   private ActivityFileManagerBinding binding;
   private ArrayList<WebFile> fileList;
-    private ArrayList<String> filePath;
+  private ArrayList<String> filePath;
   private String projectName;
   private String projectPath;
   private boolean isLoaded = false;
@@ -41,8 +41,9 @@ public class FileManagerActivity extends BaseActivity {
     // set content view to binding's root.
     setContentView(binding.getRoot());
 
-    // Initialize fileList to avoid null error
+    // Initialize fileList and filePath to avoid null error
     fileList = new ArrayList<WebFile>();
+    filePath = new ArrayList<String>();
 
     // Setup toolbar.
     binding.toolbar.setTitle(R.string.app_name);
@@ -79,7 +80,8 @@ public class FileManagerActivity extends BaseActivity {
     binding.fab.setOnClickListener(
         (view) -> {
           CreateFileDialog createFileDialog =
-              new CreateFileDialog(FileManagerActivity.this, filePath, fileList, projectName, projectPath);
+              new CreateFileDialog(
+                  FileManagerActivity.this, filePath, fileList, projectName, projectPath);
           createFileDialog.create().show();
         });
   }
@@ -113,7 +115,9 @@ public class FileManagerActivity extends BaseActivity {
                           @Override
                           public void onSuccess(Object webFile) {
                             fileList.add((WebFile) webFile);
-                            filePath.add(ProjectFileUtils.getProjectWebFile(fileDirectory).getAbsolutePath());
+                            filePath.add(
+                                ProjectFileUtils.getProjectWebFile(fileDirectory)
+                                    .getAbsolutePath());
                           }
                         });
                   } catch (DeserializationException e) {
