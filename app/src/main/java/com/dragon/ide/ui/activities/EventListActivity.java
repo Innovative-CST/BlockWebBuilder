@@ -115,37 +115,54 @@ public class EventListActivity extends BaseActivity {
         () -> {
           if (PROJECTS.exists()) {
             if (!new File(projectPath).exists()) {
-              showSection(2);
-              binding.tvInfo.setText(getString(R.string.project_not_found));
-            } else {
-              eventList = new ArrayList<Event>();
-              for (File event :
-                  new File(new File(webFilePath).getParent(), ProjectFileUtils.EVENTS_DIRECTORY)
-                      .listFiles()) {
-                try {
-                  DeserializerUtils.deserializeEvent(
-                      event,
-                      new TaskListener() {
-                        @Override
-                        public void onSuccess(Object mWebFile) {
-                          eventList.add((Event) mWebFile);
-                        }
-                      });
-                } catch (DeserializationException e) {
-                }
-              }
               runOnUiThread(
                   () -> {
-                    showSection(3);
-                    binding.list.setAdapter(
-                        new EventListAdapter(
-                            eventList,
-                            EventListActivity.this,
-                            projectName,
-                            projectPath,
-                            fileName,
-                            fileType));
+                    showSection(2);
+                    binding.tvInfo.setText(getString(R.string.project_not_found));
                   });
+            } else {
+              if (new File(new File(webFilePath).getParent(), ProjectFileUtils.EVENTS_DIRECTORY)
+                  .exists()) {
+                eventList = new ArrayList<Event>();
+                for (File event :
+                    new File(new File(webFilePath).getParent(), ProjectFileUtils.EVENTS_DIRECTORY)
+                        .listFiles()) {
+                  try {
+                    DeserializerUtils.deserializeEvent(
+                        event,
+                        new TaskListener() {
+                          @Override
+                          public void onSuccess(Object mWebFile) {
+                            eventList.add((Event) mWebFile);
+                          }
+                        });
+                  } catch (DeserializationException e) {
+                  }
+                }
+                runOnUiThread(
+                    () -> {
+                      if (eventList.size() == 0) {
+                        showSection(2);
+                        binding.tvInfo.setText(getString(R.string.project_not_found));
+                      } else {
+                        showSection(3);
+                        binding.list.setAdapter(
+                            new EventListAdapter(
+                                eventList,
+                                EventListActivity.this,
+                                projectName,
+                                projectPath,
+                                fileName,
+                                fileType));
+                      }
+                    });
+              } else {
+                runOnUiThread(
+                    () -> {
+                      showSection(2);
+                      binding.tvInfo.setText(getString(R.string.project_not_found));
+                    });
+              }
             }
           } else {
             runOnUiThread(
