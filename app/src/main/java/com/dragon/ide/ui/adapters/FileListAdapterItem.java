@@ -17,13 +17,19 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
   public Activity activity;
   private String projectName;
   private String projectPath;
+  ArrayList<String> filePathList;
 
   public FileListAdapterItem(
-      ArrayList<WebFile> _arr, Activity activity, String projectName, String projectPath) {
+      ArrayList<WebFile> _arr,
+      ArrayList<String> filePathList,
+      Activity activity,
+      String projectName,
+      String projectPath) {
     _data = _arr;
     this.activity = activity;
     this.projectName = projectName;
     this.projectPath = projectPath;
+    this.filePathList = filePathList;
   }
 
   @Override
@@ -70,6 +76,7 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
               i.putExtra("projectPath", projectPath);
               i.putExtra("fileName", _data.get(_position).getFilePath());
               i.putExtra("fileType", _data.get(_position).getFileType());
+              i.putExtra("webFile", filePathList.get(_position));
               activity.startActivity(i);
             });
   }

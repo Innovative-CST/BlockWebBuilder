@@ -1,17 +1,17 @@
 package com.dragon.ide.ui.activities;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import com.dragon.ide.ui.adapters.FileListAdapterItem;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
 import android.view.View;
 import androidx.annotation.MainThread;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityFileManagerBinding;
 import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.WebFile;
+import com.dragon.ide.ui.adapters.FileListAdapterItem;
 import com.dragon.ide.ui.dialogs.filemanager.CreateFileDialog;
 import com.dragon.ide.utils.DeserializationException;
 import com.dragon.ide.utils.DeserializerUtils;
@@ -26,6 +26,7 @@ import java.util.concurrent.Executors;
 public class FileManagerActivity extends BaseActivity {
   private ActivityFileManagerBinding binding;
   private ArrayList<WebFile> fileList;
+    private ArrayList<String> filePath;
   private String projectName;
   private String projectPath;
   private boolean isLoaded = false;
@@ -78,7 +79,7 @@ public class FileManagerActivity extends BaseActivity {
     binding.fab.setOnClickListener(
         (view) -> {
           CreateFileDialog createFileDialog =
-              new CreateFileDialog(FileManagerActivity.this, fileList, projectName, projectPath);
+              new CreateFileDialog(FileManagerActivity.this, filePath, fileList, projectName, projectPath);
           createFileDialog.create().show();
         });
   }
@@ -102,6 +103,7 @@ public class FileManagerActivity extends BaseActivity {
             } else {
               if (ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).exists()) {
                 ArrayList<WebFile> fileList = new ArrayList<WebFile>();
+                filePath = new ArrayList<String>();
                 for (File fileDirectory :
                     ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).listFiles()) {
                   try {
@@ -111,6 +113,7 @@ public class FileManagerActivity extends BaseActivity {
                           @Override
                           public void onSuccess(Object webFile) {
                             fileList.add((WebFile) webFile);
+                            filePath.add(ProjectFileUtils.getProjectWebFile(fileDirectory).getAbsolutePath());
                           }
                         });
                   } catch (DeserializationException e) {
@@ -121,7 +124,11 @@ public class FileManagerActivity extends BaseActivity {
                       () -> {
                         binding.list.setAdapter(
                             new FileListAdapterItem(
-                                fileList, FileManagerActivity.this, projectName, projectPath));
+                                fileList,
+                                filePath,
+                                FileManagerActivity.this,
+                                projectName,
+                                projectPath));
                         binding.list.setLayoutManager(
                             new LinearLayoutManager(FileManagerActivity.this));
                         showSection(4);

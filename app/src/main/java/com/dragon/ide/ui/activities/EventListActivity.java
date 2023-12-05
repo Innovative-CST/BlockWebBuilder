@@ -7,18 +7,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.MainThread;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityEventListBinding;
+import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.Event;
 import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.adapters.EventListAdapter;
 import com.dragon.ide.ui.dialogs.eventList.ShowSourceCodeDialog;
+import com.dragon.ide.utils.DeserializationException;
+import com.dragon.ide.utils.DeserializerUtils;
+import com.dragon.ide.utils.ProjectFileUtils;
 import editor.tsd.tools.Language;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -32,6 +33,7 @@ public class EventListActivity extends BaseActivity {
   private String projectName;
   private String projectPath;
   private String fileName;
+  private String webFilePath;
   private int fileType;
   private boolean isLoaded;
 
@@ -73,6 +75,20 @@ public class EventListActivity extends BaseActivity {
       projectPath = getIntent().getStringExtra("projectPath");
       fileName = getIntent().getStringExtra("fileName");
       fileType = getIntent().getIntExtra("fileType", 1);
+      webFilePath = getIntent().getStringExtra("webFile");
+      try {
+        DeserializerUtils.deserializeWebfile(
+            ProjectFileUtils.getProjectWebFile(new File(webFilePath)),
+            new TaskListener() {
+              @Override
+              public void onSuccess(Object mWebFile) {
+                file = (WebFile) mWebFile;
+              }
+            });
+      } catch (DeserializationException e) {
+        showSection(2);
+        binding.tvInfo.setText(e.getMessage());
+      }
     } else {
       showSection(2);
       binding.tvInfo.setText(getString(R.string.error));
@@ -102,58 +118,34 @@ public class EventListActivity extends BaseActivity {
               showSection(2);
               binding.tvInfo.setText(getString(R.string.project_not_found));
             } else {
-              if (new File(new File(projectPath), "Files.txt").exists()) {
+              eventList = new ArrayList<Event>();
+              for (File event :
+                  new File(new File(webFilePath).getParent(), ProjectFileUtils.EVENTS_DIRECTORY)
+                      .listFiles()) {
                 try {
-                  FileInputStream fis =
-                      new FileInputStream(new File(new File(projectPath), "Files.txt"));
-                  ObjectInputStream ois = new ObjectInputStream(fis);
-                  Object obj = ois.readObject();
-                  if (obj instanceof ArrayList) {
-                    fileList = (ArrayList<WebFile>) obj;
-                  }
-                  fis.close();
-                  ois.close();
-                  isLoaded = true;
-                  for (int i = 0; i < fileList.size(); ++i) {
-                    if (fileList
-                        .get(i)
-                        .getFilePath()
-                        .toLowerCase()
-                        .equals(fileName.toLowerCase())) {
-                      if (fileList.get(i).getFileType() == fileType) {
-                        file = fileList.get(i);
-                        eventList = fileList.get(i).getEvents();
-                      }
-                    }
-                  }
-                  binding.list.setAdapter(
-                      new EventListAdapter(
-                          eventList,
-                          EventListActivity.this,
-                          projectName,
-                          projectPath,
-                          fileName,
-                          fileType));
-                  runOnUiThread(
-                      () -> {
-                        binding.list.setLayoutManager(
-                            new LinearLayoutManager(EventListActivity.this));
-                        showSection(3);
+                  DeserializerUtils.deserializeEvent(
+                      event,
+                      new TaskListener() {
+                        @Override
+                        public void onSuccess(Object mWebFile) {
+                          eventList.add((Event) mWebFile);
+                        }
                       });
-                } catch (Exception e) {
-                  runOnUiThread(
-                      () -> {
-                        showSection(2);
-                        binding.tvInfo.setText(e.getMessage());
-                      });
+                } catch (DeserializationException e) {
                 }
-              } else {
-                runOnUiThread(
-                    () -> {
-                      showSection(2);
-                      binding.tvInfo.setText(getString(R.string.no_files_yet));
-                    });
               }
+              runOnUiThread(
+                  () -> {
+                    showSection(3);
+                    binding.list.setAdapter(
+                        new EventListAdapter(
+                            eventList,
+                            EventListActivity.this,
+                            projectName,
+                            projectPath,
+                            fileName,
+                            fileType));
+                  });
             }
           } else {
             runOnUiThread(

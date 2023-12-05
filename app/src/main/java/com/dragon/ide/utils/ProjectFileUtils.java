@@ -8,6 +8,7 @@ public class ProjectFileUtils {
   public static final String PROJECT_FILES_DIRECTORY = "files";
   public static final String PROJECT_CONFIGRATION_FILE = "Project.txt";
   public static final String WEBFILE_FILE = "file";
+  public static final String EVENTS_DIRECTORY = "events";
 
   public static File getProjectFile(String projectDirectoryName) {
     return new File(new File(PROJECTS, projectDirectoryName), PROJECT_CONFIGRATION_FILE);
