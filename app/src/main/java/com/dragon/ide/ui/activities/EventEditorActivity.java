@@ -1,7 +1,5 @@
 package com.dragon.ide.ui.activities;
 
-import static com.dragon.ide.utils.Environments.PROJECTS;
-
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -17,6 +15,7 @@ import androidx.annotation.MainThread;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityEventEditorBinding;
+import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlocksHolder;
 import com.dragon.ide.objects.ComplexBlock;
@@ -28,13 +27,13 @@ import com.dragon.ide.ui.utils.BlocksLoader;
 import com.dragon.ide.ui.view.BlockDefaultView;
 import com.dragon.ide.ui.view.ComplexBlockView;
 import com.dragon.ide.utils.BlocksHandler;
+import com.dragon.ide.utils.DeserializationException;
+import com.dragon.ide.utils.DeserializerUtils;
 import com.dragon.ide.utils.Utils;
 import com.dragon.ide.utils.eventeditor.BlocksListLoader;
 import editor.tsd.tools.Language;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -42,17 +41,19 @@ import java.util.concurrent.Executors;
 
 public class EventEditorActivity extends BaseActivity implements View.OnDragListener {
   public ActivityEventEditorBinding binding;
-  private ArrayList<WebFile> fileList;
   private WebFile file;
   private ArrayList<BlocksHolder> blocksHolder;
   private String projectName;
   private String projectPath;
-  private String fileName;
-  private int fileType;
+  private String webFilePath;
   private boolean isLoaded;
-  private String eventName;
+
+  // Event
+  private String eventFilePath;
   private Event event;
   private String language;
+
+  // Shadow
   private LinearLayout blockShadow;
 
   @Override
@@ -64,7 +65,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     setContentView(binding.getRoot());
 
     // Initialize to avoid null error
-    fileList = new ArrayList<WebFile>();
     blocksHolder = new ArrayList<BlocksHolder>();
 
     // Setup toolbar.
@@ -82,16 +82,37 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
 
     projectName = "";
     projectPath = "";
-    fileName = "";
-    fileType = 0;
+    webFilePath = "";
+    eventFilePath = "";
     isLoaded = false;
 
     if (getIntent().hasExtra("projectName")) {
       projectName = getIntent().getStringExtra("projectName");
       projectPath = getIntent().getStringExtra("projectPath");
-      fileName = getIntent().getStringExtra("fileName");
-      fileType = getIntent().getIntExtra("fileType", 1);
-      eventName = getIntent().getStringExtra("eventName");
+      webFilePath = getIntent().getStringExtra("webFilePath");
+      eventFilePath = getIntent().getStringExtra("eventFilePath");
+      try {
+        DeserializerUtils.deserializeWebfile(
+            new File(webFilePath),
+            new TaskListener() {
+              @Override
+              public void onSuccess(Object mWebFile) {
+                file = (WebFile) mWebFile;
+              }
+            });
+      } catch (DeserializationException e) {
+      }
+      try {
+        DeserializerUtils.deserializeEvent(
+            new File(eventFilePath),
+            new TaskListener() {
+              @Override
+              public void onSuccess(Object mEvent) {
+                event = (Event) mEvent;
+              }
+            });
+      } catch (DeserializationException e) {
+      }
     } else {
       showSection(2);
       binding.tvInfo.setText(getString(R.string.project_name_not_passed));
@@ -114,14 +135,23 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
 
     /*
      * Ask for storage permission if not granted.
-     * Load projects if storage permission is granted.
+     * Load event if storage permission is granted.
      */
     if (!MainActivity.isStoagePermissionGranted(this)) {
       showSection(2);
       binding.tvInfo.setText(R.string.storage_permission_denied);
       MainActivity.showStoragePermissionDialog(this);
     } else {
-      loadFileList();
+      if (event != null && file != null) {
+        showSection(1);
+        isLoaded = true;
+        loadBlocks(event);
+        showSection(3);
+      } else {
+        showSection(2);
+        isLoaded = false;
+        binding.tvInfo.setText(getText(R.string.an_error_occured_while_parsing_event));
+      }
     }
 
     /*
@@ -166,114 +196,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         binding.editor.setVisibility(View.VISIBLE);
         break;
     }
-  }
-
-  public void loadFileList() {
-    // List is loading, so it shows loading view.
-    showSection(1);
-
-    // Load project list in a saparate thread to avoid UI freeze.
-    Executor executor = Executors.newSingleThreadExecutor();
-    executor.execute(
-        () -> {
-          if (PROJECTS.exists()) {
-            if (!new File(projectPath).exists()) {
-              showSection(2);
-              binding.tvInfo.setText(getString(R.string.project_not_found));
-            } else {
-              if (new File(new File(projectPath), "Files.txt").exists()) {
-                try {
-                  FileInputStream fis =
-                      new FileInputStream(new File(new File(projectPath), "Files.txt"));
-                  ObjectInputStream ois = new ObjectInputStream(fis);
-                  Object obj = ois.readObject();
-                  if (obj instanceof ArrayList) {
-                    fileList = (ArrayList<WebFile>) obj;
-
-                    for (int i = 0; i < fileList.size(); ++i) {
-                      if (fileList
-                          .get(i)
-                          .getFilePath()
-                          .toLowerCase()
-                          .equals(fileName.toLowerCase())) {
-                        if (fileList.get(i).getFileType() == fileType) {
-                          file = fileList.get(i);
-                        }
-                      }
-                    }
-                    if (file == null) {
-                      runOnUiThread(
-                          () -> {
-                            showSection(2);
-                            binding.tvInfo.setText("File not not found");
-                            return;
-                          });
-                    }
-                  } else {
-                    runOnUiThread(
-                        () -> {
-                          showSection(2);
-                          binding.tvInfo.setText("Not an instance of WebFile");
-                        });
-                  }
-
-                  for (int i2 = 0; i2 < file.getEvents().size(); ++i2) {
-                    Event loopEvent = file.getEvents().get(i2);
-                    if (eventName.toLowerCase().equals(loopEvent.getName().toLowerCase())) {
-                      event = file.getEvents().get(i2);
-                      isLoaded = true;
-                      switch (WebFile.getSupportedFileSuffix(file.getFileType())) {
-                        case ".html":
-                          language = Language.HTML;
-                          break;
-                        case ".css":
-                          language = Language.CSS;
-                          break;
-                        case ".js":
-                          language = Language.JavaScript;
-                          break;
-                      }
-                      runOnUiThread(
-                          () -> {
-                            loadBlocks(loopEvent);
-                            showSection(3);
-                          });
-                    }
-                  }
-
-                  if (!isLoaded) {
-                    runOnUiThread(
-                        () -> {
-                          showSection(2);
-                          binding.tvInfo.setText("Event not found");
-                        });
-                  }
-
-                  fis.close();
-                  ois.close();
-                } catch (Exception e) {
-                  runOnUiThread(
-                      () -> {
-                        showSection(2);
-                        binding.tvInfo.setText(e.getMessage());
-                      });
-                }
-              } else {
-                runOnUiThread(
-                    () -> {
-                      showSection(2);
-                      binding.tvInfo.setText(getString(R.string.no_files_yet));
-                    });
-              }
-            }
-          } else {
-            runOnUiThread(
-                () -> {
-                  showSection(2);
-                  binding.tvInfo.setText(getString(R.string.project_not_found));
-                });
-          }
-        });
   }
 
   @Override
@@ -780,10 +702,9 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     executor.execute(
         () -> {
           try {
-            FileOutputStream fos =
-                new FileOutputStream(new File(new File(projectPath), "Files.txt"));
+            FileOutputStream fos = new FileOutputStream(new File(eventFilePath));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(fileList);
+            oos.writeObject(event);
             fos.close();
             oos.close();
             if (exitAfterSave) {

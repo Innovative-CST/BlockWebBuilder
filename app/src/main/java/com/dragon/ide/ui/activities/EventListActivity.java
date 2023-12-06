@@ -132,8 +132,8 @@ public class EventListActivity extends BaseActivity {
                         event,
                         new TaskListener() {
                           @Override
-                          public void onSuccess(Object mWebFile) {
-                            eventList.add((Event) mWebFile);
+                          public void onSuccess(Object mEvent) {
+                            eventList.add((Event) mEvent);
                           }
                         });
                   } catch (DeserializationException e) {
