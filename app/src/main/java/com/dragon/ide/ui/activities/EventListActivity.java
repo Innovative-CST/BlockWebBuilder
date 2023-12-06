@@ -143,7 +143,7 @@ public class EventListActivity extends BaseActivity {
                     () -> {
                       if (eventList.size() == 0) {
                         showSection(2);
-                        binding.tvInfo.setText(getString(R.string.project_not_found));
+                        binding.tvInfo.setText(getString(R.string.no_events_yet));
                       } else {
                         showSection(3);
                         binding.list.setAdapter(
@@ -160,7 +160,7 @@ public class EventListActivity extends BaseActivity {
                 runOnUiThread(
                     () -> {
                       showSection(2);
-                      binding.tvInfo.setText(getString(R.string.project_not_found));
+                      binding.tvInfo.setText(getString(R.string.no_events_yet));
                     });
               }
             }

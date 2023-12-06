@@ -28,6 +28,7 @@
     <string name="new_holder">New holder</string>
     <string name="no_blocks_holder_yet">No blocks holder yet</string>
     <string name="no_blocks_yet">No Blocks yet</string>
+    <string name="no_events_yet">No events yet</string>
     <string name="no_files_yet">No files yet</string>
     <string name="no_projects_yet">No projects yet</string>
     <string name="package_name">Package name</string>
