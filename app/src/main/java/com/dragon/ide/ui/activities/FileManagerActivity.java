@@ -67,16 +67,6 @@ public class FileManagerActivity extends BaseActivity {
       showSection(5);
       binding.errorText.setText(getString(R.string.project_name_not_passed));
     }
-    /*
-     * Ask for storage permission if not granted.
-     * Load projects if storage permission is granted.
-     */
-    if (!MainActivity.isStoagePermissionGranted(this)) {
-      showSection(3);
-      MainActivity.showStoragePermissionDialog(this);
-    } else {
-      showFileList();
-    }
     binding.fab.setOnClickListener(
         (view) -> {
           CreateFileDialog createFileDialog =
@@ -84,6 +74,16 @@ public class FileManagerActivity extends BaseActivity {
                   FileManagerActivity.this, filePath, fileList, projectName, projectPath);
           createFileDialog.create().show();
         });
+    /*
+     * Ask for storage permission if not granted.
+     * Load projects if storage permission is granted.
+     */
+    if (!MainActivity.isStoagePermissionGranted(this)) {
+      showSection(3);
+      MainActivity.showStoragePermissionDialog(this);
+      return;
+    }
+    showFileList();
   }
 
   public RecyclerView getFileListRecyclerView() {
