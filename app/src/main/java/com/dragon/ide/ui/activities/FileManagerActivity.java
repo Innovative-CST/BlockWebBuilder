@@ -104,7 +104,7 @@ public class FileManagerActivity extends BaseActivity {
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
               if (ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).exists()) {
-                ArrayList<WebFile> fileList = new ArrayList<WebFile>();
+                fileList = new ArrayList<WebFile>();
                 filePath = new ArrayList<String>();
                 for (File fileDirectory :
                     ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).listFiles()) {

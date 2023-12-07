@@ -1,5 +1,6 @@
 package com.dragon.ide.ui.activities;
 
+import android.widget.Toast;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
@@ -27,7 +28,6 @@ import java.util.concurrent.Executors;
 
 public class EventListActivity extends BaseActivity {
   private ActivityEventListBinding binding;
-  private ArrayList<WebFile> fileList;
   private WebFile file;
   private ArrayList<Event> eventList;
   private String projectName;
@@ -48,7 +48,6 @@ public class EventListActivity extends BaseActivity {
     setContentView(binding.getRoot());
 
     // Initialize to avoid null error
-    fileList = new ArrayList<WebFile>();
     eventList = new ArrayList<Event>();
     projectName = "";
     projectPath = "";
@@ -78,11 +77,12 @@ public class EventListActivity extends BaseActivity {
       webFilePath = getIntent().getStringExtra("webFile");
       try {
         DeserializerUtils.deserializeWebfile(
-            ProjectFileUtils.getProjectWebFile(new File(webFilePath)),
+            new File(webFilePath),
             new TaskListener() {
               @Override
               public void onSuccess(Object mWebFile) {
                 file = (WebFile) mWebFile;
+                isLoaded = true;
               }
             });
       } catch (DeserializationException e) {
@@ -188,39 +188,6 @@ public class EventListActivity extends BaseActivity {
       case 3:
         binding.eventList.setVisibility(View.VISIBLE);
         break;
-    }
-  }
-
-  public void saveFileList() {
-    Executor executor = Executors.newSingleThreadExecutor();
-    executor.execute(
-        () -> {
-          try {
-            FileOutputStream fos =
-                new FileOutputStream(new File(new File(projectPath), "Files.txt"));
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(fileList);
-            fos.close();
-            oos.close();
-          } catch (Exception e) {
-          }
-        });
-  }
-
-  @Override
-  @MainThread
-  public void onBackPressed() {
-    super.onBackPressed();
-    if (isLoaded) {
-      saveFileList();
-    }
-  }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-    if (isLoaded) {
-      saveFileList();
     }
   }
 
