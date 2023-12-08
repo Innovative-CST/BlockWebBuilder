@@ -1,13 +1,13 @@
 package com.dragon.ide.ui.activities;
 
-import android.widget.Toast;
+import com.dragon.ide.listeners.EventAddListener;
+import com.dragon.ide.ui.dialogs.eventList.AddEventDialog;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import androidx.annotation.MainThread;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityEventListBinding;
 import com.dragon.ide.listeners.TaskListener;
@@ -20,8 +20,6 @@ import com.dragon.ide.utils.DeserializerUtils;
 import com.dragon.ide.utils.ProjectFileUtils;
 import editor.tsd.tools.Language;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -93,6 +91,18 @@ public class EventListActivity extends BaseActivity {
       showSection(2);
       binding.tvInfo.setText(getString(R.string.error));
     }
+
+    binding.fab.setOnClickListener(
+        (view) -> {
+          AddEventDialog createFileDialog =
+              new AddEventDialog(
+                  EventListActivity.this,
+                  file,
+                  new EventAddListener() {
+                    @Override
+                    public void onAdd(ArrayList<Event> events) {}
+                  });
+        });
     /*
      * Ask for storage permission if not granted.
      * Load events if storage permission is granted.

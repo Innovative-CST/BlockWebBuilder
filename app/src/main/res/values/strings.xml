@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+ <string name="add">Add</string>
+    <string name="add_events">Add Events</string>
     <string name="an_error_occured_while_parsing_blocks_holder_list">An error occured while parsing blocks holder list.</string>
     <string name="an_error_occured_while_parsing_event">An error occured while parsing event.</string>
     <string name="an_error_occured_while_parsing_file_list">An error occured while parsing file list.</string>
