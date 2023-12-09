@@ -104,8 +104,8 @@ public class FileManagerActivity extends BaseActivity {
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
               if (ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).exists()) {
-                fileList = new ArrayList<WebFile>();
-                filePath = new ArrayList<String>();
+                ArrayList<WebFile> fileList = new ArrayList<WebFile>();
+                ArrayList<String> filePath = new ArrayList<String>();
                 for (File fileDirectory :
                     ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).listFiles()) {
                   try {
@@ -126,6 +126,7 @@ public class FileManagerActivity extends BaseActivity {
                 if (fileList.size() > 0) {
                   runOnUiThread(
                       () -> {
+                        isLoaded = true;
                         binding.list.setAdapter(
                             new FileListAdapterItem(
                                 fileList,
@@ -137,6 +138,8 @@ public class FileManagerActivity extends BaseActivity {
                             new LinearLayoutManager(FileManagerActivity.this));
                         showSection(4);
                       });
+                  FileManagerActivity.this.fileList = fileList;
+                  FileManagerActivity.this.filePath = filePath;
                 } else {
                   isLoaded = true;
                   runOnUiThread(
