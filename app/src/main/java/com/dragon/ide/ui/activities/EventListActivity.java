@@ -128,6 +128,10 @@ public class EventListActivity extends BaseActivity {
                                 }
                               }
                             }
+                            runOnUiThread(
+                                () -> {
+                                  showEventList();
+                                });
                           });
                     }
                   });
