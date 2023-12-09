@@ -263,7 +263,7 @@ public class EventListActivity extends BaseActivity {
             break;
         }
         ShowSourceCodeDialog showSourceCodeDialog =
-            new ShowSourceCodeDialog(this, file.getCode(), language);
+            new ShowSourceCodeDialog(this, file.getCode(eventList), language);
         showSourceCodeDialog.show();
       }
     }

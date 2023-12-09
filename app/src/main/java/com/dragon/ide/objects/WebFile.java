@@ -49,24 +49,24 @@ public class WebFile implements Serializable {
     this.rawCode = rawCode;
   }
 
-  public String getCode() {
+  public String getCode(ArrayList<Event> events) {
     String fileRawCode = new String(getRawCode());
     if (!(getFileType() == WebFile.SupportedFileType.FOLDER)) {
-      for (int i = 0; i < getEvents().size(); ++i) {
+      for (int i = 0; i < events.size(); ++i) {
         String formatter = "";
         String[] lines = getRawCode().split("\n");
         for (int i2 = 0; i2 < lines.length; ++i2) {
-          if (lines[i2].contains(getEvents().get(i).getEventReplacer())) {
+          if (lines[i2].contains(events.get(i).getEventReplacer())) {
             formatter =
                 lines[i2].substring(
                     0,
                     lines[i2].indexOf(
-                        CodeReplacer.getReplacer(getEvents().get(i).getEventReplacer())));
+                        CodeReplacer.getReplacer(events.get(i).getEventReplacer())));
           }
         }
 
-        String eventCode = getEvents().get(i).getFormattedCode(formatter);
-        String eventReplacer = getEvents().get(i).getEventReplacer();
+        String eventCode = events.get(i).getFormattedCode(formatter);
+        String eventReplacer = events.get(i).getEventReplacer();
         fileRawCode = fileRawCode.replaceAll(CodeReplacer.getReplacer(eventReplacer), eventCode);
       }
     }
