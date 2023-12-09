@@ -11,10 +11,12 @@ import java.util.ArrayList;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
   public ArrayList<Event> _data;
   public Activity activity;
+  public boolean[] selectedCheckboxes;
 
   public EventAdapter(ArrayList<Event> _arr, Activity activity) {
     _data = _arr;
     this.activity = activity;
+    selectedCheckboxes = new boolean[_arr.size()];
   }
 
   @Override
@@ -34,11 +36,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     LayoutEventListAdapterBinding binding = LayoutEventListAdapterBinding.bind(_holder.itemView);
     binding.title.setText(_data.get(_position).getName());
     binding.desc.setText(_data.get(_position).getDesc());
-    binding
-        .getRoot()
-        .setOnClickListener(
-            (view) -> {
-            });
+    binding.getRoot().setOnClickListener((view) -> {});
+    binding.addCheckbox.setOnCheckedChangeListener(
+        (button, isChecked) -> {
+          selectedCheckboxes[_position] = isChecked;
+        });
   }
 
   @Override

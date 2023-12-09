@@ -1,25 +1,28 @@
 package com.dragon.ide.ui.activities;
 
-import com.dragon.ide.listeners.EventAddListener;
-import com.dragon.ide.ui.dialogs.eventList.AddEventDialog;
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityEventListBinding;
+import com.dragon.ide.listeners.EventAddListener;
 import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.Event;
 import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.adapters.EventListAdapter;
+import com.dragon.ide.ui.dialogs.eventList.AddEventDialog;
 import com.dragon.ide.ui.dialogs.eventList.ShowSourceCodeDialog;
 import com.dragon.ide.utils.DeserializationException;
 import com.dragon.ide.utils.DeserializerUtils;
 import com.dragon.ide.utils.ProjectFileUtils;
 import editor.tsd.tools.Language;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -100,7 +103,33 @@ public class EventListActivity extends BaseActivity {
                   file,
                   new EventAddListener() {
                     @Override
-                    public void onAdd(ArrayList<Event> events) {}
+                    public void onAdd(ArrayList<Event> events) {
+                      Executor executor = Executors.newSingleThreadExecutor();
+                      executor.execute(
+                          () -> {
+                            for (int i = 0; i < events.size(); ++i) {
+                              File eventFilePath =
+                                  new File(
+                                      new File(webFilePath).getParentFile(),
+                                      ProjectFileUtils.EVENTS_DIRECTORY);
+                              if (!eventFilePath.exists()) {
+                                eventFilePath.mkdirs();
+                              }
+                              if (!new File(eventFilePath, events.get(i).getName()).exists()) {
+                                try {
+                                  FileOutputStream fos =
+                                      new FileOutputStream(
+                                          new File(eventFilePath, events.get(i).getName()));
+                                  ObjectOutputStream oos = new ObjectOutputStream(fos);
+                                  oos.writeObject(events.get(i));
+                                  fos.close();
+                                  oos.close();
+                                } catch (Exception e) {
+                                }
+                              }
+                            }
+                          });
+                    }
                   });
         });
     /*
@@ -131,11 +160,13 @@ public class EventListActivity extends BaseActivity {
                     binding.tvInfo.setText(getString(R.string.project_not_found));
                   });
             } else {
-              if (new File(new File(webFilePath).getParent(), ProjectFileUtils.EVENTS_DIRECTORY)
+              if (new File(new File(webFilePath).getParentFile(), ProjectFileUtils.EVENTS_DIRECTORY)
                   .exists()) {
                 eventList = new ArrayList<Event>();
                 for (File event :
-                    new File(new File(webFilePath).getParent(), ProjectFileUtils.EVENTS_DIRECTORY)
+                    new File(
+                            new File(webFilePath).getParentFile(),
+                            ProjectFileUtils.EVENTS_DIRECTORY)
                         .listFiles()) {
                   try {
                     DeserializerUtils.deserializeEvent(
@@ -162,8 +193,9 @@ public class EventListActivity extends BaseActivity {
                                 EventListActivity.this,
                                 projectName,
                                 projectPath,
-                                fileName,
-                                fileType));
+                                webFilePath));
+                        binding.list.setLayoutManager(
+                            new LinearLayoutManager(EventListActivity.this));
                       }
                     });
               } else {
