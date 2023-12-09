@@ -162,7 +162,7 @@ public class EventListActivity extends BaseActivity {
             } else {
               if (new File(new File(webFilePath).getParentFile(), ProjectFileUtils.EVENTS_DIRECTORY)
                   .exists()) {
-                eventList = new ArrayList<Event>();
+                ArrayList<Event> eventList = new ArrayList<Event>();
                 for (File event :
                     new File(
                             new File(webFilePath).getParentFile(),
@@ -180,6 +180,7 @@ public class EventListActivity extends BaseActivity {
                   } catch (DeserializationException e) {
                   }
                 }
+                EventListActivity.this.eventList = eventList;
                 runOnUiThread(
                     () -> {
                       if (eventList.size() == 0) {
