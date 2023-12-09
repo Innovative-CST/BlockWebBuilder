@@ -9,13 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityFileManagerBinding;
+import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.adapters.FileListAdapterItem;
 import com.dragon.ide.ui.dialogs.filemanager.CreateFileDialog;
+import com.dragon.ide.utils.DeserializationException;
+import com.dragon.ide.utils.DeserializerUtils;
+import com.dragon.ide.utils.ProjectFileUtils;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -24,6 +26,7 @@ import java.util.concurrent.Executors;
 public class FileManagerActivity extends BaseActivity {
   private ActivityFileManagerBinding binding;
   private ArrayList<WebFile> fileList;
+  private ArrayList<String> filePath;
   private String projectName;
   private String projectPath;
   private boolean isLoaded = false;
@@ -38,8 +41,9 @@ public class FileManagerActivity extends BaseActivity {
     // set content view to binding's root.
     setContentView(binding.getRoot());
 
-    // Initialize fileList to avoid null error
+    // Initialize fileList and filePath to avoid null error
     fileList = new ArrayList<WebFile>();
+    filePath = new ArrayList<String>();
 
     // Setup toolbar.
     binding.toolbar.setTitle(R.string.app_name);
@@ -63,6 +67,13 @@ public class FileManagerActivity extends BaseActivity {
       showSection(5);
       binding.errorText.setText(getString(R.string.project_name_not_passed));
     }
+    binding.fab.setOnClickListener(
+        (view) -> {
+          CreateFileDialog createFileDialog =
+              new CreateFileDialog(
+                  FileManagerActivity.this, filePath, fileList, projectName, projectPath);
+          createFileDialog.create().show();
+        });
     /*
      * Ask for storage permission if not granted.
      * Load projects if storage permission is granted.
@@ -70,15 +81,9 @@ public class FileManagerActivity extends BaseActivity {
     if (!MainActivity.isStoagePermissionGranted(this)) {
       showSection(3);
       MainActivity.showStoragePermissionDialog(this);
-    } else {
-      showFileList();
+      return;
     }
-    binding.fab.setOnClickListener(
-        (view) -> {
-          CreateFileDialog createFileDialog =
-              new CreateFileDialog(FileManagerActivity.this, fileList, projectName, projectPath);
-          createFileDialog.create().show();
-        });
+    showFileList();
   }
 
   public RecyclerView getFileListRecyclerView() {
@@ -98,34 +103,49 @@ public class FileManagerActivity extends BaseActivity {
               showSection(5);
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
-              if (new File(new File(projectPath), "Files.txt").exists()) {
-                try {
-                  FileInputStream fis =
-                      new FileInputStream(new File(new File(projectPath), "Files.txt"));
-                  ObjectInputStream ois = new ObjectInputStream(fis);
-                  Object obj = ois.readObject();
-                  if (obj instanceof ArrayList) {
-                    fileList = (ArrayList<WebFile>) obj;
+              if (ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).exists()) {
+                ArrayList<WebFile> fileList = new ArrayList<WebFile>();
+                ArrayList<String> filePath = new ArrayList<String>();
+                for (File fileDirectory :
+                    ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).listFiles()) {
+                  try {
+                    DeserializerUtils.deserializeWebfile(
+                        ProjectFileUtils.getProjectWebFile(fileDirectory),
+                        new TaskListener() {
+                          @Override
+                          public void onSuccess(Object webFile) {
+                            fileList.add((WebFile) webFile);
+                            filePath.add(
+                                ProjectFileUtils.getProjectWebFile(fileDirectory)
+                                    .getAbsolutePath());
+                          }
+                        });
+                  } catch (DeserializationException e) {
                   }
-                  fis.close();
-                  ois.close();
-                  isLoaded = true;
+                }
+                if (fileList.size() > 0) {
                   runOnUiThread(
                       () -> {
+                        isLoaded = true;
                         binding.list.setAdapter(
                             new FileListAdapterItem(
-                                fileList, FileManagerActivity.this, projectName, projectPath));
+                                fileList,
+                                filePath,
+                                FileManagerActivity.this,
+                                projectName,
+                                projectPath));
                         binding.list.setLayoutManager(
                             new LinearLayoutManager(FileManagerActivity.this));
                         showSection(4);
                       });
-                } catch (Exception e) {
+                  FileManagerActivity.this.fileList = fileList;
+                  FileManagerActivity.this.filePath = filePath;
+                } else {
+                  isLoaded = true;
                   runOnUiThread(
                       () -> {
-                        isLoaded = true;
                         showSection(5);
-                        binding.errorText.setText(
-                            getString(R.string.an_error_occured_while_parsing_file_list));
+                        binding.errorText.setText(getString(R.string.no_files_yet));
                       });
                 }
               } else {
@@ -148,6 +168,9 @@ public class FileManagerActivity extends BaseActivity {
         });
   }
 
+  /*
+   * Method for switching display of various layouts
+   */
   public void showSection(int section) {
     binding.loading.setVisibility(View.GONE);
     binding.noFilesYet.setVisibility(View.GONE);
@@ -177,14 +200,28 @@ public class FileManagerActivity extends BaseActivity {
     Executor executor = Executors.newSingleThreadExecutor();
     executor.execute(
         () -> {
-          try {
-            FileOutputStream fos =
-                new FileOutputStream(new File(new File(projectPath), "Files.txt"));
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(fileList);
-            fos.close();
-            oos.close();
-          } catch (Exception e) {
+          for (int i = 0; i < fileList.size(); ++i) {
+            try {
+              File webFileDestination =
+                  ProjectFileUtils.getProjectWebFile(
+                      new File(
+                          ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)),
+                          fileList
+                              .get(i)
+                              .getFilePath()
+                              .concat(
+                                  WebFile.getSupportedFileSuffix(fileList.get(i).getFileType()))));
+              if (!webFileDestination.getParentFile().exists()) {
+                webFileDestination.getParentFile().mkdirs();
+              }
+
+              FileOutputStream fos = new FileOutputStream(webFileDestination);
+              ObjectOutputStream oos = new ObjectOutputStream(fos);
+              oos.writeObject(fileList.get(i));
+              fos.close();
+              oos.close();
+            } catch (Exception e) {
+            }
           }
         });
   }

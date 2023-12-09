@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.databinding.LayoutEventListItemBinding;
 import com.dragon.ide.objects.Event;
 import com.dragon.ide.ui.activities.EventEditorActivity;
+import com.dragon.ide.utils.ProjectFileUtils;
+import java.io.File;
 import java.util.ArrayList;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
@@ -15,22 +18,19 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
   public Activity activity;
   private String projectName;
   private String projectPath;
-  private String fileName;
-  private int fileType;
+  private String webFilePath;
 
   public EventListAdapter(
       ArrayList<Event> _arr,
       Activity activity,
       String projectName,
       String projectPath,
-      String fileName,
-      int fileType) {
+      String webFilePath) {
     _data = _arr;
     this.activity = activity;
     this.projectName = projectName;
     this.projectPath = projectPath;
-    this.fileName = fileName;
-    this.fileType = fileType;
+    this.webFilePath = webFilePath;
   }
 
   @Override
@@ -58,9 +58,13 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
               i.setClass(activity, EventEditorActivity.class);
               i.putExtra("projectName", projectName);
               i.putExtra("projectPath", projectPath);
-              i.putExtra("fileName", fileName);
-              i.putExtra("fileType", fileType);
-              i.putExtra("eventName", _data.get(_position).getName());
+              i.putExtra("webFilePath", webFilePath);
+              i.putExtra(
+                  "eventFilePath",
+                  new File(
+                      new File(
+                          new File(webFilePath).getParentFile(), ProjectFileUtils.EVENTS_DIRECTORY),
+                      _data.get(_position).getName()).getAbsolutePath());
               activity.startActivity(i);
             });
   }

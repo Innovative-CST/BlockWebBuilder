@@ -15,8 +15,10 @@ import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.activities.FileManagerActivity;
 import com.dragon.ide.ui.adapters.FileListAdapterItem;
 import com.dragon.ide.utils.FileNameValidator;
+import com.dragon.ide.utils.ProjectFileUtils;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import java.io.File;
 import java.util.ArrayList;
 
 public class CreateFileDialog extends MaterialAlertDialogBuilder {
@@ -24,7 +26,11 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
   private LayoutNewFileDialogBinding binding;
 
   public CreateFileDialog(
-      Activity activity, ArrayList<WebFile> fileList, String projectName, String projectPath) {
+      Activity activity,
+      ArrayList<String> paths,
+      ArrayList<WebFile> fileList,
+      String projectName,
+      String projectPath) {
     super(activity);
     this.activity = activity;
 
@@ -32,13 +38,19 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
         new FileCreationListener() {
           @Override
           public void onFileCreated(WebFile webFile) {
-            fileList.add(webFile);
+            fileList.add(webFile); 
+            paths.add(
+                ProjectFileUtils.getProjectWebFile(
+                    new File(
+                        ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)),
+                        webFile
+                            .getFilePath()
+                            .concat(WebFile.getSupportedFileSuffix(webFile.getFileType())))).getAbsolutePath());
             if (activity instanceof FileManagerActivity) {
-              ((FileManagerActivity) activity).getFileListRecyclerView();
               ((FileManagerActivity) activity)
                   .getFileListRecyclerView()
                   .setAdapter(
-                      new FileListAdapterItem(fileList, activity, projectName, projectPath));
+                      new FileListAdapterItem(fileList, paths, activity, projectName, projectPath));
               ((FileManagerActivity) activity)
                   .getFileListRecyclerView()
                   .setLayoutManager(new LinearLayoutManager(activity));

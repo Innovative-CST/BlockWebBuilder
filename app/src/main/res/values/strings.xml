@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+ <string name="add">Add</string>
+    <string name="add_events">Add Events</string>
     <string name="an_error_occured_while_parsing_blocks_holder_list">An error occured while parsing blocks holder list.</string>
+    <string name="an_error_occured_while_parsing_event">An error occured while parsing event.</string>
     <string name="an_error_occured_while_parsing_file_list">An error occured while parsing file list.</string>
     <string name="already_in_use">Already in use</string>
     <string name="app_name">DragonIDE</string>
@@ -27,6 +30,7 @@
     <string name="new_holder">New holder</string>
     <string name="no_blocks_holder_yet">No blocks holder yet</string>
     <string name="no_blocks_yet">No Blocks yet</string>
+    <string name="no_events_yet">No events yet</string>
     <string name="no_files_yet">No files yet</string>
     <string name="no_projects_yet">No projects yet</string>
     <string name="package_name">Package name</string>
