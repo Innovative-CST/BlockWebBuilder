@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutFileListItemBinding;
-import com.dragon.ide.listeners.LogListener;
+import com.dragon.ide.listeners.ProjectBuildListener;
 import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.activities.EventListActivity;
 import com.dragon.ide.ui.activities.FileManagerActivity;
@@ -170,35 +170,43 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
 
                 ProjectBuilder.generateProjectCode(
                     new File(projectPath),
-                    new LogListener() {
+                    new ProjectBuildListener() {
                       @Override
                       public void onLog(String log, int type) {}
+
+                      @Override
+                      public void onBuildComplete() {
+                        activity.runOnUiThread(
+                            () -> {
+                              // See preview in WebView
+                              Intent i = new Intent();
+                              i.setClass(activity, WebViewActivity.class);
+                              i.putExtra("type", "file");
+                              i.putExtra(
+                                  "root",
+                                  new File(new File(projectPath), ProjectFileUtils.BUILD_DIRECTORY)
+                                      .getAbsolutePath());
+                              i.putExtra(
+                                  "data",
+                                  new File(
+                                          new File(
+                                              ((FileManagerActivity) activity)
+                                                  .getOutputDirectory()),
+                                          _data
+                                              .get(_position)
+                                              .getFilePath()
+                                              .concat(
+                                                  WebFile.getSupportedFileSuffix(
+                                                      _data.get(_position).getFileType())))
+                                      .getAbsolutePath());
+                              activity.startActivity(i);
+                            });
+                      }
+
+                      @Override
+                      public void onBuildStart() {}
                     },
                     activity);
-
-                activity.runOnUiThread(
-                    () -> {
-                      // See preview in WebView
-                      Intent i = new Intent();
-                      i.setClass(activity, WebViewActivity.class);
-                      i.putExtra("type", "file");
-                      i.putExtra(
-                          "root",
-                          new File(new File(projectPath), ProjectFileUtils.BUILD_DIRECTORY)
-                              .getAbsolutePath());
-                      i.putExtra(
-                          "data",
-                          new File(
-                                  new File(((FileManagerActivity) activity).getOutputDirectory()),
-                                  _data
-                                      .get(_position)
-                                      .getFilePath()
-                                      .concat(
-                                          WebFile.getSupportedFileSuffix(
-                                              _data.get(_position).getFileType())))
-                              .getAbsolutePath());
-                      activity.startActivity(i);
-                    });
               });
         });
   }

@@ -16,7 +16,7 @@ import androidx.annotation.MainThread;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityEventEditorBinding;
-import com.dragon.ide.listeners.LogListener;
+import com.dragon.ide.listeners.ProjectBuildListener;
 import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlocksHolder;
@@ -799,6 +799,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       }
     }
     if (arg0.getItemId() == R.id.executor) {
+      updateBlocks(binding.getRoot().findViewById(R.id.blockListEditorArea));
       saveEvent(
           new TaskListener() {
             @Override
@@ -808,23 +809,32 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   () -> {
                     ProjectBuilder.generateProjectCode(
                         new File(projectPath),
-                        new LogListener() {
+                        new ProjectBuildListener() {
                           @Override
                           public void onLog(String log, int type) {}
+
+                          @Override
+                          public void onBuildComplete() {
+                            runOnUiThread(
+                                () -> {
+                                  Intent i = new Intent();
+                                  i.setClass(EventEditorActivity.this, WebViewActivity.class);
+                                  i.putExtra("type", "file");
+                                  i.putExtra(
+                                      "root",
+                                      new File(
+                                              new File(projectPath),
+                                              ProjectFileUtils.BUILD_DIRECTORY)
+                                          .getAbsolutePath());
+                                  i.putExtra("data", fileOutputPath);
+                                  startActivity(i);
+                                });
+                          }
+
+                          @Override
+                          public void onBuildStart() {}
                         },
                         EventEditorActivity.this);
-                    runOnUiThread(
-                        () -> {
-                          Intent i = new Intent();
-                          i.setClass(EventEditorActivity.this, WebViewActivity.class);
-                          i.putExtra("type", "file");
-                          i.putExtra(
-                              "root",
-                              new File(new File(projectPath), ProjectFileUtils.BUILD_DIRECTORY)
-                                  .getAbsolutePath());
-                          i.putExtra("data", fileOutputPath);
-                          startActivity(i);
-                        });
                   });
             }
           });

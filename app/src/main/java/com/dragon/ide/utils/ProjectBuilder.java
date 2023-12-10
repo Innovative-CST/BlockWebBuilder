@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.code.editor.common.interfaces.FileDeleteListener;
 import android.code.editor.common.utils.FileDeleteUtils;
 import android.code.editor.common.utils.FileUtils;
-import android.content.Context;
-import com.dragon.ide.listeners.LogListener;
+import com.dragon.ide.listeners.ProjectBuildListener;
 import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.Event;
 import com.dragon.ide.objects.WebFile;
@@ -14,28 +13,48 @@ import java.util.ArrayList;
 
 public class ProjectBuilder {
   public static void generateProjectCode(
-      File projectPath, LogListener listener, Activity activity) {
+      File projectPath, ProjectBuildListener listener, Activity activity) {
 
     /*
      * Clean Build directory to run a new refreshed website
      */
 
+    listener.onBuildStart();
     listener.onLog("Cleaning build directory", 0);
     FileDeleteUtils.delete(
         new File(projectPath, ProjectFileUtils.BUILD_DIRECTORY),
-        new ProjectBuilder().new FDL(activity),
+        new FileDeleteListener() {
+          @Override
+          public void onProgressUpdate(int deleteDone) {}
+
+          @Override
+          public void onTotalCount(int total) {}
+
+          @Override
+          public void onDeleting(File path) {}
+
+          @Override
+          public void onDeleteComplete(File path) {}
+
+          @Override
+          public void onTaskComplete() {
+            /*
+             * Generate files
+             */
+            generateFiles(
+                projectPath,
+                listener,
+                activity,
+                new File(projectPath, ProjectFileUtils.BUILD_DIRECTORY));
+            listener.onBuildComplete();
+          }
+        },
         true,
         activity);
-
-    /*
-     * Generate files
-     */
-    generateFiles(
-        projectPath, listener, activity, new File(projectPath, ProjectFileUtils.BUILD_DIRECTORY));
   }
 
   public static void generateFiles(
-      File projectPath, LogListener listener, Activity activity, File destinationFolder) {
+      File projectPath, ProjectBuildListener listener, Activity activity, File destinationFolder) {
     if (ProjectFileUtils.getProjectFilesDirectory(projectPath).exists()) {
       for (File fileDirectory :
           ProjectFileUtils.getProjectFilesDirectory(projectPath).listFiles()) {
@@ -102,28 +121,5 @@ public class ProjectBuilder {
       }
     } else {
     }
-  }
-
-  public class FDL implements FileDeleteListener {
-    private Context context;
-
-    public FDL(Context c) {
-      context = c;
-    }
-
-    @Override
-    public void onProgressUpdate(int deleteDone) {}
-
-    @Override
-    public void onTotalCount(int total) {}
-
-    @Override
-    public void onDeleting(File path) {}
-
-    @Override
-    public void onDeleteComplete(File path) {}
-
-    @Override
-    public void onTaskComplete() {}
   }
 }
