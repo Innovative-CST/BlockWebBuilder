@@ -34,6 +34,13 @@
         app:selectionRequired="true"
         app:checkedButton="@+id/html"
         android:id="@+id/fileTypeChooser">
+        
+        <Button 
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:icon="@drawable/folder"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:id="@+id/folder" />
 
         <Button 
             android:layout_height="wrap_content"

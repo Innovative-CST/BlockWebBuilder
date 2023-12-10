@@ -2,24 +2,19 @@ package com.dragon.ide.ui.activities;
 
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.MainThread;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityFileManagerBinding;
-import com.dragon.ide.listeners.LogListener;
 import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.adapters.FileListAdapterItem;
 import com.dragon.ide.ui.dialogs.filemanager.CreateFileDialog;
 import com.dragon.ide.utils.DeserializationException;
 import com.dragon.ide.utils.DeserializerUtils;
-import com.dragon.ide.utils.ProjectBuilder;
 import com.dragon.ide.utils.ProjectFileUtils;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +29,8 @@ public class FileManagerActivity extends BaseActivity {
   private ArrayList<String> filePath;
   private String projectName;
   private String projectPath;
+  private String ListPath;
+  private String outputDirectory;
   private boolean isLoaded = false;
 
   @Override
@@ -66,6 +63,8 @@ public class FileManagerActivity extends BaseActivity {
     if (getIntent().hasExtra("projectName")) {
       projectName = getIntent().getStringExtra("projectName");
       projectPath = getIntent().getStringExtra("projectPath");
+      ListPath = getIntent().getStringExtra("ListPath");
+      outputDirectory = getIntent().getStringExtra("outputDirectory");
       // Set toolbar title to project name
       binding.toolbar.setTitle(projectName);
     } else {
@@ -108,11 +107,10 @@ public class FileManagerActivity extends BaseActivity {
               showSection(5);
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
-              if (ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).exists()) {
+              if (new File(ListPath).exists()) {
                 ArrayList<WebFile> fileList = new ArrayList<WebFile>();
                 ArrayList<String> filePath = new ArrayList<String>();
-                for (File fileDirectory :
-                    ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).listFiles()) {
+                for (File fileDirectory : new File(ListPath).listFiles()) {
                   try {
                     DeserializerUtils.deserializeWebfile(
                         ProjectFileUtils.getProjectWebFile(fileDirectory),
@@ -210,7 +208,7 @@ public class FileManagerActivity extends BaseActivity {
               File webFileDestination =
                   ProjectFileUtils.getProjectWebFile(
                       new File(
-                          ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)),
+                          new File(ListPath),
                           fileList
                               .get(i)
                               .getFilePath()
@@ -229,75 +227,6 @@ public class FileManagerActivity extends BaseActivity {
             }
           }
         });
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu arg0) {
-    super.onCreateOptionsMenu(arg0);
-    getMenuInflater().inflate(R.menu.activity_file_manager_menu, arg0);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem arg0) {
-    if (arg0.getItemId() == R.id.executeProject) {
-      Executor executor = Executors.newSingleThreadExecutor();
-      executor.execute(
-          () -> {
-            ProjectBuilder.generateProjectCode(
-                new File(projectPath),
-                new LogListener() {
-                  @Override
-                  public void onLog(String log, int type) {}
-                },
-                FileManagerActivity.this);
-            runOnUiThread(
-                () -> {
-                  // Save file list first of all
-                  for (int i = 0; i < fileList.size(); ++i) {
-                    try {
-                      File webFileDestination =
-                          ProjectFileUtils.getProjectWebFile(
-                              new File(
-                                  ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)),
-                                  fileList
-                                      .get(i)
-                                      .getFilePath()
-                                      .concat(
-                                          WebFile.getSupportedFileSuffix(
-                                              fileList.get(i).getFileType()))));
-                      if (!webFileDestination.getParentFile().exists()) {
-                        webFileDestination.getParentFile().mkdirs();
-                      }
-
-                      FileOutputStream fos = new FileOutputStream(webFileDestination);
-                      ObjectOutputStream oos = new ObjectOutputStream(fos);
-                      oos.writeObject(fileList.get(i));
-                      fos.close();
-                      oos.close();
-                    } catch (Exception e) {
-                    }
-                  }
-
-                  // See preview in WebView
-                  Intent i = new Intent();
-                  i.setClass(FileManagerActivity.this, WebViewActivity.class);
-                  i.putExtra("type", "file");
-                  i.putExtra(
-                      "root",
-                      new File(new File(projectPath), ProjectFileUtils.BUILD_DIRECTORY)
-                          .getAbsolutePath());
-                  i.putExtra(
-                      "data",
-                      new File(
-                              new File(new File(projectPath), ProjectFileUtils.BUILD_DIRECTORY),
-                              "index.html")
-                          .getAbsolutePath());
-                  startActivity(i);
-                });
-          });
-    }
-    return super.onOptionsItemSelected(arg0);
   }
 
   @Override
@@ -321,5 +250,29 @@ public class FileManagerActivity extends BaseActivity {
   protected void onResume() {
     showFileList();
     super.onResume();
+  }
+
+  public ArrayList<WebFile> getFileList() {
+    return this.fileList;
+  }
+
+  public void setFileList(ArrayList<WebFile> fileList) {
+    this.fileList = fileList;
+  }
+
+  public String getListPath() {
+    return this.ListPath;
+  }
+
+  public void setListPath(String ListPath) {
+    this.ListPath = ListPath;
+  }
+
+  public String getOutputDirectory() {
+    return this.outputDirectory;
+  }
+
+  public void setOutputDirectory(String outputDirectory) {
+    this.outputDirectory = outputDirectory;
   }
 }

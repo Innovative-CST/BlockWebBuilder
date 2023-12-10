@@ -109,11 +109,7 @@ public class WebViewActivity extends BaseActivity {
       webview.loadUrl("file:".concat(getIntent().getStringExtra("data")));
       hoster =
           new SimpleHttpServer(
-              8080,
-              getIntent().getStringExtra("root"),
-              getIntent()
-                  .getStringExtra("data")
-                  .substring(getIntent().getStringExtra("root").length()));
+              8080, getIntent().getStringExtra("root"), getIntent().getStringExtra("data"));
       hoster.startServer();
       initialUrl = hoster.getLocalIpAddress();
       webview.loadUrl(initialUrl);

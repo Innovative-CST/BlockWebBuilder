@@ -30,6 +30,12 @@ public class ProjectBuilder {
     /*
      * Generate files
      */
+    generateFiles(
+        projectPath, listener, activity, new File(projectPath, ProjectFileUtils.BUILD_DIRECTORY));
+  }
+
+  public static void generateFiles(
+      File projectPath, LogListener listener, Activity activity, File destinationFolder) {
     if (ProjectFileUtils.getProjectFilesDirectory(projectPath).exists()) {
       for (File fileDirectory :
           ProjectFileUtils.getProjectFilesDirectory(projectPath).listFiles()) {
@@ -39,47 +45,56 @@ public class ProjectBuilder {
               new TaskListener() {
                 @Override
                 public void onSuccess(Object webFile) {
-                  listener.onLog(
-                      "Deserialized file: "
-                          .concat(
-                              ProjectFileUtils.getProjectWebFile(fileDirectory).getAbsolutePath()),
-                      0);
+                  if (((WebFile) webFile).getFileType() == WebFile.SupportedFileType.FOLDER) {
+                    generateFiles(
+                        fileDirectory,
+                        listener,
+                        activity,
+                        new File(destinationFolder, ((WebFile) webFile).getFilePath()));
+                  } else {
+                    listener.onLog(
+                        "Deserialized file: "
+                            .concat(
+                                ProjectFileUtils.getProjectWebFile(fileDirectory)
+                                    .getAbsolutePath()),
+                        0);
 
-                  if (!new File(projectPath, ProjectFileUtils.BUILD_DIRECTORY).exists()) {
-                    new File(projectPath, ProjectFileUtils.BUILD_DIRECTORY).mkdirs();
-                  }
+                    if (!destinationFolder.exists()) {
+                      destinationFolder.mkdirs();
+                    }
 
-                  ArrayList<Event> eventList = new ArrayList<Event>();
-                  if (new File(fileDirectory, ProjectFileUtils.EVENTS_DIRECTORY).exists()) {
-                    for (File event :
-                        new File(fileDirectory, ProjectFileUtils.EVENTS_DIRECTORY).listFiles()) {
-                      try {
-                        DeserializerUtils.deserializeEvent(
-                            event,
-                            new TaskListener() {
-                              @Override
-                              public void onSuccess(Object mEvent) {
-                                listener.onLog(
-                                    "Deserialized event: ".concat(event.getAbsolutePath()), 0);
-                                eventList.add((Event) mEvent);
-                              }
-                            });
-                      } catch (DeserializationException e) {
+                    ArrayList<Event> eventList = new ArrayList<Event>();
+                    if (new File(fileDirectory, ProjectFileUtils.EVENTS_DIRECTORY).exists()) {
+                      for (File event :
+                          new File(fileDirectory, ProjectFileUtils.EVENTS_DIRECTORY).listFiles()) {
+                        try {
+                          DeserializerUtils.deserializeEvent(
+                              event,
+                              new TaskListener() {
+                                @Override
+                                public void onSuccess(Object mEvent) {
+                                  listener.onLog(
+                                      "Deserialized event: ".concat(event.getAbsolutePath()), 0);
+                                  eventList.add((Event) mEvent);
+                                }
+                              });
+                        } catch (DeserializationException e) {
 
+                        }
                       }
                     }
-                  }
 
-                  FileUtils.writeFile(
-                      new File(
-                              new File(projectPath, ProjectFileUtils.BUILD_DIRECTORY),
-                              ((WebFile) webFile)
-                                  .getFilePath()
-                                  .concat(
-                                      WebFile.getSupportedFileSuffix(
-                                          ((WebFile) webFile).getFileType())))
-                          .getAbsolutePath(),
-                      ((WebFile) webFile).getCode(eventList));
+                    FileUtils.writeFile(
+                        new File(
+                                destinationFolder,
+                                ((WebFile) webFile)
+                                    .getFilePath()
+                                    .concat(
+                                        WebFile.getSupportedFileSuffix(
+                                            ((WebFile) webFile).getFileType())))
+                            .getAbsolutePath(),
+                        ((WebFile) webFile).getCode(eventList));
+                  }
                 }
               });
         } catch (DeserializationException e) {
