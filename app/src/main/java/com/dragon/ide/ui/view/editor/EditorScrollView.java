@@ -26,7 +26,6 @@ public class EditorScrollView extends FrameLayout {
     initialXTE = -1.0f;
     initialYTE = -1.0f;
     useScroll = true;
-    validScroll = 0;
     isScrollValueAchieved = false;
     initialX = 0.0f;
     initialY = 0.0f;
@@ -38,7 +37,6 @@ public class EditorScrollView extends FrameLayout {
     initialXTE = -1.0f;
     initialYTE = -1.0f;
     useScroll = true;
-    validScroll = 0;
     isScrollValueAchieved = false;
     initialX = 0.0f;
     initialY = 0.0f;
