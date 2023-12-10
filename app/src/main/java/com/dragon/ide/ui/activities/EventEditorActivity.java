@@ -1,5 +1,6 @@
 package com.dragon.ide.ui.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -11,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import androidx.annotation.MainThread;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityEventEditorBinding;
+import com.dragon.ide.listeners.LogListener;
 import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlocksHolder;
@@ -30,6 +31,8 @@ import com.dragon.ide.ui.view.ComplexBlockView;
 import com.dragon.ide.utils.BlocksHandler;
 import com.dragon.ide.utils.DeserializationException;
 import com.dragon.ide.utils.DeserializerUtils;
+import com.dragon.ide.utils.ProjectBuilder;
+import com.dragon.ide.utils.ProjectFileUtils;
 import com.dragon.ide.utils.Utils;
 import com.dragon.ide.utils.eventeditor.BlocksListLoader;
 import editor.tsd.tools.Language;
@@ -43,6 +46,7 @@ import java.util.concurrent.Executors;
 public class EventEditorActivity extends BaseActivity implements View.OnDragListener {
   public ActivityEventEditorBinding binding;
   private WebFile file;
+  private String fileOutputPath;
   private ArrayList<BlocksHolder> blocksHolder;
   private String projectName;
   private String projectPath;
@@ -92,6 +96,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       projectPath = getIntent().getStringExtra("projectPath");
       webFilePath = getIntent().getStringExtra("webFilePath");
       eventFilePath = getIntent().getStringExtra("eventFilePath");
+      fileOutputPath = getIntent().getStringExtra("outputDirectory");
       try {
         DeserializerUtils.deserializeWebfile(
             new File(webFilePath),
@@ -99,6 +104,18 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
               @Override
               public void onSuccess(Object mWebFile) {
                 file = (WebFile) mWebFile;
+                language = "";
+                switch (WebFile.getSupportedFileSuffix(file.getFileType())) {
+                  case ".html":
+                    language = Language.HTML;
+                    break;
+                  case ".css":
+                    language = Language.CSS;
+                    break;
+                  case ".js":
+                    language = Language.JavaScript;
+                    break;
+                }
               }
             });
       } catch (DeserializationException e) {
@@ -717,6 +734,22 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         });
   }
 
+  public void saveEvent(TaskListener listener) {
+    Executor executor = Executors.newSingleThreadExecutor();
+    executor.execute(
+        () -> {
+          try {
+            FileOutputStream fos = new FileOutputStream(new File(eventFilePath));
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(event);
+            fos.close();
+            oos.close();
+            listener.onSuccess(null);
+          } catch (Exception e) {
+          }
+        });
+  }
+
   @Override
   @MainThread
   public void onBackPressed() {
@@ -739,7 +772,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   @Override
   public boolean onCreateOptionsMenu(Menu arg0) {
     super.onCreateOptionsMenu(arg0);
-    getMenuInflater().inflate(R.menu.activity_event_list_menu, arg0);
+    getMenuInflater().inflate(R.menu.activity_event_editor_menu, arg0);
     return true;
   }
 
@@ -765,6 +798,38 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         showSourceCodeDialog.show();
       }
     }
+    if (arg0.getItemId() == R.id.executor) {
+      saveEvent(
+          new TaskListener() {
+            @Override
+            public void onSuccess(Object result) {
+              Executor executor = Executors.newSingleThreadExecutor();
+              executor.execute(
+                  () -> {
+                    ProjectBuilder.generateProjectCode(
+                        new File(projectPath),
+                        new LogListener() {
+                          @Override
+                          public void onLog(String log, int type) {}
+                        },
+                        EventEditorActivity.this);
+                    runOnUiThread(
+                        () -> {
+                          Intent i = new Intent();
+                          i.setClass(EventEditorActivity.this, WebViewActivity.class);
+                          i.putExtra("type", "file");
+                          i.putExtra(
+                              "root",
+                              new File(new File(projectPath), ProjectFileUtils.BUILD_DIRECTORY)
+                                  .getAbsolutePath());
+                          i.putExtra("data", fileOutputPath);
+                          startActivity(i);
+                        });
+                  });
+            }
+          });
+    }
+
     return super.onOptionsItemSelected(arg0);
   }
 

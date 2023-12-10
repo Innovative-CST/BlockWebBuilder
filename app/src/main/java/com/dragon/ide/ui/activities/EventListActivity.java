@@ -30,6 +30,7 @@ import java.util.concurrent.Executors;
 public class EventListActivity extends BaseActivity {
   private ActivityEventListBinding binding;
   private WebFile file;
+  private String fileOutputPath;
   private ArrayList<Event> eventList;
   private String projectName;
   private String projectPath;
@@ -76,6 +77,7 @@ public class EventListActivity extends BaseActivity {
       fileName = getIntent().getStringExtra("fileName");
       fileType = getIntent().getIntExtra("fileType", 1);
       webFilePath = getIntent().getStringExtra("webFile");
+      fileOutputPath = getIntent().getStringExtra("fileOutputPath");
       try {
         DeserializerUtils.deserializeWebfile(
             new File(webFilePath),
@@ -274,5 +276,13 @@ public class EventListActivity extends BaseActivity {
   protected void onResume() {
     showEventList();
     super.onResume();
+  }
+
+  public String getFileOutputPath() {
+    return this.fileOutputPath;
+  }
+
+  public void setFileOutputPath(String fileOutputPath) {
+    this.fileOutputPath = fileOutputPath;
   }
 }

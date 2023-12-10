@@ -119,6 +119,17 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
                 i.putExtra("fileName", _data.get(_position).getFilePath());
                 i.putExtra("fileType", _data.get(_position).getFileType());
                 i.putExtra("webFile", filePathList.get(_position));
+                i.putExtra(
+                    "fileOutputPath",
+                    new File(
+                            new File(((FileManagerActivity) activity).getOutputDirectory()),
+                            _data
+                                .get(_position)
+                                .getFilePath()
+                                .concat(
+                                    WebFile.getSupportedFileSuffix(
+                                        _data.get(_position).getFileType())))
+                        .getAbsolutePath());
                 activity.startActivity(i);
               }
             });

@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.databinding.LayoutEventListItemBinding;
 import com.dragon.ide.objects.Event;
 import com.dragon.ide.ui.activities.EventEditorActivity;
+import com.dragon.ide.ui.activities.EventListActivity;
 import com.dragon.ide.utils.ProjectFileUtils;
 import java.io.File;
 import java.util.ArrayList;
@@ -62,9 +62,12 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
               i.putExtra(
                   "eventFilePath",
                   new File(
-                      new File(
-                          new File(webFilePath).getParentFile(), ProjectFileUtils.EVENTS_DIRECTORY),
-                      _data.get(_position).getName()).getAbsolutePath());
+                          new File(
+                              new File(webFilePath).getParentFile(),
+                              ProjectFileUtils.EVENTS_DIRECTORY),
+                          _data.get(_position).getName())
+                      .getAbsolutePath());
+              i.putExtra("outputDirectory", ((EventListActivity) activity).getFileOutputPath());
               activity.startActivity(i);
             });
   }
