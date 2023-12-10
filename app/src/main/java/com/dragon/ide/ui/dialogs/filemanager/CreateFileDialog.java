@@ -38,14 +38,15 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
         new FileCreationListener() {
           @Override
           public void onFileCreated(WebFile webFile) {
-            fileList.add(webFile); 
+            fileList.add(webFile);
             paths.add(
                 ProjectFileUtils.getProjectWebFile(
-                    new File(
-                        ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)),
-                        webFile
-                            .getFilePath()
-                            .concat(WebFile.getSupportedFileSuffix(webFile.getFileType())))).getAbsolutePath());
+                        new File(
+                            ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)),
+                            webFile
+                                .getFilePath()
+                                .concat(WebFile.getSupportedFileSuffix(webFile.getFileType()))))
+                    .getAbsolutePath());
             if (activity instanceof FileManagerActivity) {
               ((FileManagerActivity) activity)
                   .getFileListRecyclerView()
@@ -86,6 +87,11 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
                     .equals(binding.fileName.getText().toString().toLowerCase())) {
                   int fileType = fileList.get(i).getFileType();
                   int fileCreatingButton = binding.fileTypeChooser.getCheckedButtonId();
+                  if (fileCreatingButton == R.id.folder) {
+                    if (fileType == WebFile.SupportedFileType.FOLDER) {
+                      isNameInUse = true;
+                    }
+                  }
                   if (fileCreatingButton == R.id.html) {
                     if (fileType == WebFile.SupportedFileType.HTML) {
                       isNameInUse = true;
@@ -128,6 +134,11 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
                   .equals(binding.fileName.getText().toString().toLowerCase())) {
                 int fileType = fileList.get(i).getFileType();
                 int fileCreatingButton = binding.fileTypeChooser.getCheckedButtonId();
+                if (fileCreatingButton == R.id.folder) {
+                  if (fileType == WebFile.SupportedFileType.FOLDER) {
+                    isNameInUse = true;
+                  }
+                }
                 if (fileCreatingButton == R.id.html) {
                   if (fileType == WebFile.SupportedFileType.HTML) {
                     isNameInUse = true;
@@ -151,6 +162,11 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
               WebFile webFile = new WebFile();
               int fileCreatingButton = binding.fileTypeChooser.getCheckedButtonId();
               int fileType = 0;
+              if (fileCreatingButton == R.id.folder) {
+                webFile = new WebFile();
+                webFile.setFileType(WebFile.SupportedFileType.FOLDER);
+                fileType = WebFile.SupportedFileType.FOLDER;
+              }
               if (fileCreatingButton == R.id.html) {
                 webFile = new HtmlFile();
                 fileType = WebFile.SupportedFileType.HTML;
@@ -187,6 +203,11 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
                     .equals(binding.fileName.getText().toString().toLowerCase())) {
                   int fileType = fileList.get(i).getFileType();
                   int fileCreatingButton = binding.fileTypeChooser.getCheckedButtonId();
+                  if (fileCreatingButton == R.id.folder) {
+                    if (fileType == WebFile.SupportedFileType.FOLDER) {
+                      isNameInUse = true;
+                    }
+                  }
                   if (fileCreatingButton == R.id.html) {
                     if (fileType == WebFile.SupportedFileType.HTML) {
                       isNameInUse = true;

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/root">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+        android:id="@+id/appbar">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:id="@+id/toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:background="?attr/colorSurface"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:id="@+id/mainContainer">
+
+        <ScrollView
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:background="?attr/colorSurface"
+            android:id="@+id/console_content"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+                <EditText
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:background="?attr/colorSurface"
+                    android:textColor="?attr/colorOnSurface"
+                    android:hint="Execute"
+                    android:id="@+id/execute"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
+
+                <LinearLayout
+                    android:id="@+id/console"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <View
+            android:visibility="gone"
+            android:id="@+id/console_slider"
+            android:layout_height="5dp"
+            android:layout_width="match_parent"
+            android:background="?attr/colorOnSurfaceVariant" />
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content">
+
+            <android.webkit.WebView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/webview" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

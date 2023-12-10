@@ -29,6 +29,8 @@ public class FileManagerActivity extends BaseActivity {
   private ArrayList<String> filePath;
   private String projectName;
   private String projectPath;
+  private String ListPath;
+  private String outputDirectory;
   private boolean isLoaded = false;
 
   @Override
@@ -61,6 +63,8 @@ public class FileManagerActivity extends BaseActivity {
     if (getIntent().hasExtra("projectName")) {
       projectName = getIntent().getStringExtra("projectName");
       projectPath = getIntent().getStringExtra("projectPath");
+      ListPath = getIntent().getStringExtra("ListPath");
+      outputDirectory = getIntent().getStringExtra("outputDirectory");
       // Set toolbar title to project name
       binding.toolbar.setTitle(projectName);
     } else {
@@ -103,11 +107,10 @@ public class FileManagerActivity extends BaseActivity {
               showSection(5);
               binding.errorText.setText(getString(R.string.project_not_found));
             } else {
-              if (ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).exists()) {
+              if (new File(ListPath).exists()) {
                 ArrayList<WebFile> fileList = new ArrayList<WebFile>();
                 ArrayList<String> filePath = new ArrayList<String>();
-                for (File fileDirectory :
-                    ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)).listFiles()) {
+                for (File fileDirectory : new File(ListPath).listFiles()) {
                   try {
                     DeserializerUtils.deserializeWebfile(
                         ProjectFileUtils.getProjectWebFile(fileDirectory),
@@ -205,7 +208,7 @@ public class FileManagerActivity extends BaseActivity {
               File webFileDestination =
                   ProjectFileUtils.getProjectWebFile(
                       new File(
-                          ProjectFileUtils.getProjectFilesDirectory(new File(projectPath)),
+                          new File(ListPath),
                           fileList
                               .get(i)
                               .getFilePath()
@@ -247,5 +250,29 @@ public class FileManagerActivity extends BaseActivity {
   protected void onResume() {
     showFileList();
     super.onResume();
+  }
+
+  public ArrayList<WebFile> getFileList() {
+    return this.fileList;
+  }
+
+  public void setFileList(ArrayList<WebFile> fileList) {
+    this.fileList = fileList;
+  }
+
+  public String getListPath() {
+    return this.ListPath;
+  }
+
+  public void setListPath(String ListPath) {
+    this.ListPath = ListPath;
+  }
+
+  public String getOutputDirectory() {
+    return this.outputDirectory;
+  }
+
+  public void setOutputDirectory(String outputDirectory) {
+    this.outputDirectory = outputDirectory;
   }
 }
