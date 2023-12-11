@@ -61,6 +61,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   // Shadow
   private LinearLayout blockShadow;
 
+  private MenuItem preview;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -115,6 +117,15 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   case ".js":
                     language = Language.JavaScript;
                     break;
+                }
+                if (!language.equals(Language.HTML)) {
+                  if (preview != null) {
+                    preview.setVisible(false);
+                  }
+                } else {
+                  if (preview != null) {
+                    preview.setVisible(true);
+                  }
                 }
               }
             });
@@ -808,48 +819,64 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       }
     }
     if (arg0.getItemId() == R.id.executor) {
-      updateBlocks(binding.getRoot().findViewById(R.id.blockListEditorArea));
-      saveEvent(
-          new TaskListener() {
-            @Override
-            public void onSuccess(Object result) {
-              Executor executor = Executors.newSingleThreadExecutor();
-              executor.execute(
-                  () -> {
-                    ProjectBuilder.generateProjectCode(
-                        new File(projectPath),
-                        new ProjectBuildListener() {
-                          @Override
-                          public void onLog(String log, int type) {}
+      if (language.equals(Language.HTML)) {
+        updateBlocks(binding.getRoot().findViewById(R.id.blockListEditorArea));
+        saveEvent(
+            new TaskListener() {
+              @Override
+              public void onSuccess(Object result) {
+                Executor executor = Executors.newSingleThreadExecutor();
+                executor.execute(
+                    () -> {
+                      ProjectBuilder.generateProjectCode(
+                          new File(projectPath),
+                          new ProjectBuildListener() {
+                            @Override
+                            public void onLog(String log, int type) {}
 
-                          @Override
-                          public void onBuildComplete() {
-                            runOnUiThread(
-                                () -> {
-                                  Intent i = new Intent();
-                                  i.setClass(EventEditorActivity.this, WebViewActivity.class);
-                                  i.putExtra("type", "file");
-                                  i.putExtra(
-                                      "root",
-                                      new File(
-                                              new File(projectPath),
-                                              ProjectFileUtils.BUILD_DIRECTORY)
-                                          .getAbsolutePath());
-                                  i.putExtra("data", fileOutputPath);
-                                  startActivity(i);
-                                });
-                          }
+                            @Override
+                            public void onBuildComplete() {
+                              runOnUiThread(
+                                  () -> {
+                                    Intent i = new Intent();
+                                    i.setClass(EventEditorActivity.this, WebViewActivity.class);
+                                    i.putExtra("type", "file");
+                                    i.putExtra(
+                                        "root",
+                                        new File(
+                                                new File(projectPath),
+                                                ProjectFileUtils.BUILD_DIRECTORY)
+                                            .getAbsolutePath());
+                                    i.putExtra("data", fileOutputPath);
+                                    startActivity(i);
+                                  });
+                            }
 
-                          @Override
-                          public void onBuildStart() {}
-                        },
-                        EventEditorActivity.this);
-                  });
-            }
-          });
+                            @Override
+                            public void onBuildStart() {}
+                          },
+                          EventEditorActivity.this);
+                    });
+              }
+            });
+      } else {
+        preview.setVisible(false);
+      }
     }
 
     return super.onOptionsItemSelected(arg0);
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu arg0) {
+    preview = arg0.findItem(R.id.executor);
+    if (!language.equals(Language.HTML)) {
+      preview.setVisible(false);
+    } else {
+      preview.setVisible(true);
+    }
+
+    return super.onPrepareOptionsMenu(arg0);
   }
 
   public void updateBlocks(ViewGroup view) {
