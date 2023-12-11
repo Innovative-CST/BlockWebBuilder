@@ -204,6 +204,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     binding.loading.setVisibility(View.GONE);
     binding.info.setVisibility(View.GONE);
     binding.editor.setVisibility(View.GONE);
+    binding.stringEditor.setVisibility(View.GONE);
     switch (section) {
       case 1:
         binding.loading.setVisibility(View.VISIBLE);
@@ -213,6 +214,9 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         break;
       case 3:
         binding.editor.setVisibility(View.VISIBLE);
+        break;
+      case 4:
+        binding.stringEditor.setVisibility(View.VISIBLE);
         break;
     }
   }

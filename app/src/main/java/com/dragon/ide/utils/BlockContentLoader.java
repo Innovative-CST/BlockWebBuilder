@@ -8,14 +8,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.dragon.ide.R;
-import com.dragon.ide.listeners.ValueListener;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlockContent;
 import com.dragon.ide.objects.ComplexBlockContent;
 import com.dragon.ide.objects.blockcontent.BooleanContent;
 import com.dragon.ide.objects.blockcontent.SourceContent;
-import com.dragon.ide.ui.dialogs.eventeditor.ValueEditorDialog;
+import com.dragon.ide.ui.activities.EventEditorActivity;
 import com.dragon.ide.ui.view.BlockDefaultView;
+import editor.tsd.editors.ace.AceEditorColors;
+import editor.tsd.tools.EditorListeners;
+import editor.tsd.tools.Themes;
+import editor.tsd.widget.CodeEditorLayout;
 import java.util.ArrayList;
 
 public class BlockContentLoader {
@@ -152,24 +155,50 @@ public class BlockContentLoader {
 
     @Override
     public void onClick(View view) {
-      ValueEditorDialog valueEditorDialog =
-          new ValueEditorDialog(
-              activity,
-              blockContent.getValue(),
-              language,
-              new ValueListener() {
+      if (activity instanceof EventEditorActivity) {
+        EventEditorActivity mEventEditorActivity = (EventEditorActivity) activity;
+        mEventEditorActivity.showSection(4);
+        AceEditorColors aceEditorColors = new AceEditorColors();
+        aceEditorColors.setEditorBackground("#00000000");
+        aceEditorColors.setActiveLineColor("#0000002d");
+        aceEditorColors.setGutterActiveLineColor("#0000002d");
+        aceEditorColors.setGutterBackground("#00000000");
+        aceEditorColors.setGutterTextColor(
+            String.format(
+                "#%06X",
+                (0xFFFFFF
+                    & ColorUtils.getColor(
+                        activity, com.google.android.material.R.attr.colorOnSurfaceVariant))));
+        aceEditorColors.apply(activity);
+        mEventEditorActivity.binding.codeEditor.setEditor(CodeEditorLayout.AceCodeEditor);
+        mEventEditorActivity.binding.codeEditor.setCode(blockContent.getValue());
+        mEventEditorActivity.binding.codeEditor.setTheme(Themes.AceEditorTheme.Light.Default);
+        mEventEditorActivity.binding.codeEditor.setLanguageMode(language);
+        mEventEditorActivity.binding.done.setOnClickListener(
+            (view2) -> {
+              mEventEditorActivity.binding.codeEditor.getCode(
+                  new EditorListeners() {
 
-                @Override
-                public void onSubmitted(String value) {
-                  blockContent.setValue(value);
-                  tvTextContent.setText(Utils.setWordLimitOnString(50, value));
-                  updateContentPaddingWithText(tvTextContent, ll_source);
-                }
-
-                @Override
-                public void onError(String error) {}
-              });
-      valueEditorDialog.show();
+                    @Override
+                    public void onReceviedCode(String code) {
+                      mEventEditorActivity.runOnUiThread(
+                          () -> {
+                            mEventEditorActivity.showSection(3);
+                            blockContent.setValue(code);
+                            tvTextContent.setText(Utils.setWordLimitOnString(50, code));
+                            updateContentPaddingWithText(tvTextContent, ll_source);
+                          });
+                    }
+                  });
+            });
+        mEventEditorActivity.binding.cancel.setOnClickListener(
+            (view2) -> {
+              mEventEditorActivity.runOnUiThread(
+                  () -> {
+                    mEventEditorActivity.showSection(3);
+                  });
+            });
+      }
     }
   }
 
