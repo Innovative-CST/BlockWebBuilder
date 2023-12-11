@@ -8,4 +8,11 @@
         app:showAsAction="never"
         android:actionLayout="@layout/activity_event_list"
         android:title="@string/show_source_code" />
+
+    <item
+        android:id="@+id/executor"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:actionLayout="@layout/activity_event_editor"
+        android:icon="@drawable/play" />
 </menu>

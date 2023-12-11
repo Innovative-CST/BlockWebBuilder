@@ -2,6 +2,7 @@ package com.dragon.ide.ui.activities;
 
 import static com.dragon.ide.utils.Environments.PROJECTS;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.ActivityEventListBinding;
 import com.dragon.ide.listeners.EventAddListener;
+import com.dragon.ide.listeners.ProjectBuildListener;
 import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.Event;
 import com.dragon.ide.objects.WebFile;
@@ -18,6 +20,7 @@ import com.dragon.ide.ui.dialogs.eventList.AddEventDialog;
 import com.dragon.ide.ui.dialogs.eventList.ShowSourceCodeDialog;
 import com.dragon.ide.utils.DeserializationException;
 import com.dragon.ide.utils.DeserializerUtils;
+import com.dragon.ide.utils.ProjectBuilder;
 import com.dragon.ide.utils.ProjectFileUtils;
 import editor.tsd.tools.Language;
 import java.io.File;
@@ -38,6 +41,8 @@ public class EventListActivity extends BaseActivity {
   private String webFilePath;
   private int fileType;
   private boolean isLoaded;
+
+  private MenuItem preview;
 
   @Override
   protected void onCreate(Bundle bundle) {
@@ -86,6 +91,15 @@ public class EventListActivity extends BaseActivity {
               public void onSuccess(Object mWebFile) {
                 file = (WebFile) mWebFile;
                 isLoaded = true;
+                if (!(file.getFileType() == WebFile.SupportedFileType.HTML)) {
+                  if (preview != null) {
+                    preview.setVisible(false);
+                  }
+                } else {
+                  if (preview != null) {
+                    preview.setVisible(true);
+                  }
+                }
               }
             });
       } catch (DeserializationException e) {
@@ -249,6 +263,21 @@ public class EventListActivity extends BaseActivity {
   }
 
   @Override
+  public boolean onPrepareOptionsMenu(Menu arg0) {
+    preview = arg0.findItem(R.id.executor);
+    if (!(file.getFileType() == WebFile.SupportedFileType.HTML)) {
+      if (preview != null) {
+        preview.setVisible(false);
+      }
+    } else {
+      if (preview != null) {
+        preview.setVisible(true);
+      }
+    }
+    return super.onPrepareOptionsMenu(arg0);
+  }
+
+  @Override
   public boolean onOptionsItemSelected(MenuItem arg0) {
     if (arg0.getItemId() == R.id.show_source_code) {
       if (isLoaded) {
@@ -269,6 +298,44 @@ public class EventListActivity extends BaseActivity {
         showSourceCodeDialog.show();
       }
     }
+
+    if (arg0.getItemId() == R.id.executor) {
+      if (file.getFileType() == WebFile.SupportedFileType.HTML) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(
+            () -> {
+              ProjectBuilder.generateProjectCode(
+                  new File(projectPath),
+                  new ProjectBuildListener() {
+                    @Override
+                    public void onLog(String log, int type) {}
+
+                    @Override
+                    public void onBuildComplete() {
+                      runOnUiThread(
+                          () -> {
+                            Intent i = new Intent();
+                            i.setClass(EventListActivity.this, WebViewActivity.class);
+                            i.putExtra("type", "file");
+                            i.putExtra(
+                                "root",
+                                new File(new File(projectPath), ProjectFileUtils.BUILD_DIRECTORY)
+                                    .getAbsolutePath());
+                            i.putExtra("data", fileOutputPath);
+                            startActivity(i);
+                          });
+                    }
+
+                    @Override
+                    public void onBuildStart() {}
+                  },
+                  EventListActivity.this);
+            });
+      } else {
+        preview.setVisible(false);
+      }
+    }
+
     return super.onOptionsItemSelected(arg0);
   }
 
