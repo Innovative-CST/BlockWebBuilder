@@ -199,7 +199,7 @@ public class FileManagerActivity extends BaseActivity {
     }
   }
 
-  public void saveFileList() {
+  public void saveFileList(TaskListener listener) {
     Executor executor = Executors.newSingleThreadExecutor();
     executor.execute(
         () -> {
@@ -226,6 +226,9 @@ public class FileManagerActivity extends BaseActivity {
             } catch (Exception e) {
             }
           }
+          if (listener != null) {
+            listener.onSuccess(null);
+          }
         });
   }
 
@@ -233,7 +236,7 @@ public class FileManagerActivity extends BaseActivity {
   protected void onPause() {
     super.onPause();
     if (isLoaded) {
-      saveFileList();
+      saveFileList(null);
     }
   }
 
@@ -242,7 +245,13 @@ public class FileManagerActivity extends BaseActivity {
   public void onBackPressed() {
     super.onBackPressed();
     if (isLoaded) {
-      saveFileList();
+      saveFileList(
+          new TaskListener() {
+            @Override
+            public void onSuccess(Object result) {
+              finish();
+            }
+          });
     }
   }
 
