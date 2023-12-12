@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.R;
 import com.dragon.ide.databinding.LayoutFileListItemBinding;
 import com.dragon.ide.listeners.ProjectBuildListener;
+import com.dragon.ide.listeners.TaskListener;
 import com.dragon.ide.objects.WebFile;
 import com.dragon.ide.ui.activities.EventListActivity;
 import com.dragon.ide.ui.activities.FileManagerActivity;
@@ -112,25 +113,37 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
                         .getAbsolutePath());
                 activity.startActivity(i);
               } else {
-                Intent i = new Intent();
-                i.setClass(activity, EventListActivity.class);
-                i.putExtra("projectName", projectName);
-                i.putExtra("projectPath", projectPath);
-                i.putExtra("fileName", _data.get(_position).getFilePath());
-                i.putExtra("fileType", _data.get(_position).getFileType());
-                i.putExtra("webFile", filePathList.get(_position));
-                i.putExtra(
-                    "fileOutputPath",
-                    new File(
-                            new File(((FileManagerActivity) activity).getOutputDirectory()),
-                            _data
-                                .get(_position)
-                                .getFilePath()
-                                .concat(
-                                    WebFile.getSupportedFileSuffix(
-                                        _data.get(_position).getFileType())))
-                        .getAbsolutePath());
-                activity.startActivity(i);
+                ((FileManagerActivity)activity).saveFileList(
+                    new TaskListener() {
+
+                      @Override
+                      public void onSuccess(Object result) {
+                        activity.runOnUiThread(
+                            () -> {
+                              Intent i = new Intent();
+                              i.setClass(activity, EventListActivity.class);
+                              i.putExtra("projectName", projectName);
+                              i.putExtra("projectPath", projectPath);
+                              i.putExtra("fileName", _data.get(_position).getFilePath());
+                              i.putExtra("fileType", _data.get(_position).getFileType());
+                              i.putExtra("webFile", filePathList.get(_position));
+                              i.putExtra(
+                                  "fileOutputPath",
+                                  new File(
+                                          new File(
+                                              ((FileManagerActivity) activity)
+                                                  .getOutputDirectory()),
+                                          _data
+                                              .get(_position)
+                                              .getFilePath()
+                                              .concat(
+                                                  WebFile.getSupportedFileSuffix(
+                                                      _data.get(_position).getFileType())))
+                                      .getAbsolutePath());
+                              activity.startActivity(i);
+                            });
+                      }
+                    });
               }
             });
     binding.execute.setOnClickListener(
