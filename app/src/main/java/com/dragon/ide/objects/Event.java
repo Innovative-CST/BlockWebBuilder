@@ -60,7 +60,7 @@ public class Event implements Serializable {
     }
     String eventFinalCode = new String(getRawCode());
     eventFinalCode =
-        eventFinalCode.replaceAll(CodeReplacer.getReplacer(getReplacer()), eventCode.toString());
+        eventFinalCode.replace(CodeReplacer.getReplacer(getReplacer()), eventCode.toString());
     eventFinalCode = CodeReplacer.removeDragonIDEString(eventFinalCode);
     return new String(eventFinalCode.toString());
   }
