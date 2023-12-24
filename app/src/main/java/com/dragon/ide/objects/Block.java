@@ -52,7 +52,7 @@ public class Block implements Serializable, Cloneable {
     for (int i = 0; i < getBlockContent().size(); ++i) {
       if (getBlockContent().get(i) instanceof ComplexBlockContent) {
         blockRawCode =
-            blockRawCode.replaceAll(
+            blockRawCode.replace(
                 CodeReplacer.getReplacer(((ComplexBlockContent) getBlockContent().get(i)).getId()),
                 ((ComplexBlockContent) getBlockContent().get(i)).getCode());
       }
