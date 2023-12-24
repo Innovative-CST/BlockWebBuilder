@@ -67,7 +67,7 @@ public class WebFile implements Serializable {
 
         String eventCode = events.get(i).getFormattedCode(formatter);
         String eventReplacer = events.get(i).getEventReplacer();
-        fileRawCode = fileRawCode.replaceAll(CodeReplacer.getReplacer(eventReplacer), eventCode);
+        fileRawCode = fileRawCode.replace(CodeReplacer.getReplacer(eventReplacer), eventCode);
       }
     }
     fileRawCode = CodeReplacer.removeDragonIDEString(fileRawCode);
