@@ -3,8 +3,8 @@ plugins {
 }
 
 android {
-    compileSdk 32
-    buildToolsVersion "33.0.2"
+    compileSdk 34
+    buildToolsVersion "34.0.0"
     useLibrary 'org.apache.http.legacy'
     namespace "editor.tsd"
 
