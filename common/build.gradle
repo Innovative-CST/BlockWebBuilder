@@ -3,8 +3,8 @@ plugins {
 }
 
 android {
-    compileSdk 32
-    buildToolsVersion "33.0.2"
+    compileSdk 34
+    buildToolsVersion "34.0.0"
     useLibrary 'org.apache.http.legacy'
     namespace "android.code.editor.common"
 
@@ -33,6 +33,6 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'com.google.code.gson:gson:2.8.7'
 }

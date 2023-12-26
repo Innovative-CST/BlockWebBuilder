@@ -45,8 +45,8 @@ if (analyticsEnabled) {
 
 android {
     namespace 'com.dragon.ide'
-    compileSdk 33
-    buildToolsVersion "33.0.2"
+    compileSdk 34
+    buildToolsVersion "34.0.0"
     
     def getCommitHash = { ->
         def stdout = new ByteArrayOutputStream()
@@ -79,7 +79,7 @@ android {
         applicationId "com.dragon.ide"
         minSdk 21
         targetSdk 28
-        compileSdkVersion 33
+        compileSdkVersion 34
         versionCode getGitCommitCount()
         versionName "1.0 Alpha01-Snapshot-" + getCommitHash() + "-commit-no-" + getGitCommitCount().toString()
         buildConfigField "String", "commitSha", getCommitSha()
@@ -130,7 +130,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "com.google.android.material:material:1.9.0"
+    implementation "com.google.android.material:material:1.11.0"
     implementation "androidx.core:core-splashscreen:1.0.1"
     if (analyticsEnabled) {
         if (useEnvForFirebase) {
