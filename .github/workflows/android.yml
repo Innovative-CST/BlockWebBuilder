@@ -45,4 +45,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: DrangonIDE Apk
-          path: app/build/outputs/apk/debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload output metadata APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: Output Metadata
+          path: app/build/outputs/apk/debug/output-metadata.json
