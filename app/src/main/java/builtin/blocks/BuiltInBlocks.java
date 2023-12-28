@@ -11,6 +11,7 @@ import com.dragon.ide.objects.ComplexBlockContent;
 import com.dragon.ide.objects.blockcontent.BooleanContent;
 import com.dragon.ide.objects.blockcontent.SourceContent;
 import com.dragon.ide.utils.CodeReplacer;
+import editor.tsd.tools.Language;
 import java.util.ArrayList;
 
 public class BuiltInBlocks {
@@ -19,6 +20,10 @@ public class BuiltInBlocks {
     BlocksHolder holder1 = new BlocksHolder();
     holder1.setColor("#009900");
     holder1.setName("Operators");
+    holder1.setTags(
+        new String[] {
+          Language.HTML, Language.CSS, Language.JavaScript, "developer", "developerOnly"
+        });
 
     ArrayList<Block> blockList = new ArrayList<Block>();
 

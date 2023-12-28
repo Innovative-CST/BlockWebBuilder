@@ -43,6 +43,15 @@ if (analyticsEnabled) {
     apply plugin: "com.google.gms.google-services"
 }
 
+def localPropertiesFile = file('../local.properties')
+def localProperties = new Properties()
+def useLocalProperties = false
+
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+    useLocalProperties = true
+}
+
 android {
     namespace 'com.dragon.ide'
     compileSdk 34
@@ -86,6 +95,15 @@ android {
         buildConfigField "boolean", "isRelease", "false"
         vectorDrawables { 
             useSupportLibrary true
+        }
+        if (useLocalProperties) {
+            if (localProperties.getProperty('enableDeveloperBlocks') != null) {
+                buildConfigField "boolean", "enableDeveloperBlocks", localProperties.getProperty('enableDeveloperBlocks')
+            } else {
+                buildConfigField "boolean", "enableDeveloperBlocks", "false"
+            }
+        } else {
+            buildConfigField "boolean", "enableDeveloperBlocks", "false"
         }
     }
 

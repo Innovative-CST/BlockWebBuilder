@@ -190,6 +190,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     BlocksListLoader blocksListLoader = new BlocksListLoader();
     blocksListLoader.loadBlocks(
         EventEditorActivity.this,
+        language,
         new BlocksListLoader.Progress() {
 
           @Override

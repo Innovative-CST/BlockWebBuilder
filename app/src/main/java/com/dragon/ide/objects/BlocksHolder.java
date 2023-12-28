@@ -8,6 +8,7 @@ public class BlocksHolder implements Serializable {
   public String name;
   public String color;
   public ArrayList<Block> blocks;
+  public String[] tags;
 
   public String getColor() {
     if (this.color != null) {
@@ -40,5 +41,13 @@ public class BlocksHolder implements Serializable {
 
   public void setBlocks(ArrayList<Block> blocks) {
     this.blocks = blocks;
+  }
+
+  public String[] getTags() {
+    return this.tags;
+  }
+
+  public void setTags(String[] tags) {
+    this.tags = tags;
   }
 }
