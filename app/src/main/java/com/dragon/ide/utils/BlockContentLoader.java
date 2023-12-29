@@ -65,7 +65,7 @@ public class BlockContentLoader {
                 .new SourceContentClickListener(tvTextContent, sc, activity, language, ll_source));
           }
         } else if (blockContent.get(i) instanceof BooleanContent) {
-          final ComplexBlockContent cbc = ((ComplexBlockContent) blockContent.get(i));
+          final BooleanContent cbc = ((BooleanContent) blockContent.get(i));
           final LinearLayout ll_boolean =
               new LinearLayout(view.getContext()) {
                 @Override
@@ -128,7 +128,7 @@ public class BlockContentLoader {
         tvTextContent.setTextColor(
             ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
         tvTextContent.setTextSize(12);
-        view.addView(tvTextContent, view.getChildCount() - 1);
+        view.addView(tvTextContent, view.getChildCount());
       }
     }
   }

@@ -51,6 +51,10 @@ public class ControlBlocks {
     ifBlockBlockContent2.setId("condition");
     ifBlockContentList.add(ifBlockBlockContent2);
 
+    BlockContent ifBlockContent3 = new BlockContent();
+    ifBlockContent3.setText("then");
+    ifBlockContentList.add(ifBlockContent3);
+
     ifBlock.setBlockContent(ifBlockContentList);
 
     return ifBlock;
