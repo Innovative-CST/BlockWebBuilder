@@ -3,6 +3,7 @@ package com.dragon.ide.ui.adapters;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.objects.Block;
@@ -24,7 +25,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    LinearLayout _v = new LinearLayout(activity);
+    HorizontalScrollView _v = new HorizontalScrollView(activity);
     RecyclerView.LayoutParams _lp =
         new RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -34,7 +35,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
 
   @Override
   public void onBindViewHolder(ViewHolder _holder, int _position) {
-    LinearLayout v = (LinearLayout) _holder.itemView;
+    HorizontalScrollView v = (HorizontalScrollView) _holder.itemView;
     v.setPadding(8, 8, 8, 8);
     if (!(list.get(_position) instanceof DoubleComplexBlock)) {
 
