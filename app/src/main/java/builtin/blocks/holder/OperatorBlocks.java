@@ -13,12 +13,14 @@ import java.util.ArrayList;
 public class OperatorBlocks {
   public static BlocksHolder getBlockHolder() {
     BlocksHolder blocksHolder = new BlocksHolder();
-    blocksHolder.setColor("#009900");
+    blocksHolder.setColor("#5AC417");
     blocksHolder.setName("Operator");
     blocksHolder.setTags(new String[] {Language.HTML, Language.CSS, Language.JavaScript});
 
     ArrayList<Block> blocksList = new ArrayList<Block>();
 
+    blocksList.add(getTrueBlock());
+    blocksList.add(getfalseBlock());
     blocksList.add(getAddSourceBlock());
 
     blocksHolder.setBlocks(blocksList);
@@ -27,7 +29,7 @@ public class OperatorBlocks {
 
   public static Block getAddSourceBlock() {
     Block addSource = new Block();
-    addSource.setColor("#009900");
+    addSource.setColor("#5AC417");
     addSource.setBlockType(Block.BlockType.defaultBlock);
     addSource.setName("addSource");
     addSource.setRawCode(CodeReplacer.getReplacer("parameter"));
@@ -46,5 +48,37 @@ public class OperatorBlocks {
     addSource.setBlockContent(addSourceContentList);
 
     return addSource;
+  }
+
+  public static Block getTrueBlock() {
+    Block trueBlock = new Block();
+    trueBlock.setColor("#5AC417");
+    trueBlock.setBlockType(Block.BlockType.returnWithTypeBoolean);
+    trueBlock.setName("true");
+    trueBlock.setRawCode("true");
+    trueBlock.setTags(new String[] {Language.JavaScript});
+    ArrayList<BlockContent> trueBlockContentList = new ArrayList<BlockContent>();
+    BlockContent trueBlockText = new BlockContent();
+    trueBlockText.setText("true");
+    trueBlockContentList.add(trueBlockText);
+    trueBlock.setBlockContent(trueBlockContentList);
+
+    return trueBlock;
+  }
+
+  public static Block getfalseBlock() {
+    Block falseBlock = new Block();
+    falseBlock.setColor("#5AC417");
+    falseBlock.setBlockType(Block.BlockType.returnWithTypeBoolean);
+    falseBlock.setName("false");
+    falseBlock.setRawCode("false");
+    falseBlock.setTags(new String[] {Language.JavaScript});
+    ArrayList<BlockContent> falseBlockContentList = new ArrayList<BlockContent>();
+    BlockContent falseBlockText = new BlockContent();
+    falseBlockText.setText("false");
+    falseBlockContentList.add(falseBlockText);
+    falseBlock.setBlockContent(falseBlockContentList);
+
+    return falseBlock;
   }
 }

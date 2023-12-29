@@ -24,7 +24,7 @@ public class ControlBlocks {
     return blocksHolder;
   }
 
-  public static Block getIfBlock() {
+  public static ComplexBlock getIfBlock() {
     ComplexBlock ifBlock = new ComplexBlock();
     ifBlock.setColor("#E1A92A");
     ifBlock.setBlockType(Block.BlockType.complexBlock);
