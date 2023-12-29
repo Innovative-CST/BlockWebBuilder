@@ -44,7 +44,7 @@ public class BlockContentLoader {
           tvTextContent.setTextSize(12);
           tvTextContent.setTextColor(
               ColorUtils.getColor(activity, com.google.android.material.R.attr.colorOnSurface));
-          ll_source.addView(tvTextContent, view.getChildCount() - 1);
+          ll_source.addView(tvTextContent);
 
           final LinearLayout.LayoutParams layoutParams =
               new LinearLayout.LayoutParams(
@@ -55,7 +55,7 @@ public class BlockContentLoader {
           layoutParams.setMarginEnd(endMargin);
           ll_source.setLayoutParams(layoutParams);
 
-          view.addView(ll_source, view.getChildCount());
+          view.addView(ll_source);
 
           final SourceContent sc = (SourceContent) blockContent.get(i);
 
