@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dragon.ide.databinding.LayoutEventBlocksHolderListItemBinding;
 import com.dragon.ide.objects.BlocksHolder;
 import com.dragon.ide.ui.activities.EventEditorActivity;
+import com.dragon.ide.utils.FilterBlocks;
 import java.util.ArrayList;
 
 public class BlocksHolderEventEditorListItem
@@ -46,7 +47,10 @@ public class BlocksHolderEventEditorListItem
         .setOnClickListener(
             (view) -> {
               activity.binding.blockList.setAdapter(
-                  new BlockListAdapter(list.get(_position).getBlocks(), activity));
+                  new BlockListAdapter(
+                      FilterBlocks.filterBlocksWithTag(
+                          list.get(_position).getBlocks(), activity.getLanguage()),
+                      activity));
               activity.binding.blockList.setLayoutManager(new LinearLayoutManager(activity));
             });
   }

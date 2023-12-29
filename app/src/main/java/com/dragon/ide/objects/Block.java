@@ -16,6 +16,7 @@ public class Block implements Serializable, Cloneable {
   private String returns;
   private boolean enableSideAttachableBlock;
   private ArrayList<Block> sideAttachableBlock;
+  private String[] tags;
 
   public String getColor() {
     if (this.color != null) {
@@ -187,5 +188,13 @@ public class Block implements Serializable, Cloneable {
     mBlock.setEnableSideAttachableBlock(mEnableSideAttachableBlock);
     mBlock.setSideAttachableBlock(mSideAttachableBlock);
     return mBlock;
+  }
+
+  public String[] getTags() {
+    return this.tags;
+  }
+
+  public void setTags(String[] tags) {
+    this.tags = tags;
   }
 }

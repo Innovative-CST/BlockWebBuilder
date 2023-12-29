@@ -885,4 +885,12 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       event.setBlocks(BlocksHandler.loadBlocksIntoObject(view));
     }
   }
+
+  public String getLanguage() {
+    return this.language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
+  }
 }

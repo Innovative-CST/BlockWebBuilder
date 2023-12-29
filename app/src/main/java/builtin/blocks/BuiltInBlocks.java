@@ -22,7 +22,7 @@ public class BuiltInBlocks {
     holder1.setName("Operators");
     holder1.setTags(
         new String[] {
-          Language.HTML, Language.CSS, Language.JavaScript, "developer", "developerOnly"
+          "developer", "developerOnly"
         });
 
     ArrayList<Block> blockList = new ArrayList<Block>();
@@ -32,6 +32,7 @@ public class BuiltInBlocks {
     blockInHolder1.setBlockType(Block.BlockType.defaultBlock);
     blockInHolder1.setName("addSource");
     blockInHolder1.setRawCode("DevKumar DragonIDE parameter DevKumar");
+    blockInHolder1.setTags(new String[] {"developer", "developerOnly"});
 
     ArrayList<BlockContent> block1ContentList = new ArrayList<BlockContent>();
 
@@ -51,6 +52,7 @@ public class BuiltInBlocks {
     blockInHolder2.setName("Test");
     blockInHolder2.setEnableSideAttachableBlock(true);
     blockInHolder2.setRawCode("I am block code DevKumar DragonIDE parameter DevKumar ");
+    blockInHolder2.setTags(new String[] {"developer", "developerOnly"});
 
     ArrayList<BlockContent> block2ContentList = new ArrayList<BlockContent>();
 
@@ -75,6 +77,7 @@ public class BuiltInBlocks {
     blockInHolder3StringBuilder.append(CodeReplacer.getReplacer("complexBlockContent"));
     blockInHolder3StringBuilder.append("\n}");
     blockInHolder3.setRawCode(blockInHolder3StringBuilder.toString());
+    blockInHolder3.setTags(new String[] {"developer", "developerOnly"});
 
     ArrayList<BlockContent> block3ContentList = new ArrayList<BlockContent>();
 
@@ -93,6 +96,7 @@ public class BuiltInBlocks {
     blockInHolder4.setName("true");
     blockInHolder4.setRawCode("true");
     blockInHolder4.setReturns("boolean");
+    blockInHolder4.setTags(new String[] {"developer", "developerOnly"});
 
     ArrayList<BlockContent> block4ContentList = new ArrayList<BlockContent>();
 
@@ -108,6 +112,7 @@ public class BuiltInBlocks {
     blockInHolder5.setName("false");
     blockInHolder5.setRawCode("false");
     blockInHolder5.setReturns("boolean");
+    blockInHolder5.setTags(new String[] {"developer", "developerOnly"});
 
     ArrayList<BlockContent> block5ContentList = new ArrayList<BlockContent>();
 
@@ -123,6 +128,7 @@ public class BuiltInBlocks {
     blockInHolder6.setName("Test");
     blockInHolder6.setEnableSideAttachableBlock(true);
     blockInHolder6.setRawCode("I am block code DevKumar DragonIDE parameter DevKumar ");
+    blockInHolder6.setTags(new String[] {"developer", "developerOnly"});
 
     ArrayList<BlockContent> block6ContentList = new ArrayList<BlockContent>();
 
