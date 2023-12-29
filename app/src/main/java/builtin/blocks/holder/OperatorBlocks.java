@@ -14,12 +14,11 @@ public class OperatorBlocks {
   public static BlocksHolder getBlockHolder() {
     BlocksHolder blocksHolder = new BlocksHolder();
     blocksHolder.setColor("#009900");
-    blocksHolder.setName("Operators");
+    blocksHolder.setName("Operator");
     blocksHolder.setTags(new String[] {Language.HTML, Language.CSS, Language.JavaScript});
 
     ArrayList<Block> blocksList = new ArrayList<Block>();
 
-    blocksList.add(getIfBlock());
     blocksList.add(getAddSourceBlock());
 
     blocksHolder.setBlocks(blocksList);
@@ -47,37 +46,5 @@ public class OperatorBlocks {
     addSource.setBlockContent(addSourceContentList);
 
     return addSource;
-  }
-
-  public static Block getIfBlock() {
-    ComplexBlock ifBlock = new ComplexBlock();
-    ifBlock.setColor("#009900");
-    ifBlock.setBlockType(Block.BlockType.complexBlock);
-    ifBlock.setName("if");
-
-    StringBuilder ifBlockStringBuilder = new StringBuilder();
-    ifBlockStringBuilder.append("if (");
-    ifBlockStringBuilder.append(CodeReplacer.getReplacer("condition"));
-    ifBlockStringBuilder.append(") {\n\t");
-    ifBlockStringBuilder.append(CodeReplacer.getReplacer("complexBlockContent"));
-    ifBlockStringBuilder.append("\n}");
-
-    ifBlock.setRawCode(ifBlockStringBuilder.toString());
-
-    ifBlock.setTags(new String[] {Language.JavaScript});
-
-    ArrayList<BlockContent> ifBlockContentList = new ArrayList<BlockContent>();
-
-    BlockContent ifBlockBlockContent1 = new BlockContent();
-    ifBlockBlockContent1.setText("if");
-    ifBlockContentList.add(ifBlockBlockContent1);
-
-    BooleanContent ifBlockBlockContent2 = new BooleanContent();
-    ifBlockBlockContent2.setId("condition");
-    ifBlockContentList.add(ifBlockBlockContent2);
-
-    ifBlock.setBlockContent(ifBlockContentList);
-
-    return ifBlock;
   }
 }

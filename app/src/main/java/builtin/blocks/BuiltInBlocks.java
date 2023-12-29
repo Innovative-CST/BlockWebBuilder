@@ -3,6 +3,7 @@ package builtin.blocks;
 import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
+import builtin.blocks.holder.ControlBlocks;
 import builtin.blocks.holder.OperatorBlocks;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.BlockContent;
@@ -105,6 +106,7 @@ public class BuiltInBlocks {
     holder1.setBlocks(blockList);
 
     blocksHolder.add(holder1);
+    blocksHolder.add(ControlBlocks.getBlockHolder());
     blocksHolder.add(OperatorBlocks.getBlockHolder());
 
     return blocksHolder;
