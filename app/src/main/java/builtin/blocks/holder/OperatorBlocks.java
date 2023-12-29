@@ -56,6 +56,7 @@ public class OperatorBlocks {
     trueBlock.setBlockType(Block.BlockType.returnWithTypeBoolean);
     trueBlock.setName("true");
     trueBlock.setRawCode("true");
+    trueBlock.setReturns("boolean");
     trueBlock.setTags(new String[] {Language.JavaScript});
     ArrayList<BlockContent> trueBlockContentList = new ArrayList<BlockContent>();
     BlockContent trueBlockText = new BlockContent();
@@ -72,6 +73,7 @@ public class OperatorBlocks {
     falseBlock.setBlockType(Block.BlockType.returnWithTypeBoolean);
     falseBlock.setName("false");
     falseBlock.setRawCode("false");
+    falseBlock.setReturns("boolean");
     falseBlock.setTags(new String[] {Language.JavaScript});
     ArrayList<BlockContent> falseBlockContentList = new ArrayList<BlockContent>();
     BlockContent falseBlockText = new BlockContent();

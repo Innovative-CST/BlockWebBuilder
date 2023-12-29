@@ -128,6 +128,14 @@ public class BlockContentLoader {
         tvTextContent.setTextColor(
             ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
         tvTextContent.setTextSize(12);
+        final LinearLayout.LayoutParams layoutParams =
+            new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        int startMargin = 2;
+        int endMargin = 2;
+        layoutParams.setMarginStart(startMargin);
+        layoutParams.setMarginEnd(endMargin);
+        tvTextContent.setLayoutParams(layoutParams);
         view.addView(tvTextContent, view.getChildCount());
       }
     }
