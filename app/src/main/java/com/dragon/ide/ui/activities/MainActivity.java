@@ -73,19 +73,9 @@ public class MainActivity extends BaseActivity {
         });
 
     // Create project dialog when fab is clicked.
-    binding.fab.setOnClickListener(
-        (view) -> {
-          CreateProjectDialog dialog =
-              new CreateProjectDialog(
-                  MainActivity.this,
-                  projects,
-                  new ProjectCreationListener() {
-                    @Override
-                    public void onProjectCreated(String projectName) {
-                      loadProjectInList();
-                    }
-                  });
-        });
+    binding.fab.setOnClickListener((view) -> {
+        createNewProject(view);
+    });
 
     /*
      * Ask for storage permission if not granted.
@@ -100,6 +90,19 @@ public class MainActivity extends BaseActivity {
       binding.projectList.setVisibility(View.GONE);
       showStoragePermissionDialog(this);
     }
+  }
+
+  public void createNewProject(View view) {
+    CreateProjectDialog dialog =
+        new CreateProjectDialog(
+            MainActivity.this,
+            projects,
+            new ProjectCreationListener() {
+              @Override
+              public void onProjectCreated(String projectName) {
+                loadProjectInList();
+              }
+            });
   }
 
   @Override
