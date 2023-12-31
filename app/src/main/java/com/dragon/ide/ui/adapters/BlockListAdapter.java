@@ -44,6 +44,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
           ComplexBlockView complexBlockView = new ComplexBlockView(activity);
           complexBlockView.setComplexBlock((ComplexBlock) list.get(_position));
           v.addView(complexBlockView);
+          complexBlockView.updateLayout();
         }
       } else if (list.get(_position) instanceof Block) {
         BlockDefaultView blockView = new BlockDefaultView(activity);

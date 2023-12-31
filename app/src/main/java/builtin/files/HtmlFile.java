@@ -2,6 +2,7 @@ package builtin.files;
 
 import com.dragon.ide.objects.Event;
 import com.dragon.ide.objects.WebFile;
+import com.dragon.ide.utils.CodeReplacer;
 import java.util.ArrayList;
 
 public class HtmlFile extends WebFile {
@@ -20,7 +21,8 @@ public class HtmlFile extends WebFile {
     sb.append("\n");
     sb.append("\t<body>");
     sb.append("\n");
-    sb.append("\t\tDevKumar DragonIDE mainContent DevKumar");
+    sb.append("\t\t");
+    sb.append(CodeReplacer.getReplacer("mainContent"));
     sb.append("\n");
     sb.append("\t</body>");
     sb.append("\n");
@@ -34,7 +36,7 @@ public class HtmlFile extends WebFile {
     mainContent.setName("MainPageView");
     mainContent.setDesc("Main contents of page");
     mainContent.setReplacer("eventMain");
-    mainContent.setRawCode("DevKumar DragonIDE eventMain DevKumar");
+    mainContent.setRawCode(CodeReplacer.getReplacer("eventMain"));
     mainContent.setEventReplacer("mainContent");
 
     events.add(mainContent);

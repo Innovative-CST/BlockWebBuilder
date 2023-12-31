@@ -9,7 +9,9 @@ import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import com.dragon.ide.R;
 import com.dragon.ide.objects.Block;
 import com.dragon.ide.objects.ComplexBlock;
@@ -24,6 +26,7 @@ public class ComplexBlockView extends LinearLayout {
   public String language;
   public Activity activity;
   public LinearLayout blocksView;
+  public LinearLayout blockContent;
 
   public ComplexBlockView(Activity context) {
     super(context);
@@ -41,7 +44,7 @@ public class ComplexBlockView extends LinearLayout {
     if (!(block instanceof DoubleComplexBlock)) {
       if (block instanceof ComplexBlock) {
         if (block.getBlockType() == Block.BlockType.complexBlock) {
-          LinearLayout blockContent = new LinearLayout(getContext());
+          blockContent = new LinearLayout(getContext());
           if (!block.getEnableSideAttachableBlock()) {
             Drawable backgroundDrawable = getResources().getDrawable(R.drawable.complex_block);
             backgroundDrawable.setTint(Color.parseColor(block.getColor()));
@@ -181,6 +184,10 @@ public class ComplexBlockView extends LinearLayout {
           });
     }
     invalidate();
+  }
+
+  public void updateLayout() {
+    blocksView.setMinimumWidth(blockContent.getWidth());
   }
 
   public ComplexBlock getComplexBlock() {

@@ -469,6 +469,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                     }
                   }
                   ((LinearLayout) v).addView(blockView, index);
+                  blockView.updateLayout();
                   if (blockView.getLayoutParams() != null) {
                     ((LinearLayout.LayoutParams) blockView.getLayoutParams())
                         .setMargins(0, -26, 0, 0);
