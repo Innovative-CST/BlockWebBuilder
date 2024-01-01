@@ -27,6 +27,7 @@ import com.block.web.builder.objects.Project;
 import com.block.web.builder.ui.adapters.ProjectsManagerListAdapter;
 import com.block.web.builder.ui.dialogs.CreateProjectDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.elevation.SurfaceColors;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -72,10 +73,14 @@ public class MainActivity extends BaseActivity {
           }
         });
 
+    binding.collapsingToolbar.setStatusBarScrimColor(SurfaceColors.SURFACE_2.getColor(this));
+    binding.collapsingToolbar.setContentScrimColor(SurfaceColors.SURFACE_2.getColor(this));
+
     // Create project dialog when fab is clicked.
-    binding.fab.setOnClickListener((view) -> {
-        createNewProject(view);
-    });
+    binding.fab.setOnClickListener(
+        (view) -> {
+          createNewProject(view);
+        });
 
     /*
      * Ask for storage permission if not granted.
