@@ -1,19 +1,12 @@
 package builtin.blocks;
 
-import android.graphics.Color;
-import android.util.Log;
-import android.widget.Toast;
 import builtin.blocks.holder.ControlBlocks;
 import builtin.blocks.holder.OperatorBlocks;
 import com.block.web.builder.objects.Block;
 import com.block.web.builder.objects.BlockContent;
 import com.block.web.builder.objects.BlocksHolder;
-import com.block.web.builder.objects.ComplexBlock;
-import com.block.web.builder.objects.ComplexBlockContent;
-import com.block.web.builder.objects.blockcontent.BooleanContent;
 import com.block.web.builder.objects.blockcontent.SourceContent;
 import com.block.web.builder.utils.CodeReplacer;
-import editor.tsd.tools.Language;
 import java.util.ArrayList;
 
 public class BuiltInBlocks {
@@ -31,7 +24,7 @@ public class BuiltInBlocks {
     blockInHolder2.setBlockType(Block.BlockType.sideAttachableBlock);
     blockInHolder2.setName("Test");
     blockInHolder2.setEnableSideAttachableBlock(true);
-    blockInHolder2.setRawCode("I am block code DevKumar DragonIDE parameter DevKumar ");
+    blockInHolder2.setRawCode("I am block code " + CodeReplacer.getReplacer("parameter"));
     blockInHolder2.setTags(new String[] {"developer", "developerOnly"});
 
     ArrayList<BlockContent> block2ContentList = new ArrayList<BlockContent>();
@@ -51,7 +44,7 @@ public class BuiltInBlocks {
     blockInHolder6.setBlockType(Block.BlockType.defaultBlock);
     blockInHolder6.setName("Test");
     blockInHolder6.setEnableSideAttachableBlock(true);
-    blockInHolder6.setRawCode("I am block code DevKumar DragonIDE parameter DevKumar ");
+    blockInHolder6.setRawCode("I am block code " + CodeReplacer.getReplacer("parameter"));
     blockInHolder6.setTags(new String[] {"developer", "developerOnly"});
 
     ArrayList<BlockContent> block6ContentList = new ArrayList<BlockContent>();
