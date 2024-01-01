@@ -1,12 +1,12 @@
 package builtin.blocks.holder;
 
-import com.dragon.ide.objects.Block;
-import com.dragon.ide.objects.BlockContent;
-import com.dragon.ide.objects.BlocksHolder;
-import com.dragon.ide.objects.ComplexBlock;
-import com.dragon.ide.objects.blockcontent.BooleanContent;
-import com.dragon.ide.objects.blockcontent.SourceContent;
-import com.dragon.ide.utils.CodeReplacer;
+import com.block.web.builder.objects.Block;
+import com.block.web.builder.objects.BlockContent;
+import com.block.web.builder.objects.BlocksHolder;
+import com.block.web.builder.objects.ComplexBlock;
+import com.block.web.builder.objects.blockcontent.BooleanContent;
+import com.block.web.builder.objects.blockcontent.SourceContent;
+import com.block.web.builder.utils.CodeReplacer;
 import editor.tsd.tools.Language;
 import java.util.ArrayList;
 

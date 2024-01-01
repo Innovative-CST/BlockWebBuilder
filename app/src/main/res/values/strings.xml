@@ -6,7 +6,7 @@
     <string name="an_error_occured_while_parsing_event">An error occured while parsing event.</string>
     <string name="an_error_occured_while_parsing_file_list">An error occured while parsing file list.</string>
     <string name="already_in_use">Already in use</string>
-    <string name="app_name">DragonIDE</string>
+    <string name="app_name">BlockWeb Builder</string>
     <string name="block">Block</string>
     <string name="blocks">Blocks</string>
     <string name="blocks_manager">Blocks manager</string>

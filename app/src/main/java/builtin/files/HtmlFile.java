@@ -1,8 +1,8 @@
 package builtin.files;
 
-import com.dragon.ide.objects.Event;
-import com.dragon.ide.objects.WebFile;
-import com.dragon.ide.utils.CodeReplacer;
+import com.block.web.builder.objects.Event;
+import com.block.web.builder.objects.WebFile;
+import com.block.web.builder.utils.CodeReplacer;
 import java.util.ArrayList;
 
 public class HtmlFile extends WebFile {

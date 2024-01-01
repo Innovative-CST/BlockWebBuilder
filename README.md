@@ -1,6 +1,6 @@
-# DragonIDE
+# BlockWeb Builder
 
-DragonIDE is an Android app that aims to provide a user-friendly drag and drop website builder for creating stunning websites. While the app is still in development, we are actively working on bringing this exciting project to life.
+BlockWeb Builder is an Android app that aims to provide a user-friendly drag and drop website builder for creating stunning websites. While the app is still in development, we are actively working on bringing this exciting project to life.
 
 ## Features
 
@@ -14,21 +14,21 @@ DragonIDE is an Android app that aims to provide a user-friendly drag and drop w
 
 ## Getting Started
 
-To get started with DragonIDE:
+To get started with BlockWeb Builder:
 
 1. Clone the repository to your local machine.
 
 ```shell
-git clone https://github.com/TS-Code-Editor/DragonIDE
+git clone https://github.com/TS-Code-Editor/BlockWebBuilder
 ```
 
 2. Open the project in Android Studio or Android IDE.
 
-3. Build and run the DragonIDE app on an Android emulator or a connected device.
+3. Build and run the BlockWeb Builder app on an Android emulator or a connected device.
 
 ## Contributing
 
-We welcome contributions for making DragonIDE even better! To contribute, please follow these steps:
+We welcome contributions for making BlockWeb Builder even better! To contribute, please follow these steps:
 
 1. Fork the repository and create your branch.
 
@@ -62,4 +62,4 @@ We value your feedback and are here to support you along the way. If you have an
 
 📧 Email: You can also email us at appdeveloper400@gmail.com for assistance.
 
-## 🔥 Start building beautiful websites with DragonIDE! 🔥
+## 🔥 Start building beautiful websites with BlockWeb Builder! 🔥

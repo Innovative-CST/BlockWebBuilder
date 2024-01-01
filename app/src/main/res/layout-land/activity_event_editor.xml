@@ -121,7 +121,7 @@
                         android:visibility="gone"
                         android:id="@+id/editor">
 
-                        <com.dragon.ide.ui.view.editor.Editor
+                        <com.block.web.builder.ui.view.editor.Editor
                             android:layout_height="match_parent"
                             android:layout_width="match_parent"
                             android:foregroundGravity="top"

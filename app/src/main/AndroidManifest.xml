@@ -23,7 +23,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules">
         <activity
-            android:name="com.dragon.ide.ui.activities.MainActivity"
+            android:name="com.block.web.builder.ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action
@@ -33,30 +33,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dragon.ide.ui.activities.FileManagerActivity"
+            android:name="com.block.web.builder.ui.activities.FileManagerActivity"
             android:exported="true"/>
         <activity
-            android:name="com.dragon.ide.ui.activities.BlocksHolderManagerActivity"
+            android:name="com.block.web.builder.ui.activities.BlocksHolderManagerActivity"
             android:exported="true"/>
         <activity
-            android:name="com.dragon.ide.ui.activities.BlockManagerActivity"
+            android:name="com.block.web.builder.ui.activities.BlockManagerActivity"
             android:exported="true"/>
         <activity
-            android:name="com.dragon.ide.ui.activities.BlockEditorActivity"
+            android:name="com.block.web.builder.ui.activities.BlockEditorActivity"
             android:exported="true"/>
         <activity
-            android:name="com.dragon.ide.ui.activities.EventListActivity"
+            android:name="com.block.web.builder.ui.activities.EventListActivity"
             android:exported="true"/>
         <activity
             android:configChanges="uiMode"
             android:windowSoftInputMode="adjustResize"
-            android:name="com.dragon.ide.ui.activities.EventEditorActivity"
+            android:name="com.block.web.builder.ui.activities.EventEditorActivity"
             android:exported="true"/>
         <activity
-            android:name="com.dragon.ide.ui.activities.DebugActivity"
+            android:name="com.block.web.builder.ui.activities.DebugActivity"
             android:exported="true"/>
         <activity
-            android:name="com.dragon.ide.ui.activities.WebViewActivity"
+            android:name="com.block.web.builder.ui.activities.WebViewActivity"
             android:exported="true"/>
     </application>
 </manifest>

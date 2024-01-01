@@ -53,7 +53,7 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-    namespace 'com.dragon.ide'
+    namespace 'com.block.web.builder'
     compileSdk 34
     buildToolsVersion "34.0.0"
     
@@ -85,7 +85,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.dragon.ide"
+        applicationId "com.block.web.builder"
         minSdk 21
         targetSdk 28
         compileSdkVersion 34
@@ -112,7 +112,7 @@ android {
             if (signingEnabled) {
                 storeFile file("../keystore.jks")
                 storePassword keyStorePassword
-                keyAlias "DragonIDE"
+                keyAlias "BlockWebBuilder"
                 keyPassword keyStorePassword
             }
         }
@@ -120,7 +120,7 @@ android {
             if (signingEnabled) {
                 storeFile file("../keystore.jks")
                 storePassword keyStorePassword
-                keyAlias "DragonIDE"
+                keyAlias "BlockWebBuilder"
                 keyPassword keyStorePassword
             }
         }
