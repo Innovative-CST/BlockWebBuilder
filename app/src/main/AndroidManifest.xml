@@ -58,5 +58,8 @@
         <activity
             android:name="com.block.web.builder.ui.activities.WebViewActivity"
             android:exported="true"/>
+        <activity
+            android:name="com.block.web.builder.ui.activities.ImageCropperActivity"
+            android:exported="true"/>
     </application>
 </manifest>

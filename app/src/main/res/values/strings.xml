@@ -11,6 +11,7 @@
     <string name="blocks">Blocks</string>
     <string name="blocks_manager">Blocks manager</string>
     <string name="cancel">Cancel</string>
+    <string name="choose_photo">Choose photo</string>
     <string name="create">Create</string>
     <string name="create_new_blocks_holder">Create new blocks holder</string>
     <string name="create_new_file">Create new file</string>
@@ -37,6 +38,8 @@
     <string name="project_name">Project name</string>
     <string name="project_name_not_passed">Project name not passed.Please check the Intent or contact developer.</string>
     <string name="project_not_found">Project not found</string>
+    <string name="project_photo">Project Photo</string>
+    <string name="remove_photo">Remove Photo</string>
     <string name="show_source_code">Show source code</string>
     <string name="source_code">Source code</string>
     <string name="storage_permission_denied">Storage permission denied</string>

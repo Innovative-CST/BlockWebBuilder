@@ -43,6 +43,10 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends BaseActivity {
   private ActivityMainBinding binding;
+  private CreateProjectDialog dialog;
+  public String croppedImagePath = "";
+  public static final int PICK_IMAGE_REQUEST = 1;
+  public static final int IMAGE_CROP_REQUEST = 2;
 
   // Project list will be stored in this ArrayList.
   public ArrayList<HashMap<String, Object>> projects;
@@ -98,7 +102,7 @@ public class MainActivity extends BaseActivity {
   }
 
   public void createNewProject(View view) {
-    CreateProjectDialog dialog =
+    dialog =
         new CreateProjectDialog(
             MainActivity.this,
             projects,
@@ -310,13 +314,35 @@ public class MainActivity extends BaseActivity {
 
   @Override
   @CallSuper
-  protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-    super.onActivityResult(arg0, arg1, arg2);
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
     if (isStoagePermissionGranted(this)) {
       startActivtyLogic();
     } else {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         showRationaleOfStoragePermissionDialog(this);
+      }
+    }
+    if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+      Uri selectedImage = data.getData();
+      Intent intent = new Intent();
+      intent.setClass(this, ImageCropperActivity.class);
+      intent.putExtra("pickedImageUri", selectedImage);
+      startActivityForResult(intent, IMAGE_CROP_REQUEST);
+    }
+    if (requestCode == IMAGE_CROP_REQUEST && resultCode == RESULT_OK && data != null) {
+      Uri selectedImage = Uri.parse(data.getStringExtra("path"));
+      if (dialog != null) {
+        if (dialog.dialogBinding != null) {
+          if (dialog.mBottomSheetDialog != null) {
+            if (dialog.mBottomSheetDialog.isShowing()) {
+              dialog.mBottomSheetDialog.dismiss();
+            }
+          }
+          dialog.isAddedProjectPhoto = true;
+          dialog.dialogBinding.websiteIcon.setImageURI(selectedImage);
+          croppedImagePath = data.getStringExtra("path");
+        }
       }
     }
   }

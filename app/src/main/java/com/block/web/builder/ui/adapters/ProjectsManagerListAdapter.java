@@ -2,9 +2,11 @@ package com.block.web.builder.ui.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
+import com.block.web.builder.R;
 import com.block.web.builder.databinding.LayoutProjectsManagerListItemBinding;
 import com.block.web.builder.objects.Project;
 import com.block.web.builder.ui.activities.FileManagerActivity;
@@ -41,6 +43,18 @@ public class ProjectsManagerListAdapter
     LayoutProjectsManagerListItemBinding binding =
         LayoutProjectsManagerListItemBinding.bind(_holder.itemView);
     binding.projectName.setText(((Project) _data.get(_position).get("Project")).getProjectName());
+
+    if (((Project) _data.get(_position).get("Project")).getProjectPhotoPath().equals("")) {
+      binding.projectPhoto.setImageResource(R.drawable.banner);
+    } else {
+      binding.projectPhoto.setImageURI(
+          Uri.parse(
+              new File(
+                      ((File) _data.get(_position).get("Path")),
+                      ((Project) _data.get(_position).get("Project")).getProjectPhotoPath())
+                  .getAbsolutePath()));
+    }
+
     binding
         .getRoot()
         .setOnClickListener(
