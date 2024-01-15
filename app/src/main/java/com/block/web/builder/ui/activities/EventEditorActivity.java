@@ -572,6 +572,12 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   view.setLayoutParams(lp);
                 }
 
+                if (((BlockDefaultView) dragView).getEnableEdit()) {
+                  if (((BlockDefaultView) dragView).getParent() != null) {
+                    ((ViewGroup) ((BlockDefaultView) dragView).getParent()).removeView(dragView);
+                  }
+                }
+
                 ((ViewGroup) v).addView(blockView);
                 if (blockView.getLayoutParams() != null) {
                   ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
