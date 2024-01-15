@@ -397,7 +397,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   ((LinearLayout) v).addView(blockView, index);
                   if (blockView.getLayoutParams() != null) {
                     ((LinearLayout.LayoutParams) blockView.getLayoutParams())
-                        .setMargins(0, -26, 0, 0);
+                        .setMargins(
+                            0, Utils.dpToPx(this, BlocksMargin.defaultBlockAboveMargin), 0, 0);
                     ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                         LinearLayout.LayoutParams.WRAP_CONTENT;
                   }
@@ -411,7 +412,11 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                           if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
                             ((LinearLayout.LayoutParams)
                                     ((LinearLayout) v).getChildAt(1).getLayoutParams())
-                                .setMargins(0, -26, 0, 0);
+                                .setMargins(
+                                    0,
+                                    Utils.dpToPx(this, BlocksMargin.defaultBlockAboveMargin),
+                                    0,
+                                    0);
                           }
                         }
                       }
@@ -472,7 +477,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   blockView.updateLayout();
                   if (blockView.getLayoutParams() != null) {
                     ((LinearLayout.LayoutParams) blockView.getLayoutParams())
-                        .setMargins(0, -26, 0, 0);
+                        .setMargins(
+                            0, Utils.dpToPx(this, BlocksMargin.defaultBlockAboveMargin), 0, 0);
                     ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                         LinearLayout.LayoutParams.WRAP_CONTENT;
                   }
@@ -487,7 +493,11 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                           if (((LinearLayout) v).getChildAt(1).getLayoutParams() != null) {
                             ((LinearLayout.LayoutParams)
                                     ((LinearLayout) v).getChildAt(1).getLayoutParams())
-                                .setMargins(0, -26, 0, 0);
+                                .setMargins(
+                                    0,
+                                    Utils.dpToPx(this, BlocksMargin.defaultBlockAboveMargin),
+                                    0,
+                                    0);
                           }
                         }
                       }
@@ -526,7 +536,12 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                     attachableBlockView.setBlock(blockDefaultView.getBlock());
                   }
                   ((ViewGroup) v).addView(attachableBlockView, index);
-                  Utils.setMargins(attachableBlockView, -16, 0, 0, 0);
+                  Utils.setMargins(
+                      attachableBlockView,
+                      Utils.dpToPx(this, BlocksMargin.sideAttachableBlock),
+                      0,
+                      0,
+                      0);
                 }
               }
             }
@@ -673,14 +688,20 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
           backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
           blockShadow.setBackground(backgroundDrawable);
           ((ViewGroup) v).addView(blockShadow, index);
-          Utils.setMargins(blockShadow, 0, -26, 0, 0);
+          Utils.setMargins(
+              blockShadow, 0, Utils.dpToPx(this, BlocksMargin.defaultBlockAboveMargin), 0, 0);
           if (v.getId() != R.id.blockListEditorArea
               || v.getId() != R.id.relativeBlockListEditorArea) {
             if (index == 0) {
               if (((ViewGroup) blockShadow).getLayoutParams() != null) {
                 Utils.setMargins(blockShadow, 0, 0, 0, 0);
                 if (((LinearLayout) v).getChildCount() > 1) {
-                  Utils.setMargins(((LinearLayout) v).getChildAt(1), 0, -26, 0, 0);
+                  Utils.setMargins(
+                      ((LinearLayout) v).getChildAt(1),
+                      0,
+                      Utils.dpToPx(this, BlocksMargin.defaultBlockAboveMargin),
+                      0,
+                      0);
                 }
               }
             }
@@ -700,7 +721,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             }
           }
           ((ViewGroup) v).addView(blockShadow, index);
-          Utils.setMargins(blockShadow, -16, 0, 0, 0);
+          Utils.setMargins(
+              blockShadow, Utils.dpToPx(this, BlocksMargin.sideAttachableBlock), 0, 0, 0);
           if (((LinearLayout.LayoutParams) blockShadow.getLayoutParams()) != null) {
             ((LinearLayout.LayoutParams) blockShadow.getLayoutParams()).height =
                 LinearLayout.LayoutParams.MATCH_PARENT;
@@ -893,5 +915,11 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
 
   public void setLanguage(String language) {
     this.language = language;
+  }
+
+  public class BlocksMargin {
+    public static final int defaultBlockAboveMargin = -5;
+    public static final int sideAttachableBlock = -16;
+    public static final int bottomBlockHeight = 30;
   }
 }

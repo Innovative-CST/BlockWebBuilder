@@ -41,7 +41,7 @@ public class BlockContentLoader {
           tvTextContent.setText(
               Utils.setWordLimitOnString(50, ((SourceContent) blockContent.get(i)).getValue()));
           updateContentPaddingWithText(tvTextContent, ll_source);
-          tvTextContent.setTextSize(12);
+          tvTextContent.setTextSize(11);
           tvTextContent.setTextColor(
               ColorUtils.getColor(activity, com.google.android.material.R.attr.colorOnSurface));
           ll_source.addView(tvTextContent);
@@ -127,7 +127,7 @@ public class BlockContentLoader {
         tvTextContent.setText(blockContent.get(i).getText());
         tvTextContent.setTextColor(
             ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
-        tvTextContent.setTextSize(12);
+        tvTextContent.setTextSize(11);
         final LinearLayout.LayoutParams layoutParams =
             new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);

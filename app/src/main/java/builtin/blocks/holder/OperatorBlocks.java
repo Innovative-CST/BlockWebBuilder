@@ -38,7 +38,7 @@ public class OperatorBlocks {
     ArrayList<BlockContent> addSourceContentList = new ArrayList<BlockContent>();
 
     BlockContent addSourceBlockContent1 = new BlockContent();
-    addSourceBlockContent1.setText("add source");
+    addSourceBlockContent1.setText("add source directly");
     addSourceContentList.add(addSourceBlockContent1);
 
     SourceContent addSourceBlockContent2 = new SourceContent();

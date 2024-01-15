@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import com.block.web.builder.R;
 import com.block.web.builder.objects.Block;
 import com.block.web.builder.objects.ComplexBlock;
+import com.block.web.builder.ui.activities.EventEditorActivity;
 import com.block.web.builder.ui.view.BlockDefaultView;
 import com.block.web.builder.ui.view.ComplexBlockView;
 import com.block.web.builder.utils.Utils;
@@ -29,11 +30,14 @@ public class BlocksLoader {
             view.addView(blockView);
             if (blockView.getLayoutParams() != null) {
               if (view.getId() == R.id.blockListEditorArea) {
-                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
+                ((LinearLayout.LayoutParams) blockView.getLayoutParams())
+                    .setMargins(
+                        0, Utils.dpToPx(activity, EventEditorActivity.BlocksMargin.defaultBlockAboveMargin), 0, 0);
               } else {
                 if (i != 0) {
                   ((LinearLayout.LayoutParams) blockView.getLayoutParams())
-                      .setMargins(0, -26, 0, 0);
+                      .setMargins(
+                          0, Utils.dpToPx(activity, EventEditorActivity.BlocksMargin.defaultBlockAboveMargin), 0, 0);
                 } else {
                   ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, 0, 0, 0);
                 }
@@ -60,11 +64,22 @@ public class BlocksLoader {
             view.addView(blockView);
             if (blockView.getLayoutParams() != null) {
               if (view.getId() == R.id.blockListEditorArea) {
-                ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, -26, 0, 0);
+                ((LinearLayout.LayoutParams) blockView.getLayoutParams())
+                    .setMargins(
+                        0,
+                        Utils.dpToPx(
+                            activity, EventEditorActivity.BlocksMargin.defaultBlockAboveMargin),
+                        0,
+                        0);
               } else {
                 if (i != 0) {
                   ((LinearLayout.LayoutParams) blockView.getLayoutParams())
-                      .setMargins(0, -26, 0, 0);
+                      .setMargins(
+                          0,
+                          Utils.dpToPx(
+                              activity, EventEditorActivity.BlocksMargin.defaultBlockAboveMargin),
+                          0,
+                          0);
                 } else {
                   ((LinearLayout.LayoutParams) blockView.getLayoutParams()).setMargins(0, 0, 0, 0);
                 }
@@ -84,7 +99,12 @@ public class BlocksLoader {
                   sideBlockView.setBlock(new Block());
                 }
                 blockView.addView(sideBlockView);
-                Utils.setMargins(sideBlockView, -16, 0, 0, 0);
+                Utils.setMargins(
+                    sideBlockView,
+                    Utils.dpToPx(activity, EventEditorActivity.BlocksMargin.sideAttachableBlock),
+                    0,
+                    0,
+                    0);
               }
             }
           }

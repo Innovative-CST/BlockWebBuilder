@@ -49,25 +49,25 @@ public class BlockDefaultView extends LinearLayout {
           if (!block.getEnableSideAttachableBlock()) {
             Drawable backgroundDrawable = getResources().getDrawable(R.drawable.block_default);
             backgroundDrawable.setTint(Color.parseColor(block.getColor()));
-            backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+            backgroundDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
             blockContent.setBackground(backgroundDrawable);
           } else {
             setTag("sideAttachableDropArea");
             Drawable backgroundDrawable =
                 getResources().getDrawable(R.drawable.default_block_attachable);
             backgroundDrawable.setTint(Color.parseColor(block.getColor()));
-            backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+            backgroundDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
             blockContent.setBackground(backgroundDrawable);
           }
         } else if (block.getBlockType() == Block.BlockType.returnWithTypeBoolean) {
           Drawable backgroundDrawable = getResources().getDrawable(R.drawable.block_boolean);
           backgroundDrawable.setTint(Color.parseColor(block.getColor()));
-          backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+          backgroundDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
           blockContent.setBackground(backgroundDrawable);
         } else if (block.getBlockType() == Block.BlockType.sideAttachableBlock) {
           Drawable backgroundDrawable = getResources().getDrawable(R.drawable.side_attachable);
           backgroundDrawable.setTint(Color.parseColor(block.getColor()));
-          backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+          backgroundDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
           blockContent.setBackground(backgroundDrawable);
         }
       }

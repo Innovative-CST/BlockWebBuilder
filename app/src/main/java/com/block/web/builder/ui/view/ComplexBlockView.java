@@ -19,6 +19,7 @@ import com.block.web.builder.objects.DoubleComplexBlock;
 import com.block.web.builder.ui.activities.EventEditorActivity;
 import com.block.web.builder.utils.BlockContentLoader;
 import com.block.web.builder.utils.DropTargetUtils;
+import com.block.web.builder.utils.Utils;
 
 public class ComplexBlockView extends LinearLayout {
   public ComplexBlock block;
@@ -48,7 +49,7 @@ public class ComplexBlockView extends LinearLayout {
           if (!block.getEnableSideAttachableBlock()) {
             Drawable backgroundDrawable = getResources().getDrawable(R.drawable.complex_block);
             backgroundDrawable.setTint(Color.parseColor(block.getColor()));
-            backgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+            backgroundDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
             blockContent.setBackground(backgroundDrawable);
           }
 
@@ -79,7 +80,13 @@ public class ComplexBlockView extends LinearLayout {
                   } else {
                     if (getBlocksView().getLayoutParams() != null) {
                       ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
-                          .setMargins(0, -26, 0, 0);
+                          .setMargins(
+                              0,
+                              Utils.dpToPx(
+                                  getContext(),
+                                  EventEditorActivity.BlocksMargin.defaultBlockAboveMargin),
+                              0,
+                              0);
                     }
                   }
                 }
@@ -95,7 +102,13 @@ public class ComplexBlockView extends LinearLayout {
                   } else {
                     if (getBlocksView().getLayoutParams() != null) {
                       ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
-                          .setMargins(0, -26, 0, 0);
+                          .setMargins(
+                              0,
+                              Utils.dpToPx(
+                                  getContext(),
+                                  EventEditorActivity.BlocksMargin.defaultBlockAboveMargin),
+                              0,
+                              0);
                     }
                   }
                 }
@@ -111,24 +124,49 @@ public class ComplexBlockView extends LinearLayout {
                   } else {
                     if (getBlocksView().getLayoutParams() != null) {
                       ((LinearLayout.LayoutParams) getBlocksView().getLayoutParams())
-                          .setMargins(0, -26, 0, 0);
+                          .setMargins(
+                              0,
+                              Utils.dpToPx(
+                                  getContext(),
+                                  EventEditorActivity.BlocksMargin.defaultBlockAboveMargin),
+                              0,
+                              0);
                     }
                   }
                 }
               };
           blocksView.setTag("blockDroppingArea");
-          blocksView.setBackgroundResource(R.drawable.complex_block_bottom);
+          blocksView.setBackgroundResource(R.drawable.block_joint);
 
           Drawable blocksViewBackgroundDrawable = blocksView.getBackground();
           blocksViewBackgroundDrawable.setTint(Color.parseColor(block.getColor()));
-          blocksViewBackgroundDrawable.setTintMode(PorterDuff.Mode.SRC_IN);
+          blocksViewBackgroundDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
           blocksView.setBackground(blocksViewBackgroundDrawable);
+          blocksView.setMinimumHeight(EventEditorActivity.BlocksMargin.bottomBlockHeight);
 
           blocksView.setOrientation(LinearLayout.VERTICAL);
           addView(blocksView);
           if (blocksView.getLayoutParams() != null) {
             blocksView.getLayoutParams().width = -2;
             blocksView.getLayoutParams().height = -2;
+          }
+
+          LinearLayout blockBottomView = new LinearLayout(getContext());
+          Drawable blockBottomViewDrawable =
+              getResources().getDrawable(R.drawable.complex_block_bottom);
+          blockBottomViewDrawable.setTint(Color.parseColor(block.getColor()));
+          blockBottomViewDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+          blockBottomView.setBackground(blockBottomViewDrawable);
+          addView(blockBottomView);
+
+          if (blockBottomView.getLayoutParams() != null) {
+            ((LinearLayout.LayoutParams) blockBottomView.getLayoutParams())
+                .setMargins(
+                    0,
+                    Utils.dpToPx(
+                        getContext(), EventEditorActivity.BlocksMargin.defaultBlockAboveMargin),
+                    0,
+                    0);
           }
 
           if (getEnableEdit()) {
@@ -138,7 +176,13 @@ public class ComplexBlockView extends LinearLayout {
               }
             } else {
               if (blocksView.getLayoutParams() != null) {
-                ((LinearLayout.LayoutParams) blocksView.getLayoutParams()).setMargins(0, -26, 0, 0);
+                ((LinearLayout.LayoutParams) blocksView.getLayoutParams())
+                    .setMargins(
+                        0,
+                        Utils.dpToPx(
+                            getContext(), EventEditorActivity.BlocksMargin.defaultBlockAboveMargin),
+                        0,
+                        0);
               }
             }
           } else {
@@ -152,12 +196,6 @@ public class ComplexBlockView extends LinearLayout {
                   .setMargins(0, -10, 0, 0);
             }
           }
-
-          blocksView.setPadding(
-              blocksView.getPaddingLeft() + 3,
-              blocksView.getPaddingTop(),
-              blocksView.getPaddingRight(),
-              blocksView.getPaddingBottom());
         }
       }
     }
