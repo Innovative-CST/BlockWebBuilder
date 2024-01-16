@@ -11,7 +11,7 @@ public class Block implements Serializable, Cloneable {
   private String color;
   private String name;
   private ArrayList<BlockContent> blockContent;
-  private int BlockType;
+  private int blockType;
   private String rawCode;
   private String returns;
   private boolean enableSideAttachableBlock;
@@ -41,11 +41,11 @@ public class Block implements Serializable, Cloneable {
   }
 
   public int getBlockType() {
-    return this.BlockType;
+    return this.blockType;
   }
 
   public void setBlockType(int BlockType) {
-    this.BlockType = BlockType;
+    this.blockType = BlockType;
   }
 
   public String getCode() {
@@ -58,6 +58,19 @@ public class Block implements Serializable, Cloneable {
                 ((ComplexBlockContent) getBlockContent().get(i)).getCode());
       }
     }
+
+    StringBuilder attachementBlocksCode = new StringBuilder();
+
+    for (int i = 0; i < getSideAttachableBlock().size(); ++i) {
+      if (getSideAttachableBlock().get(i).getBlockType() == BlockType.sideAttachableBlock) {
+        attachementBlocksCode.append(getSideAttachableBlock().get(i).getCode());
+        attachementBlocksCode.append(" ");
+      }
+    }
+
+    blockRawCode.replace(
+        CodeReplacer.getReplacer("attachementBlock"), attachementBlocksCode.toString());
+
     blockRawCode = CodeReplacer.removeBlockWebBuilderString(blockRawCode);
     return new String(blockRawCode);
   }
