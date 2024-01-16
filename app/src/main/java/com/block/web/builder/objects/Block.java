@@ -7,22 +7,25 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Block implements Serializable, Cloneable {
+
   private static final long serialVersionUID = 428383837L;
+
   private String color;
   private String name;
-  private ArrayList<BlockContent> blockContent;
-  private int blockType;
   private String rawCode;
   private String returns;
-  private boolean enableSideAttachableBlock;
-  private ArrayList<Block> sideAttachableBlock;
+
   private String[] tags;
 
+  private int blockType;
+
+  private boolean enableSideAttachableBlock;
+
+  private ArrayList<BlockContent> blockContent;
+  private ArrayList<Block> sideAttachableBlock;
+
   public String getColor() {
-    if (this.color != null) {
-      return this.color;
-    }
-    return "#000000";
+    return color != null ? color : "#000000";
   }
 
   public void setColor(String color) {
@@ -30,22 +33,67 @@ public class Block implements Serializable, Cloneable {
   }
 
   public String getName() {
-    if (this.name != null) {
-      return this.name;
-    }
-    return "";
+    return name != null ? name : "";
   }
 
   public void setName(String name) {
     this.name = name;
   }
 
-  public int getBlockType() {
-    return this.blockType;
+  public String getRawCode() {
+    return new String(rawCode);
   }
 
-  public void setBlockType(int BlockType) {
-    this.blockType = BlockType;
+  public void setRawCode(String rawCode) {
+    this.rawCode = rawCode;
+  }
+
+  public String getReturns() {
+    return returns != null ? returns : "";
+  }
+
+  public void setReturns(String returns) {
+    this.returns = returns;
+  }
+
+  public String[] getTags() {
+    return tags;
+  }
+
+  public void setTags(String[] tags) {
+    this.tags = tags;
+  }
+
+  public int getBlockType() {
+    return blockType;
+  }
+
+  public void setBlockType(int blockType) {
+    this.blockType = blockType;
+  }
+
+  public boolean getEnableSideAttachableBlock() {
+    return enableSideAttachableBlock;
+  }
+
+  public void setEnableSideAttachableBlock(boolean enableSideAttachableBlock) {
+    this.enableSideAttachableBlock = enableSideAttachableBlock;
+  }
+
+  public ArrayList<BlockContent> getBlockContent() {
+    return blockContent;
+  }
+
+  public void setBlockContent(ArrayList<BlockContent> blockContent) {
+    this.blockContent = blockContent;
+  }
+
+  public ArrayList<Block> getSideAttachableBlock() {
+    return sideAttachableBlock;
+  }
+
+  public void setSideAttachableBlock(ArrayList<Block> sideAttachableBlock) {
+    this.sideAttachableBlock = sideAttachableBlock;
   }
 
   public String getCode() {
@@ -73,57 +121,6 @@ public class Block implements Serializable, Cloneable {
 
     blockRawCode = CodeReplacer.removeBlockWebBuilderString(blockRawCode);
     return new String(blockRawCode);
-  }
-
-  public String getRawCode() {
-    return new String(this.rawCode);
-  }
-
-  public void setRawCode(String rawCode) {
-    this.rawCode = rawCode;
-  }
-
-  public final class BlockType {
-    public static final int defaultBlock = 0;
-    public static final int complexBlock = 1;
-    public static final int doubleComplexBlock = 2;
-    public static final int returnWithTypeBoolean = 3;
-    public static final int sideAttachableBlock = 4;
-  }
-
-  public ArrayList<BlockContent> getBlockContent() {
-    return blockContent;
-  }
-
-  public void setBlockContent(ArrayList<BlockContent> blockContent) {
-    this.blockContent = blockContent;
-  }
-
-  public String getReturns() {
-    if (returns != null) {
-      return this.returns;
-    }
-    return new String("");
-  }
-
-  public void setReturns(String returns) {
-    this.returns = returns;
-  }
-
-  public ArrayList<Block> getSideAttachableBlock() {
-    return this.sideAttachableBlock;
-  }
-
-  public void setSideAttachableBlock(ArrayList<Block> sideAttachableBlock) {
-    this.sideAttachableBlock = sideAttachableBlock;
-  }
-
-  public boolean getEnableSideAttachableBlock() {
-    return this.enableSideAttachableBlock;
-  }
-
-  public void setEnableSideAttachableBlock(boolean enableSideAttachableBlock) {
-    this.enableSideAttachableBlock = enableSideAttachableBlock;
   }
 
   @Override
@@ -203,11 +200,11 @@ public class Block implements Serializable, Cloneable {
     return mBlock;
   }
 
-  public String[] getTags() {
-    return this.tags;
-  }
-
-  public void setTags(String[] tags) {
-    this.tags = tags;
+  public final class BlockType {
+    public static final int defaultBlock = 0;
+    public static final int complexBlock = 1;
+    public static final int doubleComplexBlock = 2;
+    public static final int returnWithTypeBoolean = 3;
+    public static final int sideAttachableBlock = 4;
   }
 }
