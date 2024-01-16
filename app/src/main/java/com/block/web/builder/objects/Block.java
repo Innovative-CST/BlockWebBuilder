@@ -123,21 +123,14 @@ public class Block implements Serializable, Cloneable {
     return new String(blockRawCode);
   }
 
+  /*
+   * Clone all property of Block deeply
+   */
   @Override
   public Block clone() throws CloneNotSupportedException {
-    String mColor;
-    if (getColor() != null) {
-      mColor = new String(getColor());
-    } else {
-      mColor = new String("");
-    }
-    String mName;
-    if (getName() != null) {
-      mName = new String(getName());
-    } else {
-      mName = new String("");
-    }
     ArrayList<BlockContent> mBlockContent;
+    ArrayList<Block> mSideAttachableBlock;
+
     if (getBlockContent() != null) {
       mBlockContent = new ArrayList<BlockContent>();
       for (int i = 0; i < getBlockContent().size(); ++i) {
@@ -148,31 +141,13 @@ public class Block implements Serializable, Cloneable {
             mBlockContent.add(((BooleanContent) getBlockContent().get(i)).clone());
           }
         } else if (getBlockContent().get(i) instanceof BlockContent) {
-          mBlockContent.add(((BlockContent) getBlockContent().get(i)).clone());
+          mBlockContent.add(getBlockContent().get(i).clone());
         }
       }
     } else {
       mBlockContent = new ArrayList<BlockContent>();
     }
-    int mBlockType;
-    if (getBlockType() != 0) {
-      mBlockType = new Integer(getBlockType());
-    } else {
-      mBlockType = 0;
-    }
-    String mRawCode;
-    if (getRawCode() != null) {
-      mRawCode = new String(getRawCode());
-    } else {
-      mRawCode = new String("");
-    }
-    String mReturns;
-    if (getReturns() != null) {
-      mReturns = new String(getReturns());
-    } else {
-      mReturns = new String("");
-    }
-    ArrayList<Block> mSideAttachableBlock;
+
     if (getSideAttachableBlock() != null) {
       mSideAttachableBlock = new ArrayList<Block>();
       for (int i = 0; i < getSideAttachableBlock().size(); ++i) {
@@ -187,15 +162,15 @@ public class Block implements Serializable, Cloneable {
     } else {
       mSideAttachableBlock = new ArrayList<Block>();
     }
-    boolean mEnableSideAttachableBlock = new Boolean(getEnableSideAttachableBlock());
+
     Block mBlock = new Block();
-    mBlock.setColor(mColor);
-    mBlock.setName(mName);
+    mBlock.setColor(getColor() != null ? new String(getColor()) : null);
+    mBlock.setName(getName() != null ? new String(getName()) : null);
     mBlock.setBlockContent(mBlockContent);
-    mBlock.setBlockType(mBlockType);
-    mBlock.setRawCode(mRawCode);
-    mBlock.setReturns(mReturns);
-    mBlock.setEnableSideAttachableBlock(mEnableSideAttachableBlock);
+    mBlock.setBlockType(new Integer(getBlockType()));
+    mBlock.setRawCode(getRawCode() != null ? new String(getRawCode()) : null);
+    mBlock.setReturns(getReturns() != null ? new String(getReturns()) : null);
+    mBlock.setEnableSideAttachableBlock(new Boolean(getEnableSideAttachableBlock()));
     mBlock.setSideAttachableBlock(mSideAttachableBlock);
     return mBlock;
   }
