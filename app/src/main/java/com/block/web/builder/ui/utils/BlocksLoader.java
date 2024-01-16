@@ -7,8 +7,8 @@ import com.block.web.builder.R;
 import com.block.web.builder.objects.Block;
 import com.block.web.builder.objects.ComplexBlock;
 import com.block.web.builder.ui.activities.EventEditorActivity;
-import com.block.web.builder.ui.view.BlockDefaultView;
-import com.block.web.builder.ui.view.ComplexBlockView;
+import com.block.web.builder.ui.view.blocks.BlockDefaultView;
+import com.block.web.builder.ui.view.blocks.ComplexBlockView;
 import com.block.web.builder.utils.Utils;
 import java.util.ArrayList;
 

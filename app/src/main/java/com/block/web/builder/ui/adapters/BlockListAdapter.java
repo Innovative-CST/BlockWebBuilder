@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.block.web.builder.objects.Block;
 import com.block.web.builder.objects.ComplexBlock;
 import com.block.web.builder.objects.DoubleComplexBlock;
-import com.block.web.builder.ui.view.BlockDefaultView;
-import com.block.web.builder.ui.view.ComplexBlockView;
+import com.block.web.builder.ui.view.blocks.BlockDefaultView;
+import com.block.web.builder.ui.view.blocks.ComplexBlockView;
 import java.util.ArrayList;
 
 public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.ViewHolder> {

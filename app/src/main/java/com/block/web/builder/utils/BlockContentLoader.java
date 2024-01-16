@@ -14,7 +14,7 @@ import com.block.web.builder.objects.ComplexBlockContent;
 import com.block.web.builder.objects.blockcontent.BooleanContent;
 import com.block.web.builder.objects.blockcontent.SourceContent;
 import com.block.web.builder.ui.activities.EventEditorActivity;
-import com.block.web.builder.ui.view.BlockDefaultView;
+import com.block.web.builder.ui.view.blocks.BlockDefaultView;
 import editor.tsd.editors.ace.AceEditorColors;
 import editor.tsd.tools.EditorListeners;
 import editor.tsd.tools.Themes;

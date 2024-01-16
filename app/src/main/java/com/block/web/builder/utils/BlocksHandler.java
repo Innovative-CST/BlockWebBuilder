@@ -3,8 +3,8 @@ package com.block.web.builder.utils;
 import android.view.ViewGroup;
 import com.block.web.builder.objects.Block;
 import com.block.web.builder.objects.ComplexBlock;
-import com.block.web.builder.ui.view.BlockDefaultView;
-import com.block.web.builder.ui.view.ComplexBlockView;
+import com.block.web.builder.ui.view.blocks.BlockDefaultView;
+import com.block.web.builder.ui.view.blocks.ComplexBlockView;
 import java.util.ArrayList;
 
 public class BlocksHandler {
