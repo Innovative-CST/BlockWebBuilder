@@ -25,7 +25,7 @@ import com.block.web.builder.objects.Event;
 import com.block.web.builder.objects.WebFile;
 import com.block.web.builder.ui.adapters.BlocksHolderEventEditorListItem;
 import com.block.web.builder.ui.dialogs.eventList.ShowSourceCodeDialog;
-import com.block.web.builder.ui.utils.BlocksLoader;
+import com.block.web.builder.ui.utils.BlocksLoader.BlocksLoader;
 import com.block.web.builder.ui.view.blocks.BlockDefaultView;
 import com.block.web.builder.ui.view.blocks.ComplexBlockView;
 import com.block.web.builder.utils.BlocksHandler;
