@@ -50,7 +50,7 @@ public class DefaultBlockLoader {
             sideBlockView.setBlock(new Block());
           }
           blockView.addView(sideBlockView);
-          BlocksLoader.setAboveMargin(
+          BlocksLoader.setLeftMargin(
               sideBlockView,
               Utils.dpToPx(activity, EventEditorActivity.BlocksMargin.sideAttachableBlock));
         }

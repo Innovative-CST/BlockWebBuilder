@@ -31,6 +31,12 @@ public class BlocksLoader {
     }
   }
 
+  public static void setLeftMargin(View view, int leftMargin) {
+    if (view.getLayoutParams() != null) {
+      ((LinearLayout.LayoutParams) view.getLayoutParams()).setMargins(leftMargin, 0, 0, 0);
+    }
+  }
+
   public static void setViewWidth(View view, int width) {
     if (view.getLayoutParams() != null) {
       ((LinearLayout.LayoutParams) view.getLayoutParams()).width = width;
