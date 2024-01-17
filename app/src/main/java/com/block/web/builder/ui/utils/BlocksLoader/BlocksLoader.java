@@ -25,9 +25,9 @@ public class BlocksLoader {
     }
   }
 
-  public static void setLeftMargin(View view, int leftMargin) {
+  public static void setAboveMargin(View view, int aboveMargin) {
     if (view.getLayoutParams() != null) {
-      ((LinearLayout.LayoutParams) view.getLayoutParams()).setMargins(0, leftMargin, 0, 0);
+      ((LinearLayout.LayoutParams) view.getLayoutParams()).setMargins(0, aboveMargin, 0, 0);
     }
   }
 

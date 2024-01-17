@@ -25,16 +25,16 @@ public class DefaultBlockLoader {
       }
       view.addView(blockView);
       if (view.getId() == R.id.blockListEditorArea) {
-        BlocksLoader.setLeftMargin(
+        BlocksLoader.setAboveMargin(
             blockView,
             Utils.dpToPx(activity, EventEditorActivity.BlocksMargin.defaultBlockAboveMargin));
       } else {
         if (position != 0) {
-          BlocksLoader.setLeftMargin(
+          BlocksLoader.setAboveMargin(
               blockView,
               Utils.dpToPx(activity, EventEditorActivity.BlocksMargin.defaultBlockAboveMargin));
         } else {
-          BlocksLoader.setLeftMargin(blockView, 0);
+          BlocksLoader.setAboveMargin(blockView, 0);
         }
       }
       BlocksLoader.setViewWidth(blockView, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -50,7 +50,7 @@ public class DefaultBlockLoader {
             sideBlockView.setBlock(new Block());
           }
           blockView.addView(sideBlockView);
-          BlocksLoader.setLeftMargin(
+          BlocksLoader.setAboveMargin(
               sideBlockView,
               Utils.dpToPx(activity, EventEditorActivity.BlocksMargin.sideAttachableBlock));
         }
