@@ -10,6 +10,13 @@
         android:title="@string/show_source_code" />
     
     <item
+        android:id="@+id/lockCanva"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:actionLayout="@layout/activity_event_editor"
+        android:icon="@drawable/gesture_tap_hold_tertiary" />
+    
+    <item
         android:id="@+id/executor"
         android:orderInCategory="100"
         app:showAsAction="always"

@@ -10,6 +10,7 @@ public final class Environments {
   public static File BLOCKS;
   public static File CACHE;
   public static File CROPED_IMAGE_CACHE;
+  public static File PREFERENCES;
 
   public static void init() {
     IDEDIR = new File(Environment.getExternalStorageDirectory(), ".BlockWebBuilder");
@@ -18,5 +19,6 @@ public final class Environments {
     BLOCKS = new File(RESOURCES, "block");
     CACHE = new File(IDEDIR, ".cache");
     CROPED_IMAGE_CACHE = new File(CACHE, "croppedImage");
+    PREFERENCES = new File(IDEDIR, "settings");
   }
 }

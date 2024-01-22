@@ -1,5 +1,7 @@
 package com.block.web.builder.ui.activities;
 
+import static com.block.web.builder.utils.Environments.PREFERENCES;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -35,6 +37,7 @@ import com.block.web.builder.utils.ProjectBuilder;
 import com.block.web.builder.utils.ProjectFileUtils;
 import com.block.web.builder.utils.Utils;
 import com.block.web.builder.utils.eventeditor.BlocksListLoader;
+import com.block.web.builder.utils.preferences.BasePreference;
 import editor.tsd.tools.Language;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,10 +51,12 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   private WebFile file;
   private String fileOutputPath;
   private ArrayList<BlocksHolder> blocksHolder;
+  private ArrayList<BasePreference> preferences;
   private String projectName;
   private String projectPath;
   private String webFilePath;
   private boolean isLoaded;
+  private boolean useScroll = true;
 
   // Event
   private String eventFilePath;
@@ -62,6 +67,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   private LinearLayout blockShadow;
 
   private MenuItem preview;
+  private MenuItem lockCanva;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +148,19 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
               }
             });
       } catch (DeserializationException e) {
+      }
+
+      try {
+        DeserializerUtils.deserializePreferences(
+            PREFERENCES,
+            new TaskListener() {
+              @Override
+              public void onSuccess(Object result) {
+                preferences = (ArrayList<BasePreference>) result;
+              }
+            });
+      } catch (DeserializationException e) {
+        preferences = new ArrayList<BasePreference>();
       }
     } else {
       showSection(2);
@@ -894,16 +913,36 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       }
     }
 
+    if (arg0.getItemId() == R.id.lockCanva) {
+      binding.relativeBlockListEditorArea.setUseScroll(!useScroll);
+      useScroll = !useScroll;
+      if (useScroll) {
+        lockCanva.setIcon(R.drawable.gesture_tap_hold_tertiary);
+      } else {
+        lockCanva.setIcon(R.drawable.gesture_tap_hold);
+      }
+    }
+
     return super.onOptionsItemSelected(arg0);
   }
 
   @Override
   public boolean onPrepareOptionsMenu(Menu arg0) {
     preview = arg0.findItem(R.id.executor);
+    lockCanva = arg0.findItem(R.id.lockCanva);
     if (!language.equals(Language.HTML)) {
       preview.setVisible(false);
     } else {
       preview.setVisible(true);
+    }
+    if (preferences != null) {
+      if ((boolean) SettingActivity.getPreferencesValue(preferences, "Canva Manual Lock", false)) {
+        lockCanva.setVisible(true);
+      } else {
+        lockCanva.setVisible(false);
+      }
+    } else {
+      lockCanva.setVisible(false);
     }
 
     return super.onPrepareOptionsMenu(arg0);
