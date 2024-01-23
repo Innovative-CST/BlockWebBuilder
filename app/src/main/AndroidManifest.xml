@@ -61,5 +61,8 @@
         <activity
             android:name="com.block.web.builder.ui.activities.ImageCropperActivity"
             android:exported="true"/>
+        <activity
+            android:name="com.block.web.builder.ui.activities.SettingActivity"
+            android:exported="true"/>
     </application>
 </manifest>

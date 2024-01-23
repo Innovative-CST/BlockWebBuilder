@@ -75,22 +75,13 @@ android {
         return "\"" + stdout.toString().trim() + "\""
     }
 
-    def getGitCommitCount = { ->
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "rev-list", "--count", "HEAD"
-            standardOutput = stdout
-        }
-        return stdout.toString().toInteger()
-    }
-
     defaultConfig {
         applicationId "com.block.web.builder"
         minSdk 21
         targetSdk 28
         compileSdkVersion 34
-        versionCode getGitCommitCount()
-        versionName "1.0 Alpha01-Snapshot-" + getCommitHash() + "-commit-no-" + getGitCommitCount().toString()
+        versionCode 1
+        versionName "1.0 Alpha01-Snapshot-" + getCommitHash()
         buildConfigField "String", "commitSha", getCommitSha()
         buildConfigField "boolean", "isRelease", "false"
         vectorDrawables { 
@@ -134,6 +125,7 @@ android {
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
@@ -145,6 +137,8 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs_nio:2.0.2")
+
     implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"

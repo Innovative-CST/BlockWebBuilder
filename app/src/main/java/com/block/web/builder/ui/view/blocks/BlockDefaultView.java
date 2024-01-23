@@ -1,4 +1,4 @@
-package com.block.web.builder.ui.view;
+package com.block.web.builder.ui.view.blocks;
 
 import android.app.Activity;
 import android.content.ClipData;

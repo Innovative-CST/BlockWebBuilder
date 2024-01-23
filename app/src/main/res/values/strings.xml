@@ -40,6 +40,7 @@
     <string name="project_not_found">Project not found</string>
     <string name="project_photo">Project Photo</string>
     <string name="remove_photo">Remove Photo</string>
+    <string name="settings">Settings</string>
     <string name="show_source_code">Show source code</string>
     <string name="source_code">Source code</string>
     <string name="storage_permission_denied">Storage permission denied</string>

@@ -308,6 +308,10 @@ public class MainActivity extends BaseActivity {
       Intent blockManager = new Intent();
       blockManager.setClass(this, BlocksHolderManagerActivity.class);
       startActivity(blockManager);
+    } else if (arg0.getItemId() == R.id.settings) {
+      Intent setting = new Intent();
+      setting.setClass(this, SettingActivity.class);
+      startActivity(setting);
     }
     return super.onOptionsItemSelected(arg0);
   }
