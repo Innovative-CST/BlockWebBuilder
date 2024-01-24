@@ -2,6 +2,7 @@ package builtin.blocks;
 
 import builtin.blocks.holder.ControlBlocks;
 import builtin.blocks.holder.OperatorBlocks;
+import builtin.blocks.holder.ViewBlocks;
 import com.block.web.builder.objects.Block;
 import com.block.web.builder.objects.BlockContent;
 import com.block.web.builder.objects.BlocksHolder;
@@ -21,7 +22,7 @@ public class BuiltInBlocks {
 
     Block blockInHolder2 = new Block();
     blockInHolder2.setColor("#ff0000");
-    blockInHolder2.setBlockType(Block.BlockType.sideAttachableBlock);
+    blockInHolder2.setBlockType(Block.BlockType.defaultBlock);
     blockInHolder2.setName("Test");
     blockInHolder2.setEnableSideAttachableBlock(true);
     blockInHolder2.setRawCode("I am block code " + CodeReplacer.getReplacer("parameter"));
@@ -41,7 +42,7 @@ public class BuiltInBlocks {
 
     Block blockInHolder6 = new Block();
     blockInHolder6.setColor("#ff0000");
-    blockInHolder6.setBlockType(Block.BlockType.defaultBlock);
+    blockInHolder6.setBlockType(Block.BlockType.sideAttachableBlock);
     blockInHolder6.setName("Test");
     blockInHolder6.setEnableSideAttachableBlock(true);
     blockInHolder6.setRawCode("I am block code " + CodeReplacer.getReplacer("parameter"));
@@ -67,6 +68,7 @@ public class BuiltInBlocks {
     blocksHolder.add(holder1);
     blocksHolder.add(ControlBlocks.getBlockHolder());
     blocksHolder.add(OperatorBlocks.getBlockHolder());
+    blocksHolder.add(ViewBlocks.getBlockHolder());
 
     return blocksHolder;
   }
