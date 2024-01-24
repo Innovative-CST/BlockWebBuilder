@@ -109,15 +109,20 @@ public class Block implements Serializable, Cloneable {
 
     StringBuilder attachementBlocksCode = new StringBuilder();
 
-    for (int i = 0; i < getSideAttachableBlock().size(); ++i) {
-      if (getSideAttachableBlock().get(i).getBlockType() == BlockType.sideAttachableBlock) {
-        attachementBlocksCode.append(getSideAttachableBlock().get(i).getCode());
-        attachementBlocksCode.append(" ");
+    if (getEnableSideAttachableBlock()) {
+      if (getBlockType() != BlockType.sideAttachableBlock) {
+        for (int i = 0; i < getSideAttachableBlock().size(); ++i) {
+          if (getSideAttachableBlock().get(i).getBlockType() == BlockType.sideAttachableBlock) {
+            attachementBlocksCode.append(" ");
+            attachementBlocksCode.append(getSideAttachableBlock().get(i).getCode());
+          }
+        }
       }
     }
 
-    blockRawCode.replace(
-        CodeReplacer.getReplacer("attachementBlock"), attachementBlocksCode.toString());
+    blockRawCode =
+        blockRawCode.replace(
+            CodeReplacer.getReplacer("attachementBlock"), attachementBlocksCode.toString());
 
     blockRawCode = CodeReplacer.removeBlockWebBuilderString(blockRawCode);
     return new String(blockRawCode);
