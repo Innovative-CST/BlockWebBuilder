@@ -862,8 +862,15 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             language = Language.JavaScript;
             break;
         }
+        boolean useSoraEditor = false;
+        if (preferences != null) {
+          if ((boolean)
+              SettingActivity.getPreferencesValue(preferences, "Use Sora Editor", false)) {
+            useSoraEditor = true;
+          }
+        }
         ShowSourceCodeDialog showSourceCodeDialog =
-            new ShowSourceCodeDialog(this, event.getCode(), language);
+            new ShowSourceCodeDialog(this, event.getCode(), language, useSoraEditor);
         showSourceCodeDialog.show();
       }
     }
@@ -960,6 +967,14 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
 
   public void setLanguage(String language) {
     this.language = language;
+  }
+
+  public ArrayList<BasePreference> getPreferences() {
+    return this.preferences;
+  }
+
+  public void setPreferences(ArrayList<BasePreference> preferences) {
+    this.preferences = preferences;
   }
 
   public class BlocksMargin {

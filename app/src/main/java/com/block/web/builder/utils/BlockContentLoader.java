@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.block.web.builder.R;
 import com.block.web.builder.objects.Block;
 import com.block.web.builder.objects.BlockContent;
@@ -14,11 +15,15 @@ import com.block.web.builder.objects.ComplexBlockContent;
 import com.block.web.builder.objects.blockcontent.BooleanContent;
 import com.block.web.builder.objects.blockcontent.SourceContent;
 import com.block.web.builder.ui.activities.EventEditorActivity;
+import com.block.web.builder.ui.activities.SettingActivity;
 import com.block.web.builder.ui.view.blocks.BlockDefaultView;
 import editor.tsd.editors.ace.AceEditorColors;
+import editor.tsd.editors.sora.lang.textmate.provider.TextMateProvider;
 import editor.tsd.tools.EditorListeners;
 import editor.tsd.tools.Themes;
 import editor.tsd.widget.CodeEditorLayout;
+import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
+import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 import java.util.ArrayList;
 
 public class BlockContentLoader {
@@ -166,21 +171,45 @@ public class BlockContentLoader {
       if (activity instanceof EventEditorActivity) {
         EventEditorActivity mEventEditorActivity = (EventEditorActivity) activity;
         mEventEditorActivity.showSection(4);
-        AceEditorColors aceEditorColors = new AceEditorColors();
-        aceEditorColors.setEditorBackground("#00000000");
-        aceEditorColors.setActiveLineColor("#0000002d");
-        aceEditorColors.setGutterActiveLineColor("#0000002d");
-        aceEditorColors.setGutterBackground("#00000000");
-        aceEditorColors.setGutterTextColor(
-            String.format(
-                "#%06X",
-                (0xFFFFFF
-                    & ColorUtils.getColor(
-                        activity, com.google.android.material.R.attr.colorOnSurfaceVariant))));
-        aceEditorColors.apply(activity);
-        mEventEditorActivity.binding.codeEditor.setEditor(CodeEditorLayout.AceCodeEditor);
+
+        boolean useSoraEditor = false;
+        if (mEventEditorActivity.getPreferences() != null) {
+          if ((boolean)
+              SettingActivity.getPreferencesValue(
+                  mEventEditorActivity.getPreferences(), "Use Sora Editor", false)) {
+            useSoraEditor = true;
+          }
+        }
+
+        if (useSoraEditor) {
+          FileProviderRegistry.getInstance()
+              .addFileProvider(new AssetsFileResolver(mEventEditorActivity.getAssets()));
+          try {
+            TextMateProvider.loadGrammars();
+          } catch (Exception e) {
+            Toast.makeText(mEventEditorActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+          }
+
+          mEventEditorActivity.binding.codeEditor.setEditor(CodeEditorLayout.SoraCodeEditor);
+          mEventEditorActivity.binding.codeEditor.setTheme(Themes.SoraEditorTheme.Light.Default);
+        } else {
+          AceEditorColors aceEditorColors = new AceEditorColors();
+          aceEditorColors.setEditorBackground("#00000000");
+          aceEditorColors.setActiveLineColor("#0000002d");
+          aceEditorColors.setGutterActiveLineColor("#0000002d");
+          aceEditorColors.setGutterBackground("#00000000");
+          aceEditorColors.setGutterTextColor(
+              String.format(
+                  "#%06X",
+                  (0xFFFFFF
+                      & ColorUtils.getColor(
+                          activity, com.google.android.material.R.attr.colorOnSurfaceVariant))));
+          aceEditorColors.apply(activity);
+          mEventEditorActivity.binding.codeEditor.setEditor(CodeEditorLayout.AceCodeEditor);
+          mEventEditorActivity.binding.codeEditor.setTheme(Themes.AceEditorTheme.Light.Default);
+        }
+
         mEventEditorActivity.binding.codeEditor.setCode(blockContent.getValue());
-        mEventEditorActivity.binding.codeEditor.setTheme(Themes.AceEditorTheme.Light.Default);
         mEventEditorActivity.binding.codeEditor.setLanguageMode(language);
         mEventEditorActivity.binding.done.setOnClickListener(
             (view2) -> {

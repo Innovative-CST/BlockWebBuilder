@@ -1,5 +1,6 @@
 package com.block.web.builder.ui.activities;
 
+import static com.block.web.builder.utils.Environments.PREFERENCES;
 import static com.block.web.builder.utils.Environments.PROJECTS;
 
 import android.content.Intent;
@@ -22,6 +23,7 @@ import com.block.web.builder.utils.DeserializationException;
 import com.block.web.builder.utils.DeserializerUtils;
 import com.block.web.builder.utils.ProjectBuilder;
 import com.block.web.builder.utils.ProjectFileUtils;
+import com.block.web.builder.utils.preferences.BasePreference;
 import editor.tsd.tools.Language;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,6 +37,7 @@ public class EventListActivity extends BaseActivity {
   private WebFile file;
   private String fileOutputPath;
   private ArrayList<Event> eventList;
+  private ArrayList<BasePreference> preferences;
   private String projectName;
   private String projectPath;
   private String fileName;
@@ -83,6 +86,18 @@ public class EventListActivity extends BaseActivity {
       fileType = getIntent().getIntExtra("fileType", 1);
       webFilePath = getIntent().getStringExtra("webFile");
       fileOutputPath = getIntent().getStringExtra("fileOutputPath");
+      try {
+        DeserializerUtils.deserializePreferences(
+            PREFERENCES,
+            new TaskListener() {
+              @Override
+              public void onSuccess(Object result) {
+                preferences = (ArrayList<BasePreference>) result;
+              }
+            });
+      } catch (DeserializationException e) {
+        preferences = new ArrayList<BasePreference>();
+      }
       try {
         DeserializerUtils.deserializeWebfile(
             new File(webFilePath),
@@ -293,8 +308,15 @@ public class EventListActivity extends BaseActivity {
             language = Language.JavaScript;
             break;
         }
+        boolean useSoraEditor = false;
+        if (preferences != null) {
+          if ((boolean)
+              SettingActivity.getPreferencesValue(preferences, "Use Sora Editor", false)) {
+            useSoraEditor = true;
+          }
+        }
         ShowSourceCodeDialog showSourceCodeDialog =
-            new ShowSourceCodeDialog(this, file.getCode(eventList), language);
+            new ShowSourceCodeDialog(this, file.getCode(eventList), language, useSoraEditor);
         showSourceCodeDialog.show();
       }
     }

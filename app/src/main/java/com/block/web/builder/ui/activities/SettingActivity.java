@@ -14,7 +14,6 @@ import com.block.web.builder.utils.DeserializationException;
 import com.block.web.builder.utils.DeserializerUtils;
 import com.block.web.builder.utils.preferences.BasePreference;
 import com.block.web.builder.utils.preferences.BooleanPreference;
-import com.block.web.builder.utils.preferences.PreferencesUtils;
 import com.google.android.material.elevation.SurfaceColors;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
@@ -56,6 +55,9 @@ public class SettingActivity extends BaseActivity {
     addPreferenceIfNotExists(
         "Canva Manual Lock", BasePreference.PeferenceType.BooleanPreference, false);
 
+    addPreferenceIfNotExists(
+        "Use Sora Editor", BasePreference.PeferenceType.BooleanPreference, false);
+
     addSettingsUI();
   }
 
@@ -64,6 +66,11 @@ public class SettingActivity extends BaseActivity {
         "Canva lock",
         "If enabled a canva manual lock will be enabled if you need to lock canva manually",
         "Canva Manual Lock");
+
+    addPreferences(
+        "Sora Editor",
+        "If enabled Sora Editor will be used instead of Ace Editor",
+        "Use Sora Editor");
   }
 
   public void addPreferenceIfNotExists(
@@ -173,10 +180,10 @@ public class SettingActivity extends BaseActivity {
           }
           return;
         }
+      }
 
-        if (!isKeyPreferenceExists) {
-          preferenceLayout.check.setVisibility(View.GONE);
-        }
+      if (!isKeyPreferenceExists) {
+        preferenceLayout.check.setVisibility(View.GONE);
       }
     }
   }
