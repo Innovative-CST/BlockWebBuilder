@@ -937,20 +937,13 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   public boolean onPrepareOptionsMenu(Menu arg0) {
     preview = arg0.findItem(R.id.executor);
     lockCanva = arg0.findItem(R.id.lockCanva);
-    if (!language.equals(Language.HTML)) {
-      preview.setVisible(false);
-    } else {
-      preview.setVisible(true);
-    }
-    if (preferences != null) {
-      if ((boolean) SettingActivity.getPreferencesValue(preferences, "Canva Manual Lock", false)) {
-        lockCanva.setVisible(true);
-      } else {
-        lockCanva.setVisible(false);
-      }
-    } else {
-      lockCanva.setVisible(false);
-    }
+
+    preview.setVisible(language.equals(Language.HTML));
+
+    lockCanva.setVisible(
+        preferences != null
+            && ((boolean)
+                SettingActivity.getPreferencesValue(preferences, "Canva Manual Lock", false)));
 
     return super.onPrepareOptionsMenu(arg0);
   }
