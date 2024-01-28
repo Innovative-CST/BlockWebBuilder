@@ -85,13 +85,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-    binding.toolbar.setNavigationOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View arg0) {
-            onBackPressed();
-          }
-        });
+    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
     projectName = "";
     projectPath = "";
