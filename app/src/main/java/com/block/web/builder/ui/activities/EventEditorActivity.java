@@ -106,18 +106,13 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
               @Override
               public void onSuccess(Object mWebFile) {
                 file = (WebFile) mWebFile;
-                language = "";
-                switch (WebFile.getSupportedFileSuffix(file.getFileType())) {
-                  case ".html":
-                    language = Language.HTML;
-                    break;
-                  case ".css":
-                    language = Language.CSS;
-                    break;
-                  case ".js":
-                    language = Language.JavaScript;
-                    break;
-                }
+                language =
+                    switch (WebFile.getSupportedFileSuffix(file.getFileType())) {
+                      case ".html" -> Language.HTML;
+                      case ".css" -> Language.CSS;
+                      case ".js" -> Language.JavaScript;
+                      default -> "";
+                    };
                 if (!language.equals(Language.HTML)) {
                   if (preview != null) {
                     preview.setVisible(false);
