@@ -156,20 +156,9 @@ public class BlockEditorActivity extends BaseActivity {
   }
 
   public void showSection(int section) {
-    binding.loading.setVisibility(View.GONE);
-    binding.info.setVisibility(View.GONE);
-    binding.blocksList.setVisibility(View.GONE);
-    switch (section) {
-      case 1:
-        binding.loading.setVisibility(View.VISIBLE);
-        break;
-      case 2:
-        binding.info.setVisibility(View.VISIBLE);
-        break;
-      case 3:
-        binding.blocksList.setVisibility(View.VISIBLE);
-        break;
-    }
+    binding.loading.setVisibility(section == 1 ? View.VISIBLE : View.GONE);
+    binding.info.setVisibility(section == 2 ? View.VISIBLE : View.GONE);
+    binding.blocksList.setVisibility(section == 3 ? View.VISIBLE : View.GONE);
   }
 
   @Override
