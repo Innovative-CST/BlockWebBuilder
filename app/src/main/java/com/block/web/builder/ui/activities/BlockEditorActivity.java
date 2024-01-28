@@ -47,11 +47,7 @@ public class BlockEditorActivity extends BaseActivity {
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-
-    binding.toolbar.setNavigationOnClickListener(
-        v -> {
-          onBackPressed();
-        });
+    binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
     // Initialize to avoid null errors
     blocks = new ArrayList<Block>();
