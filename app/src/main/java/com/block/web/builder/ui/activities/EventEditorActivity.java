@@ -232,29 +232,13 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   }
 
   public void showSection(int section) {
-    binding.loading.setVisibility(View.GONE);
-    binding.info.setVisibility(View.GONE);
-    binding.editor.setVisibility(View.GONE);
-    binding.stringEditor.setVisibility(View.GONE);
-    binding.blockArea.setVisibility(View.GONE);
-    binding.fab.setVisibility(View.GONE);
-    switch (section) {
-      case 1:
-        binding.loading.setVisibility(View.VISIBLE);
-        break;
-      case 2:
-        binding.info.setVisibility(View.VISIBLE);
-        break;
-      case 3:
-        binding.editor.setVisibility(View.VISIBLE);
-        binding.blockArea.setVisibility(View.VISIBLE);
-        binding.appbar.setVisibility(View.VISIBLE);
-        binding.fab.setVisibility(View.VISIBLE);
-        break;
-      case 4:
-        binding.stringEditor.setVisibility(View.VISIBLE);
-        break;
-    }
+    binding.loading.setVisibility(section == 1 ? View.VISIBLE : View.GONE);
+    binding.info.setVisibility(section == 2 ? View.VISIBLE : View.GONE);
+    binding.editor.setVisibility(section == 3 ? View.VISIBLE : View.GONE);
+    binding.blockArea.setVisibility(section == 3 ? View.VISIBLE : View.GONE);
+    binding.appbar.setVisibility(section == 3 ? View.VISIBLE : View.GONE);
+    binding.fab.setVisibility(section == 3 ? View.VISIBLE : View.GONE);
+    binding.stringEditor.setVisibility(section == 4 ? View.VISIBLE : View.GONE);
   }
 
   @Override
