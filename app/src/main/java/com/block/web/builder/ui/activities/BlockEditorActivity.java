@@ -3,7 +3,6 @@ package com.block.web.builder.ui.activities;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.widget.TextView;
 import com.block.web.builder.listeners.ValueListener;
 import com.block.web.builder.ui.dialogs.blockeditor.AddTextInBlockDialog;
