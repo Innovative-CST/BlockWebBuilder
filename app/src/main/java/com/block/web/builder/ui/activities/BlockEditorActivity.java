@@ -1,20 +1,20 @@
 package com.block.web.builder.ui.activities;
 
+import static com.block.web.builder.utils.Environments.BLOCKS;
+
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.widget.TextView;
-import com.block.web.builder.listeners.ValueListener;
-import com.block.web.builder.ui.dialogs.blockeditor.AddTextInBlockDialog;
-import static com.block.web.builder.utils.Environments.BLOCKS;
-
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.block.web.builder.R;
 import com.block.web.builder.databinding.ActivityBlockEditorBinding;
+import com.block.web.builder.listeners.ValueListener;
 import com.block.web.builder.objects.Block;
 import com.block.web.builder.objects.BlocksHolder;
+import com.block.web.builder.ui.dialogs.blockeditor.AddTextInBlockDialog;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
