@@ -113,14 +113,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                       case ".js" -> Language.JavaScript;
                       default -> "";
                     };
-                if (!language.equals(Language.HTML)) {
-                  if (preview != null) {
-                    preview.setVisible(false);
-                  }
-                } else {
-                  if (preview != null) {
-                    preview.setVisible(true);
-                  }
+                if (preview != null) {
+                  preview.setVisible(language.equals(Language.HTML));
                 }
               }
             });
