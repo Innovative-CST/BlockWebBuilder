@@ -102,20 +102,17 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       try {
         DeserializerUtils.deserializeWebfile(
             new File(webFilePath),
-            new TaskListener() {
-              @Override
-              public void onSuccess(Object mWebFile) {
-                file = (WebFile) mWebFile;
-                language =
-                    switch (WebFile.getSupportedFileSuffix(file.getFileType())) {
-                      case ".html" -> Language.HTML;
-                      case ".css" -> Language.CSS;
-                      case ".js" -> Language.JavaScript;
-                      default -> "";
-                    };
-                if (preview != null) {
-                  preview.setVisible(language.equals(Language.HTML));
-                }
+            mWebFile -> {
+              file = (WebFile) mWebFile;
+              language =
+                  switch (WebFile.getSupportedFileSuffix(file.getFileType())) {
+                    case ".html" -> Language.HTML;
+                    case ".css" -> Language.CSS;
+                    case ".js" -> Language.JavaScript;
+                    default -> "";
+                  };
+              if (preview != null) {
+                preview.setVisible(language.equals(Language.HTML));
               }
             });
       } catch (DeserializationException e) {
@@ -124,11 +121,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       try {
         DeserializerUtils.deserializeEvent(
             new File(eventFilePath),
-            new TaskListener() {
-              @Override
-              public void onSuccess(Object mEvent) {
-                event = (Event) mEvent;
-              }
+            mEvent -> {
+              event = (Event) mEvent;
             });
       } catch (DeserializationException e) {
       }
@@ -136,11 +130,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       try {
         DeserializerUtils.deserializePreferences(
             PREFERENCES,
-            new TaskListener() {
-              @Override
-              public void onSuccess(Object result) {
-                preferences = (ArrayList<BasePreference>) result;
-              }
+            result -> {
+              preferences = (ArrayList<BasePreference>) result;
             });
       } catch (DeserializationException e) {
         preferences = new ArrayList<BasePreference>();
