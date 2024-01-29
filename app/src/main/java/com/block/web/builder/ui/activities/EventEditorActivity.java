@@ -197,11 +197,8 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
 
     binding.fab.setOnClickListener(
         (view) -> {
-          if (binding.blockArea.getVisibility() == View.GONE) {
-            binding.blockArea.setVisibility(View.VISIBLE);
-          } else if (binding.blockArea.getVisibility() == View.VISIBLE) {
-            binding.blockArea.setVisibility(View.GONE);
-          }
+          binding.blockArea.setVisibility(
+              binding.blockArea.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
         });
   }
 
