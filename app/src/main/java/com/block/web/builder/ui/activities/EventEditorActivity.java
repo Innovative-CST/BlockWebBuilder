@@ -208,20 +208,19 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   }
 
   public void handleShadowRemove(ViewGroup v) {
+    ViewGroup blockHintParent = ((ViewGroup) blockHint.getParent());
+
     if (v.getTag() != null) {
       if (v.getTag() instanceof String) {
         if (((String) v.getTag()).equals("blockDroppingArea")) {
           if (blockHint.getParent() != null) {
-            if (((ViewGroup) blockHint.getParent()).getChildCount() > 1) {
-              if (((ViewGroup) blockHint.getParent()).getChildAt(0).getTag() != null) {
-                if (((ViewGroup) blockHint.getParent()).getChildAt(0).getTag() instanceof String) {
-                  if (((ViewGroup) blockHint.getParent()).getChildAt(0).getTag().equals("shadow")) {
-                    if (((ViewGroup) blockHint.getParent()).getId()
-                        != R.id.relativeBlockListEditorArea) {
-                      if (((ViewGroup) blockHint.getParent()).getChildAt(1).getLayoutParams()
-                          != null) {
-                        ((LinearLayout.LayoutParams)
-                                ((ViewGroup) blockHint.getParent()).getChildAt(1).getLayoutParams())
+            if (blockHintParent.getChildCount() > 1) {
+              if (blockHintParent.getChildAt(0).getTag() != null) {
+                if (blockHintParent.getChildAt(0).getTag() instanceof String) {
+                  if (blockHintParent.getChildAt(0).getTag().equals("shadow")) {
+                    if (blockHintParent.getId() != R.id.relativeBlockListEditorArea) {
+                      if (blockHintParent.getChildAt(1).getLayoutParams() != null) {
+                        ((LinearLayout.LayoutParams) blockHintParent.getChildAt(1).getLayoutParams())
                             .setMargins(0, 0, 0, 0);
                       }
                     }
@@ -242,7 +241,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
       }
     }
     if (blockHint.getParent() != null) {
-      ((ViewGroup) blockHint.getParent()).removeView(blockHint);
+      blockHintParent.removeView(blockHint);
     }
   }
 
