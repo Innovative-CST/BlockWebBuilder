@@ -220,8 +220,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   if (blockHintParent.getChildAt(0).getTag().equals("shadow")) {
                     if (blockHintParent.getId() != R.id.relativeBlockListEditorArea) {
                       if (blockHintParent.getChildAt(1).getLayoutParams() != null) {
-                        ((LinearLayout.LayoutParams) blockHintParent.getChildAt(1).getLayoutParams())
-                            .setMargins(0, 0, 0, 0);
+                        Utils.setMargins(blockHintParent.getChildAt(1), 0, 0, 0, 0);
                       }
                     }
                   }
