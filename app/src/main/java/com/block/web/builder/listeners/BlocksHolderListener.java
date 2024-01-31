@@ -1,6 +1,6 @@
 package com.block.web.builder.listeners;
 
-import com.block.web.builder.objects.BlocksHolder;
+import com.block.web.builder.core.BlocksHolder;
 
 public interface BlocksHolderListener {
   void onBlockHolderCreate(BlocksHolder holder);

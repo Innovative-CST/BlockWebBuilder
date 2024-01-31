@@ -6,7 +6,7 @@ import android.text.TextWatcher;
 import com.block.web.builder.R;
 import com.block.web.builder.databinding.LayoutNewBlocksHolderDialogBinding;
 import com.block.web.builder.listeners.BlocksHolderListener;
-import com.block.web.builder.objects.BlocksHolder;
+import com.block.web.builder.core.BlocksHolder;
 import com.block.web.builder.utils.HexColorValidator;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;

@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.block.web.builder.databinding.LayoutEventListItemBinding;
-import com.block.web.builder.objects.Event;
+import com.block.web.builder.core.Event;
 import com.block.web.builder.ui.activities.EventEditorActivity;
 import com.block.web.builder.ui.activities.EventListActivity;
 import com.block.web.builder.utils.ProjectFileUtils;

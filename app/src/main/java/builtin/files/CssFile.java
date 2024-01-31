@@ -1,8 +1,8 @@
 package builtin.files;
 
-import com.block.web.builder.objects.Event;
-import com.block.web.builder.objects.WebFile;
-import com.block.web.builder.utils.CodeReplacer;
+import com.block.web.builder.core.Event;
+import com.block.web.builder.core.WebFile;
+import com.block.web.builder.core.utils.CodeReplacer;
 import java.util.ArrayList;
 
 public class CssFile extends WebFile {

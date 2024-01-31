@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.block.web.builder.R;
 import com.block.web.builder.databinding.ActivityBlocksHolderManagerBinding;
 import com.block.web.builder.listeners.BlocksHolderListener;
-import com.block.web.builder.objects.BlocksHolder;
+import com.block.web.builder.core.BlocksHolder;
 import com.block.web.builder.ui.adapters.BlocksHolderAdapter;
 import com.block.web.builder.ui.dialogs.blocksholder.CreateBlocksHolderDialog;
 import java.io.FileInputStream;

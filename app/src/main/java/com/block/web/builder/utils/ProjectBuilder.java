@@ -6,8 +6,8 @@ import android.code.editor.common.utils.FileDeleteUtils;
 import android.code.editor.common.utils.FileUtils;
 import com.block.web.builder.listeners.ProjectBuildListener;
 import com.block.web.builder.listeners.TaskListener;
-import com.block.web.builder.objects.Event;
-import com.block.web.builder.objects.WebFile;
+import com.block.web.builder.core.Event;
+import com.block.web.builder.core.WebFile;
 import java.io.File;
 import java.util.ArrayList;
 

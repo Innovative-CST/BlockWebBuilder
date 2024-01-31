@@ -1,32 +1,31 @@
-package com.block.web.builder.objects.blockcontent;
+package com.block.web.builder.core.blockcontent;
 
-import com.block.web.builder.objects.Block;
-import com.block.web.builder.objects.BlockContent;
-import com.block.web.builder.objects.ComplexBlockContent;
+import com.block.web.builder.core.Block;
+import com.block.web.builder.core.BlockContent;
+import com.block.web.builder.core.ComplexBlockContent;
 
-public class StringContent extends ComplexBlockContent implements Cloneable {
-  public StringContent() {
-    setAcceptance(new String[] {"String"});
-    setSurrounder("\"");
+public class NumberContent extends ComplexBlockContent implements Cloneable {
+  public NumberContent() {
+    setAcceptance(new String[] {"int"});
     setText("");
-    setValue("");
-    setType(BlockContent.BlockContentType.String);
-    setSupportCodeEditor(true);
-    setOnClick(ComplexBlockContent.onClickTypes.valueEditor);
+    setType(BlockContent.BlockContentType.Integer);
+    setSupportCodeEditor(false);
+    setOnClick(ComplexBlockContent.onClickTypes.numberEditor);
   }
 
   @Override
   public String getValue() {
-    StringBuilder value = new StringBuilder();
-    value.append(new String(getSurrounder()));
-    value.append(new String(getValue()));
-    value.append(new String(getSurrounder()));
-    return value.toString();
+    if (super.getValue() != null) {
+      StringBuilder value = new StringBuilder();
+      value.append(new String(getValue()));
+      return value.toString();
+    }
+    return "0";
   }
 
   @Override
-  public StringContent clone() throws CloneNotSupportedException {
-    StringContent mComplexBlockContent = new StringContent();
+  public NumberContent clone() throws CloneNotSupportedException {
+    NumberContent mComplexBlockContent = new NumberContent();
     String mValue;
     if (getValue() != null) {
       mValue = new String(getValue());

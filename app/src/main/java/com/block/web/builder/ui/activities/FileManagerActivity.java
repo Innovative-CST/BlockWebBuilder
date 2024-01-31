@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.block.web.builder.R;
 import com.block.web.builder.databinding.ActivityFileManagerBinding;
 import com.block.web.builder.listeners.TaskListener;
-import com.block.web.builder.objects.WebFile;
+import com.block.web.builder.core.WebFile;
 import com.block.web.builder.ui.adapters.FileListAdapterItem;
 import com.block.web.builder.ui.dialogs.filemanager.CreateFileDialog;
 import com.block.web.builder.utils.DeserializationException;

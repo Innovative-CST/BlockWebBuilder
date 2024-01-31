@@ -3,7 +3,7 @@ package com.block.web.builder.utils;
 import android.view.View;
 import android.view.ViewGroup;
 import com.block.web.builder.R;
-import com.block.web.builder.objects.Block;
+import com.block.web.builder.core.Block;
 
 public class DropTargetUtils {
   public static void addDragTarget(

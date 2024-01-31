@@ -1,4 +1,5 @@
-package com.block.web.builder.utils;
+package com.block.web.builder.core.utils;
+
 import java.util.regex.Pattern;
 
 public class CodeReplacer {

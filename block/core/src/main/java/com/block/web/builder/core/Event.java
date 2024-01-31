@@ -1,6 +1,6 @@
-package com.block.web.builder.objects;
+package com.block.web.builder.core;
 
-import com.block.web.builder.utils.CodeReplacer;
+import com.block.web.builder.core.utils.CodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 

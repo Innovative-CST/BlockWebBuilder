@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.block.web.builder.R;
 import com.block.web.builder.databinding.LayoutBlocksHolderListItemBinding;
-import com.block.web.builder.objects.BlocksHolder;
+import com.block.web.builder.core.BlocksHolder;
 import com.block.web.builder.ui.activities.BlockManagerActivity;
 import java.util.ArrayList;
 

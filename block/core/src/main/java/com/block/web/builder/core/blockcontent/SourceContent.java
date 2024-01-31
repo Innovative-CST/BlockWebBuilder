@@ -1,31 +1,32 @@
-package com.block.web.builder.objects.blockcontent;
+package com.block.web.builder.core.blockcontent;
 
-import com.block.web.builder.objects.Block;
-import com.block.web.builder.objects.BlockContent;
-import com.block.web.builder.objects.ComplexBlockContent;
+import com.block.web.builder.core.Block;
+import com.block.web.builder.core.BlockContent;
+import com.block.web.builder.core.ComplexBlockContent;
 
-public class NumberContent extends ComplexBlockContent implements Cloneable {
-  public NumberContent() {
-    setAcceptance(new String[] {"int"});
+public class SourceContent extends ComplexBlockContent implements Cloneable {
+  public SourceContent() {
+    setAcceptance(new String[0]);
+    setSurrounder("");
     setText("");
-    setType(BlockContent.BlockContentType.Integer);
-    setSupportCodeEditor(false);
-    setOnClick(ComplexBlockContent.onClickTypes.numberEditor);
+    setValue("");
+    setType(BlockContent.BlockContentType.InputSourceCode);
+    setSupportCodeEditor(true);
+    setOnClick(ComplexBlockContent.onClickTypes.valueEditor);
   }
 
   @Override
   public String getValue() {
-    if (super.getValue() != null) {
-      StringBuilder value = new StringBuilder();
-      value.append(new String(getValue()));
-      return value.toString();
-    }
-    return "0";
+    StringBuilder value = new StringBuilder();
+    value.append(new String(getSurrounder()));
+    value.append(new String(super.getValue()));
+    value.append(new String(getSurrounder()));
+    return value.toString();
   }
 
   @Override
-  public NumberContent clone() throws CloneNotSupportedException {
-    NumberContent mComplexBlockContent = new NumberContent();
+  public SourceContent clone() throws CloneNotSupportedException {
+    SourceContent mComplexBlockContent = new SourceContent();
     String mValue;
     if (getValue() != null) {
       mValue = new String(getValue());
@@ -36,7 +37,7 @@ public class NumberContent extends ComplexBlockContent implements Cloneable {
     if (getId() != null) {
       mId = new String(getId());
     } else {
-      mId = new String();
+      mId = new String("");
     }
     String mSurrounder;
     if (getSurrounder() != null) {
@@ -48,7 +49,7 @@ public class NumberContent extends ComplexBlockContent implements Cloneable {
     if (getType() == 0) {
       mType = new Integer(getType());
     } else {
-      mType = 0;
+      mType = BlockContent.BlockContentType.InputSourceCode;
     }
     String[] mAcceptance;
     if (getAcceptance() != null) {

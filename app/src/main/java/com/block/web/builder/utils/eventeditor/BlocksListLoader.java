@@ -5,7 +5,7 @@ import static com.block.web.builder.utils.Environments.BLOCKS;
 import android.app.Activity;
 import builtin.blocks.BuiltInBlocks;
 import com.block.web.builder.BuildConfig;
-import com.block.web.builder.objects.BlocksHolder;
+import com.block.web.builder.core.BlocksHolder;
 import editor.tsd.tools.Language;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;

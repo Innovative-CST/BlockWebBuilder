@@ -1,16 +1,16 @@
-package com.block.web.builder.objects.blockcontent;
+package com.block.web.builder.core.blockcontent;
 
-import com.block.web.builder.objects.Block;
-import com.block.web.builder.objects.BlockContent;
-import com.block.web.builder.objects.ComplexBlockContent;
+import com.block.web.builder.core.Block;
+import com.block.web.builder.core.BlockContent;
+import com.block.web.builder.core.ComplexBlockContent;
 
-public class BooleanContent extends ComplexBlockContent implements Cloneable {
-  public BooleanContent() {
-    setAcceptance(new String[] {"boolean"});
-    setSurrounder("");
+public class StringContent extends ComplexBlockContent implements Cloneable {
+  public StringContent() {
+    setAcceptance(new String[] {"String"});
+    setSurrounder("\"");
     setText("");
     setValue("");
-    setType(BlockContent.BlockContentType.InputSourceCode);
+    setType(BlockContent.BlockContentType.String);
     setSupportCodeEditor(true);
     setOnClick(ComplexBlockContent.onClickTypes.valueEditor);
   }
@@ -19,14 +19,14 @@ public class BooleanContent extends ComplexBlockContent implements Cloneable {
   public String getValue() {
     StringBuilder value = new StringBuilder();
     value.append(new String(getSurrounder()));
-    value.append(new String(super.getValue()));
+    value.append(new String(getValue()));
     value.append(new String(getSurrounder()));
     return value.toString();
   }
 
   @Override
-  public BooleanContent clone() throws CloneNotSupportedException {
-    BooleanContent mComplexBlockContent = new BooleanContent();
+  public StringContent clone() throws CloneNotSupportedException {
+    StringContent mComplexBlockContent = new StringContent();
     String mValue;
     if (getValue() != null) {
       mValue = new String(getValue());
@@ -37,7 +37,7 @@ public class BooleanContent extends ComplexBlockContent implements Cloneable {
     if (getId() != null) {
       mId = new String(getId());
     } else {
-      mId = new String("");
+      mId = new String();
     }
     String mSurrounder;
     if (getSurrounder() != null) {
@@ -49,7 +49,7 @@ public class BooleanContent extends ComplexBlockContent implements Cloneable {
     if (getType() == 0) {
       mType = new Integer(getType());
     } else {
-      mType = BlockContent.BlockContentType.InputSourceCode;
+      mType = 0;
     }
     String[] mAcceptance;
     if (getAcceptance() != null) {

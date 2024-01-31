@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.block.web.builder.R;
-import com.block.web.builder.objects.Block;
+import com.block.web.builder.core.Block;
 import com.block.web.builder.ui.activities.EventEditorActivity;
 import com.block.web.builder.ui.utils.BlocksLoader.BlocksLoader;
 import com.block.web.builder.ui.view.blocks.BlockDefaultView;

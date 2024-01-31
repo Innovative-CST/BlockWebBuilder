@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.block.web.builder.databinding.LayoutEventBlocksHolderListItemBinding;
-import com.block.web.builder.objects.BlocksHolder;
+import com.block.web.builder.core.BlocksHolder;
 import com.block.web.builder.ui.activities.EventEditorActivity;
 import com.block.web.builder.utils.FilterBlocks;
 import java.util.ArrayList;

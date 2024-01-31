@@ -164,4 +164,5 @@ dependencies {
     
     implementation project(path:':common')
     implementation project(path:':editor')
+    implementation project(path:':block:core')
 }

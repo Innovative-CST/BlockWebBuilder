@@ -1,9 +1,9 @@
-package com.block.web.builder.objects;
+package com.block.web.builder.core;
 
 import android.util.Log;
-import com.block.web.builder.objects.blockcontent.BooleanContent;
-import com.block.web.builder.objects.blockcontent.SourceContent;
-import com.block.web.builder.utils.CodeReplacer;
+import com.block.web.builder.core.blockcontent.BooleanContent;
+import com.block.web.builder.core.blockcontent.SourceContent;
+import com.block.web.builder.core.utils.CodeReplacer;
 import java.io.Serializable;
 import java.util.ArrayList;
 

@@ -11,7 +11,7 @@ import builtin.files.JavascriptFile;
 import com.block.web.builder.R;
 import com.block.web.builder.databinding.LayoutNewFileDialogBinding;
 import com.block.web.builder.listeners.FileCreationListener;
-import com.block.web.builder.objects.WebFile;
+import com.block.web.builder.core.WebFile;
 import com.block.web.builder.ui.activities.FileManagerActivity;
 import com.block.web.builder.ui.adapters.FileListAdapterItem;
 import com.block.web.builder.utils.FileNameValidator;

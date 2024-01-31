@@ -1,6 +1,6 @@
 package com.block.web.builder.listeners;
 
-import com.block.web.builder.objects.WebFile;
+import com.block.web.builder.core.WebFile;
 
 public interface FileCreationListener {
 

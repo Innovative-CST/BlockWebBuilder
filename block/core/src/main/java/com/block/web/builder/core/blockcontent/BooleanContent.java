@@ -1,12 +1,12 @@
-package com.block.web.builder.objects.blockcontent;
+package com.block.web.builder.core.blockcontent;
 
-import com.block.web.builder.objects.Block;
-import com.block.web.builder.objects.BlockContent;
-import com.block.web.builder.objects.ComplexBlockContent;
+import com.block.web.builder.core.Block;
+import com.block.web.builder.core.BlockContent;
+import com.block.web.builder.core.ComplexBlockContent;
 
-public class SourceContent extends ComplexBlockContent implements Cloneable {
-  public SourceContent() {
-    setAcceptance(new String[0]);
+public class BooleanContent extends ComplexBlockContent implements Cloneable {
+  public BooleanContent() {
+    setAcceptance(new String[] {"boolean"});
     setSurrounder("");
     setText("");
     setValue("");
@@ -25,8 +25,8 @@ public class SourceContent extends ComplexBlockContent implements Cloneable {
   }
 
   @Override
-  public SourceContent clone() throws CloneNotSupportedException {
-    SourceContent mComplexBlockContent = new SourceContent();
+  public BooleanContent clone() throws CloneNotSupportedException {
+    BooleanContent mComplexBlockContent = new BooleanContent();
     String mValue;
     if (getValue() != null) {
       mValue = new String(getValue());

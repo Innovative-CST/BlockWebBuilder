@@ -3,11 +3,11 @@ package builtin.blocks;
 import builtin.blocks.holder.ControlBlocks;
 import builtin.blocks.holder.OperatorBlocks;
 import builtin.blocks.holder.ViewBlocks;
-import com.block.web.builder.objects.Block;
-import com.block.web.builder.objects.BlockContent;
-import com.block.web.builder.objects.BlocksHolder;
-import com.block.web.builder.objects.blockcontent.SourceContent;
-import com.block.web.builder.utils.CodeReplacer;
+import com.block.web.builder.core.Block;
+import com.block.web.builder.core.BlockContent;
+import com.block.web.builder.core.BlocksHolder;
+import com.block.web.builder.core.blockcontent.SourceContent;
+import com.block.web.builder.core.utils.CodeReplacer;
 import java.util.ArrayList;
 
 public class BuiltInBlocks {

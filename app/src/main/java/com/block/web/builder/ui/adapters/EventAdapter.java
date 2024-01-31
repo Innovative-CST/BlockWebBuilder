@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.block.web.builder.databinding.LayoutEventListAdapterBinding;
-import com.block.web.builder.objects.Event;
+import com.block.web.builder.core.Event;
 import java.util.ArrayList;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {

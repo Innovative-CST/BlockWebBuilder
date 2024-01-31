@@ -18,3 +18,4 @@ rootProject.name = "BlockWeb Builder"
 include(":app")
 include(":common")
 include(":editor")
+include(":block:core")

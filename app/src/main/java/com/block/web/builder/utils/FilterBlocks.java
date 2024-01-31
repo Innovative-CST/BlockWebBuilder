@@ -1,7 +1,7 @@
 package com.block.web.builder.utils;
 
 import com.block.web.builder.BuildConfig;
-import com.block.web.builder.objects.Block;
+import com.block.web.builder.core.Block;
 import editor.tsd.tools.Language;
 import java.util.ArrayList;
 

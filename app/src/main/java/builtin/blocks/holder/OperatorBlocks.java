@@ -1,12 +1,12 @@
 package builtin.blocks.holder;
 
-import com.block.web.builder.objects.Block;
-import com.block.web.builder.objects.BlockContent;
-import com.block.web.builder.objects.BlocksHolder;
-import com.block.web.builder.objects.ComplexBlock;
-import com.block.web.builder.objects.blockcontent.BooleanContent;
-import com.block.web.builder.objects.blockcontent.SourceContent;
-import com.block.web.builder.utils.CodeReplacer;
+import com.block.web.builder.core.Block;
+import com.block.web.builder.core.BlockContent;
+import com.block.web.builder.core.BlocksHolder;
+import com.block.web.builder.core.ComplexBlock;
+import com.block.web.builder.core.blockcontent.BooleanContent;
+import com.block.web.builder.core.blockcontent.SourceContent;
+import com.block.web.builder.core.utils.CodeReplacer;
 import editor.tsd.tools.Language;
 import java.util.ArrayList;
 

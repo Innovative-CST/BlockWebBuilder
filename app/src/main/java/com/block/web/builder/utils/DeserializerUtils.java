@@ -1,8 +1,8 @@
 package com.block.web.builder.utils;
 
 import com.block.web.builder.listeners.TaskListener;
-import com.block.web.builder.objects.Event;
-import com.block.web.builder.objects.WebFile;
+import com.block.web.builder.core.Event;
+import com.block.web.builder.core.WebFile;
 import com.block.web.builder.utils.preferences.BasePreference;
 import java.io.File;
 import java.io.FileInputStream;

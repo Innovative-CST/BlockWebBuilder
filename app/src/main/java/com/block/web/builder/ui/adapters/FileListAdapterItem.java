@@ -9,7 +9,7 @@ import com.block.web.builder.R;
 import com.block.web.builder.databinding.LayoutFileListItemBinding;
 import com.block.web.builder.listeners.ProjectBuildListener;
 import com.block.web.builder.listeners.TaskListener;
-import com.block.web.builder.objects.WebFile;
+import com.block.web.builder.core.WebFile;
 import com.block.web.builder.ui.activities.EventListActivity;
 import com.block.web.builder.ui.activities.FileManagerActivity;
 import com.block.web.builder.ui.activities.WebViewActivity;

@@ -1,4 +1,4 @@
-package com.block.web.builder.objects;
+package com.block.web.builder.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
