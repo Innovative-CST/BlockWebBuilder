@@ -15,7 +15,7 @@ public class ControlBlocks {
     BlocksHolder blocksHolder = new BlocksHolder();
     blocksHolder.setColor("#E1A92A");
     blocksHolder.setName("Control");
-    blocksHolder.setTags(new String[] {Language.JavaScript});
+    blocksHolder.setTags(new String[] {BlocksHolder.Tags.JavaScript});
 
     ArrayList<Block> blocksList = new ArrayList<Block>();
 
@@ -44,7 +44,7 @@ public class ControlBlocks {
 
     ifBlock.setRawCode(ifBlockStringBuilder.toString());
 
-    ifBlock.setTags(new String[] {Language.JavaScript});
+    ifBlock.setTags(new String[] {Block.Tags.JavaScript});
 
     ArrayList<BlockContent> ifBlockContentList = new ArrayList<BlockContent>();
 
@@ -85,7 +85,7 @@ public class ControlBlocks {
 
     forLoopBlock.setRawCode(ifBlockStringBuilder.toString());
 
-    forLoopBlock.setTags(new String[] {Language.JavaScript});
+    forLoopBlock.setTags(new String[] {Block.Tags.JavaScript});
 
     ArrayList<BlockContent> forBlockContentList = new ArrayList<BlockContent>();
 
@@ -140,7 +140,7 @@ public class ControlBlocks {
 
     forLoopBlock.setRawCode(ifBlockStringBuilder.toString());
 
-    forLoopBlock.setTags(new String[] {Language.JavaScript});
+    forLoopBlock.setTags(new String[] {Block.Tags.JavaScript});
 
     ArrayList<BlockContent> forBlockContentList = new ArrayList<BlockContent>();
 
@@ -201,7 +201,7 @@ public class ControlBlocks {
 
     forLoopBlock.setRawCode(ifBlockStringBuilder.toString());
 
-    forLoopBlock.setTags(new String[] {Language.JavaScript});
+    forLoopBlock.setTags(new String[] {Block.Tags.JavaScript});
 
     ArrayList<BlockContent> forBlockContentList = new ArrayList<BlockContent>();
 
@@ -256,7 +256,7 @@ public class ControlBlocks {
 
     forLoopBlock.setRawCode(ifBlockStringBuilder.toString());
 
-    forLoopBlock.setTags(new String[] {Language.JavaScript});
+    forLoopBlock.setTags(new String[] {Block.Tags.JavaScript});
 
     ArrayList<BlockContent> forBlockContentList = new ArrayList<BlockContent>();
 
