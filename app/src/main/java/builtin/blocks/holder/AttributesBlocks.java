@@ -13,7 +13,7 @@ public class AttributesBlocks {
     BlocksHolder blocksHolder = new BlocksHolder();
     blocksHolder.setColor("#4759B8");
     blocksHolder.setName("Attributes");
-    blocksHolder.setTags(new String[] {Language.HTML});
+    blocksHolder.setTags(new String[] {BlocksHolder.Tags.HTML});
 
     ArrayList<Block> blocksList = new ArrayList<Block>();
 
@@ -36,7 +36,7 @@ public class AttributesBlocks {
     blockRawCode.append("\"");
 
     idBlock.setRawCode(blockRawCode.toString());
-    idBlock.setTags(new String[] {Language.HTML});
+    idBlock.setTags(new String[] {Block.Tags.HTML});
     idBlock.setEnableSideAttachableBlock(true);
 
     ArrayList<BlockContent> idBlockContentList = new ArrayList<BlockContent>();
@@ -66,7 +66,7 @@ public class AttributesBlocks {
     blockRawCode.append("\"");
 
     classBlock.setRawCode(blockRawCode.toString());
-    classBlock.setTags(new String[] {Language.HTML});
+    classBlock.setTags(new String[] {Block.Tags.HTML});
     classBlock.setEnableSideAttachableBlock(true);
 
     ArrayList<BlockContent> classBlockContentList = new ArrayList<BlockContent>();
