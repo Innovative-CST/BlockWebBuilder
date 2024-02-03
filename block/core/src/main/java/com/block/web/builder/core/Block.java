@@ -187,4 +187,12 @@ public class Block implements Serializable, Cloneable {
     public static final int returnWithTypeBoolean = 3;
     public static final int sideAttachableBlock = 4;
   }
+
+  public final class Tags {
+    public static final String HTML = "html";
+    public static final String CSS = "css";
+    public static final String JavaScript = "js";
+    public static final String Developer = "developer";
+    public static final String developerOnly = "developer";
+  }
 }
