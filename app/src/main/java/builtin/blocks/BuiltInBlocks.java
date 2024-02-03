@@ -1,8 +1,10 @@
 package builtin.blocks;
 
+import builtin.blocks.holder.AttributesBlocks;
+import builtin.blocks.holder.ButtonBlocks;
 import builtin.blocks.holder.ControlBlocks;
+import builtin.blocks.holder.HtmlHeadingBlocks;
 import builtin.blocks.holder.OperatorBlocks;
-import builtin.blocks.holder.ViewBlocks;
 import com.block.web.builder.core.Block;
 import com.block.web.builder.core.BlockContent;
 import com.block.web.builder.core.BlocksHolder;
@@ -26,8 +28,7 @@ public class BuiltInBlocks {
     blockInHolder2.setName("Test");
     blockInHolder2.setEnableSideAttachableBlock(true);
     blockInHolder2.setRawCode("I am block code " + CodeReplacer.getReplacer("parameter"));
-    blockInHolder2.setTags(
-        new String[] {Block.Tags.Developer, Block.Tags.DeveloperOnly});
+    blockInHolder2.setTags(new String[] {Block.Tags.Developer, Block.Tags.DeveloperOnly});
 
     ArrayList<BlockContent> block2ContentList = new ArrayList<BlockContent>();
 
@@ -47,8 +48,7 @@ public class BuiltInBlocks {
     blockInHolder6.setName("Test");
     blockInHolder6.setEnableSideAttachableBlock(true);
     blockInHolder6.setRawCode("I am block code " + CodeReplacer.getReplacer("parameter"));
-    blockInHolder6.setTags(
-        new String[] {Block.Tags.Developer, Block.Tags.DeveloperOnly});
+    blockInHolder6.setTags(new String[] {Block.Tags.Developer, Block.Tags.DeveloperOnly});
 
     ArrayList<BlockContent> block6ContentList = new ArrayList<BlockContent>();
 
@@ -70,7 +70,9 @@ public class BuiltInBlocks {
     blocksHolder.add(holder1);
     blocksHolder.add(ControlBlocks.getBlockHolder());
     blocksHolder.add(OperatorBlocks.getBlockHolder());
-    blocksHolder.add(ViewBlocks.getBlockHolder());
+    blocksHolder.add(AttributesBlocks.getBlockHolder());
+    blocksHolder.add(ButtonBlocks.getBlockHolder());
+    blocksHolder.add(HtmlHeadingBlocks.getBlockHolder());
 
     return blocksHolder;
   }

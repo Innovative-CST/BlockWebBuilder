@@ -8,56 +8,20 @@ import com.block.web.builder.core.utils.CodeReplacer;
 import editor.tsd.tools.Language;
 import java.util.ArrayList;
 
-public class ViewBlocks {
+public class AttributesBlocks {
   public static BlocksHolder getBlockHolder() {
     BlocksHolder blocksHolder = new BlocksHolder();
     blocksHolder.setColor("#4759B8");
-    blocksHolder.setName("View");
+    blocksHolder.setName("Attributes");
     blocksHolder.setTags(new String[] {Language.HTML});
 
     ArrayList<Block> blocksList = new ArrayList<Block>();
 
-    blocksList.add(getButtonBlock());
-        blocksList.add(getIdBlock());
+    blocksList.add(getIdBlock());
+    blocksList.add(getClassBlock());
 
     blocksHolder.setBlocks(blocksList);
     return blocksHolder;
-  }
-
-  public static Block getButtonBlock() {
-    Block buttonBlock = new Block();
-    buttonBlock.setColor("#4759B8");
-    buttonBlock.setBlockType(Block.BlockType.defaultBlock);
-    buttonBlock.setName("button");
-
-    StringBuilder blockRawCode = new StringBuilder();
-    blockRawCode.append("<button");
-    blockRawCode.append(CodeReplacer.getReplacer("attachementBlock"));
-    blockRawCode.append(">");
-    blockRawCode.append(CodeReplacer.getReplacer("buttonText"));
-    blockRawCode.append("</button>");
-
-    buttonBlock.setRawCode(blockRawCode.toString());
-    buttonBlock.setTags(new String[] {Language.HTML});
-    buttonBlock.setEnableSideAttachableBlock(true);
-
-    ArrayList<BlockContent> buttonBlockContentList = new ArrayList<BlockContent>();
-
-    BlockContent buttonBlockContent1 = new BlockContent();
-    buttonBlockContent1.setText("button");
-    buttonBlockContentList.add(buttonBlockContent1);
-
-    BlockContent buttonBlockContent2 = new BlockContent();
-    buttonBlockContent2.setText("text");
-    buttonBlockContentList.add(buttonBlockContent2);
-
-    SourceContent buttonBlockContent3 = new SourceContent();
-    buttonBlockContent3.setId("buttonText");
-    buttonBlockContentList.add(buttonBlockContent3);
-
-    buttonBlock.setBlockContent(buttonBlockContentList);
-
-    return buttonBlock;
   }
 
   public static Block getIdBlock() {
@@ -88,5 +52,35 @@ public class ViewBlocks {
     idBlock.setBlockContent(idBlockContentList);
 
     return idBlock;
+  }
+
+  public static Block getClassBlock() {
+    Block classBlock = new Block();
+    classBlock.setColor("#4759B8");
+    classBlock.setBlockType(Block.BlockType.sideAttachableBlock);
+    classBlock.setName("class");
+
+    StringBuilder blockRawCode = new StringBuilder();
+    blockRawCode.append("class=\"");
+    blockRawCode.append(CodeReplacer.getReplacer("class"));
+    blockRawCode.append("\"");
+
+    classBlock.setRawCode(blockRawCode.toString());
+    classBlock.setTags(new String[] {Language.HTML});
+    classBlock.setEnableSideAttachableBlock(true);
+
+    ArrayList<BlockContent> classBlockContentList = new ArrayList<BlockContent>();
+
+    BlockContent classBlockContent1 = new BlockContent();
+    classBlockContent1.setText("class");
+    classBlockContentList.add(classBlockContent1);
+
+    SourceContent classBlockContent2 = new SourceContent();
+    classBlockContent2.setId("class");
+    classBlockContentList.add(classBlockContent2);
+
+    classBlock.setBlockContent(classBlockContentList);
+
+    return classBlock;
   }
 }
