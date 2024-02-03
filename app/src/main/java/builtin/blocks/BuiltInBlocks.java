@@ -16,7 +16,7 @@ public class BuiltInBlocks {
     BlocksHolder holder1 = new BlocksHolder();
     holder1.setColor("#009900");
     holder1.setName("Developer tools");
-    holder1.setTags(new String[] {"developer", "developerOnly"});
+    holder1.setTags(new String[] {BlocksHolder.Tags.Developer, BlocksHolder.Tags.DeveloperOnly});
 
     ArrayList<Block> blockList = new ArrayList<Block>();
 
@@ -26,7 +26,8 @@ public class BuiltInBlocks {
     blockInHolder2.setName("Test");
     blockInHolder2.setEnableSideAttachableBlock(true);
     blockInHolder2.setRawCode("I am block code " + CodeReplacer.getReplacer("parameter"));
-    blockInHolder2.setTags(new String[] {"developer", "developerOnly"});
+    blockInHolder2.setTags(
+        new String[] {Block.Tags.Developer, Block.Tags.DeveloperOnly});
 
     ArrayList<BlockContent> block2ContentList = new ArrayList<BlockContent>();
 
@@ -46,7 +47,8 @@ public class BuiltInBlocks {
     blockInHolder6.setName("Test");
     blockInHolder6.setEnableSideAttachableBlock(true);
     blockInHolder6.setRawCode("I am block code " + CodeReplacer.getReplacer("parameter"));
-    blockInHolder6.setTags(new String[] {"developer", "developerOnly"});
+    blockInHolder6.setTags(
+        new String[] {Block.Tags.Developer, Block.Tags.DeveloperOnly});
 
     ArrayList<BlockContent> block6ContentList = new ArrayList<BlockContent>();
 
