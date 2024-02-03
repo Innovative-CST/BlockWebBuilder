@@ -13,7 +13,7 @@ public class HtmlHeadingBlocks {
     BlocksHolder blocksHolder = new BlocksHolder();
     blocksHolder.setColor("#007BFF");
     blocksHolder.setName("Headings");
-    blocksHolder.setTags(new String[] {Language.HTML});
+    blocksHolder.setTags(new String[] {BlocksHolder.Tags.HTML});
 
     ArrayList<Block> blocksList = new ArrayList<Block>();
 
@@ -42,7 +42,7 @@ public class HtmlHeadingBlocks {
     blockRawCode.append("</").append(tagName).append(">");
 
     headingBlock.setRawCode(blockRawCode.toString());
-    headingBlock.setTags(new String[] {Language.HTML});
+    headingBlock.setTags(new String[] {Block.Tags.HTML});
     headingBlock.setEnableSideAttachableBlock(true);
 
     ArrayList<BlockContent> headingBlockContentList = new ArrayList<BlockContent>();
@@ -58,34 +58,5 @@ public class HtmlHeadingBlocks {
     headingBlock.setBlockContent(headingBlockContentList);
 
     return headingBlock;
-  }
-
-  public static Block getAttributeBlock(String attributeName) {
-    Block attributeBlock = new Block();
-    attributeBlock.setColor("#4759B8");
-    attributeBlock.setBlockType(Block.BlockType.sideAttachableBlock);
-    attributeBlock.setName(attributeName);
-
-    StringBuilder blockRawCode = new StringBuilder();
-    blockRawCode.append(attributeName).append("=\"");
-    blockRawCode.append(CodeReplacer.getReplacer(attributeName)).append("\"");
-
-    attributeBlock.setRawCode(blockRawCode.toString());
-    attributeBlock.setTags(new String[] {Language.HTML});
-    attributeBlock.setEnableSideAttachableBlock(true);
-
-    ArrayList<BlockContent> attributeBlockContentList = new ArrayList<BlockContent>();
-
-    BlockContent attributeBlockContent = new BlockContent();
-    attributeBlockContent.setText(attributeName);
-    attributeBlockContentList.add(attributeBlockContent);
-
-    SourceContent attributeBlockContent2 = new SourceContent();
-    attributeBlockContent2.setId(attributeName);
-    attributeBlockContentList.add(attributeBlockContent2);
-
-    attributeBlock.setBlockContent(attributeBlockContentList);
-
-    return attributeBlock;
   }
 }
