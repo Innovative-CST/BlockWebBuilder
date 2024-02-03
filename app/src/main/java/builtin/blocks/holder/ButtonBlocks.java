@@ -5,7 +5,6 @@ import com.block.web.builder.core.BlockContent;
 import com.block.web.builder.core.BlocksHolder;
 import com.block.web.builder.core.blockcontent.SourceContent;
 import com.block.web.builder.core.utils.CodeReplacer;
-import editor.tsd.tools.Language;
 import java.util.ArrayList;
 
 public class ButtonBlocks {
@@ -14,7 +13,7 @@ public class ButtonBlocks {
     BlocksHolder blocksHolder = new BlocksHolder();
     blocksHolder.setColor("#e74c3c");
     blocksHolder.setName("Button");
-    blocksHolder.setTags(new String[] {Language.HTML});
+    blocksHolder.setTags(new String[] {BlocksHolder.Tags.HTML});
 
     ArrayList<Block> blocksList = new ArrayList<Block>();
 
@@ -38,7 +37,7 @@ public class ButtonBlocks {
     blockRawCode.append("</button>");
 
     buttonBlock.setRawCode(blockRawCode.toString());
-    buttonBlock.setTags(new String[] {Language.HTML});
+    buttonBlock.setTags(new String[] {Block.Tags.HTML});
     buttonBlock.setEnableSideAttachableBlock(true);
 
     ArrayList<BlockContent> buttonBlockContentList = new ArrayList<BlockContent>();
