@@ -3,9 +3,6 @@ package com.block.web.builder.ui.activities;
 import static com.block.web.builder.utils.Environments.PREFERENCES;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.Menu;
@@ -17,16 +14,17 @@ import android.widget.LinearLayout;
 import androidx.annotation.MainThread;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.block.web.builder.R;
-import com.block.web.builder.databinding.ActivityEventEditorBinding;
-import com.block.web.builder.listeners.ProjectBuildListener;
-import com.block.web.builder.listeners.TaskListener;
 import com.block.web.builder.core.Block;
 import com.block.web.builder.core.BlocksHolder;
 import com.block.web.builder.core.ComplexBlock;
 import com.block.web.builder.core.Event;
 import com.block.web.builder.core.WebFile;
+import com.block.web.builder.databinding.ActivityEventEditorBinding;
+import com.block.web.builder.listeners.ProjectBuildListener;
+import com.block.web.builder.listeners.TaskListener;
 import com.block.web.builder.ui.adapters.BlocksHolderEventEditorListItem;
 import com.block.web.builder.ui.dialogs.eventList.ShowSourceCodeDialog;
+import com.block.web.builder.ui.utils.BlockHintHandler;
 import com.block.web.builder.ui.utils.BlocksLoader.BlocksLoader;
 import com.block.web.builder.ui.view.blocks.BlockDefaultView;
 import com.block.web.builder.ui.view.blocks.BlockHint;
@@ -207,43 +205,6 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     binding = null;
   }
 
-  public void handleShadowRemove(ViewGroup v) {
-    ViewGroup blockHintParent = ((ViewGroup) blockHint.getParent());
-
-    if (v.getTag() != null) {
-      if (v.getTag() instanceof String) {
-        if (((String) v.getTag()).equals("blockDroppingArea")) {
-          if (blockHint.getParent() != null) {
-            if (blockHintParent.getChildCount() > 1) {
-              if (blockHintParent.getChildAt(0).getTag() != null) {
-                if (blockHintParent.getChildAt(0).getTag() instanceof String) {
-                  if (blockHintParent.getChildAt(0).getTag().equals("shadow")) {
-                    if (blockHintParent.getId() != R.id.relativeBlockListEditorArea) {
-                      if (blockHintParent.getChildAt(1).getLayoutParams() != null) {
-                        Utils.setMargins(blockHintParent.getChildAt(1), 0, 0, 0, 0);
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      } else if (v.getTag() instanceof String[]) {
-        for (String str : (String[]) v.getTag()) {
-          if (str.equals("boolean")) {
-            if (v.getChildCount() == 2) {
-              v.getChildAt(1).setVisibility(View.VISIBLE);
-            }
-          }
-        }
-      }
-    }
-    if (blockHint.getParent() != null) {
-      blockHintParent.removeView(blockHint);
-    }
-  }
-
   @Override
   public boolean onDrag(View v, DragEvent dragEvent) {
     final int action = dragEvent.getAction();
@@ -253,7 +214,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     float dropY = dragEvent.getY();
 
     if (v instanceof LinearLayout) {
-      handleShadowRemove((LinearLayout) v);
+      BlockHintHandler.handleRemoveHint((LinearLayout) v, blockHint);
     }
 
     for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) {
