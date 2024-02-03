@@ -15,7 +15,7 @@ public class OperatorBlocks {
     BlocksHolder blocksHolder = new BlocksHolder();
     blocksHolder.setColor("#5AC417");
     blocksHolder.setName("Operator");
-    blocksHolder.setTags(new String[] {Language.HTML, Language.CSS, Language.JavaScript});
+    blocksHolder.setTags(new String[] {BlocksHolder.Tags.HTML, BlocksHolder.Tags.CSS, BlocksHolder.Tags.JavaScript});
 
     ArrayList<Block> blocksList = new ArrayList<Block>();
 
@@ -33,7 +33,7 @@ public class OperatorBlocks {
     addSource.setBlockType(Block.BlockType.defaultBlock);
     addSource.setName("addSource");
     addSource.setRawCode(CodeReplacer.getReplacer("parameter"));
-    addSource.setTags(new String[] {Language.HTML, Language.CSS, Language.JavaScript});
+    addSource.setTags(new String[] {Block.Tags.HTML, Block.Tags.CSS, Block.Tags.JavaScript});
 
     ArrayList<BlockContent> addSourceContentList = new ArrayList<BlockContent>();
 
@@ -57,7 +57,7 @@ public class OperatorBlocks {
     trueBlock.setName("true");
     trueBlock.setRawCode("true");
     trueBlock.setReturns("boolean");
-    trueBlock.setTags(new String[] {Language.JavaScript});
+    trueBlock.setTags(new String[] {Block.Tags.JavaScript});
     ArrayList<BlockContent> trueBlockContentList = new ArrayList<BlockContent>();
     BlockContent trueBlockText = new BlockContent();
     trueBlockText.setText("true");
@@ -74,7 +74,7 @@ public class OperatorBlocks {
     falseBlock.setName("false");
     falseBlock.setRawCode("false");
     falseBlock.setReturns("boolean");
-    falseBlock.setTags(new String[] {Language.JavaScript});
+    falseBlock.setTags(new String[] {Block.Tags.JavaScript});
     ArrayList<BlockContent> falseBlockContentList = new ArrayList<BlockContent>();
     BlockContent falseBlockText = new BlockContent();
     falseBlockText.setText("false");
