@@ -3,6 +3,8 @@ package com.block.web.builder.ui.activities;
 import static com.block.web.builder.utils.Environments.PREFERENCES;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.Menu;
@@ -68,6 +70,12 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   private MenuItem preview;
   private MenuItem lockCanva;
 
+  // Effects
+  public SoundPool blockDragSoundEffect;
+  public SoundPool blockDropSoundEffect;
+  public int blockDragSoundEffectId;
+  public int blockDropSoundEffectId;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -92,6 +100,10 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     eventFilePath = "";
     isLoaded = false;
     blockHint = new BlockHint(this, R.drawable.block_default);
+    blockDragSoundEffect = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+    blockDragSoundEffectId = blockDragSoundEffect.load(this, R.raw.block_drag, 1);
+    blockDropSoundEffect = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+    blockDropSoundEffectId = blockDropSoundEffect.load(this, R.raw.block_drop, 1);
 
     if (getIntent().hasExtra("projectName")) {
       projectName = getIntent().getStringExtra("projectName");
@@ -203,6 +215,10 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
   protected void onDestroy() {
     super.onDestroy();
     binding = null;
+    blockDragSoundEffect.release();
+    blockDropSoundEffect.release();
+    blockDragSoundEffect = null;
+    blockDropSoundEffect = null;
   }
 
   @Override
@@ -338,6 +354,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                       }
                     }
                   }
+                  blockDropSoundEffect.play(blockDragSoundEffectId, 1.0f, 1.0f, 1, 0, 1.0f);
                 }
               }
 
@@ -419,6 +436,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                       }
                     }
                   }
+                  blockDropSoundEffect.play(blockDragSoundEffectId, 1.0f, 1.0f, 1, 0, 1.0f);
                 }
               }
             } else if (((String) v.getTag()).equals("sideAttachableDropArea")) {
@@ -458,6 +476,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                       0,
                       0,
                       0);
+                  blockDropSoundEffect.play(blockDragSoundEffectId, 1.0f, 1.0f, 1, 0, 1.0f);
                 }
               }
             }
@@ -499,6 +518,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                   ((LinearLayout.LayoutParams) blockView.getLayoutParams()).width =
                       LinearLayout.LayoutParams.WRAP_CONTENT;
                 }
+                blockDropSoundEffect.play(blockDragSoundEffectId, 1.0f, 1.0f, 1, 0, 1.0f);
               }
             }
           }
@@ -541,6 +561,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                       0,
                       0);
             }
+            blockDropSoundEffect.play(blockDragSoundEffectId, 1.0f, 1.0f, 1, 0, 1.0f);
           }
 
           if ((dragView instanceof ComplexBlockView)) {
@@ -583,6 +604,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
                         0,
                         0);
               }
+              blockDropSoundEffect.play(blockDragSoundEffectId, 1.0f, 1.0f, 1, 0, 1.0f);
             }
           }
         }

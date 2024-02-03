@@ -97,6 +97,15 @@ public class BlockDefaultView extends LinearLayout {
             } else {
               startDrag(data, shadow, this, 1);
             }
+
+            ((EventEditorActivity) activity)
+                .blockDragSoundEffect.play(
+                    ((EventEditorActivity) activity).blockDragSoundEffectId,
+                    1.0f,
+                    1.0f,
+                    1,
+                    0,
+                    1.0f);
             return false;
           });
     }
