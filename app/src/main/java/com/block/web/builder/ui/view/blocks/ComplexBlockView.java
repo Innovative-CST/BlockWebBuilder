@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import com.blankj.utilcode.util.VibrateUtils;
 import com.block.web.builder.R;
 import com.block.web.builder.core.Block;
 import com.block.web.builder.core.ComplexBlock;
@@ -219,6 +220,7 @@ public class ComplexBlockView extends LinearLayout {
               startDrag(data, shadow, this, 1);
             }
 
+            VibrateUtils.vibrate(100);
             ((EventEditorActivity) activity)
                 .blockDragSoundEffect.play(
                     ((EventEditorActivity) activity).blockDragSoundEffectId,

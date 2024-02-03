@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".MyApplication"
@@ -34,35 +35,35 @@
         </activity>
         <activity
             android:name="com.block.web.builder.ui.activities.FileManagerActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name="com.block.web.builder.ui.activities.BlocksHolderManagerActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name="com.block.web.builder.ui.activities.BlockManagerActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name="com.block.web.builder.ui.activities.BlockEditorActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name="com.block.web.builder.ui.activities.EventListActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:configChanges="uiMode"
             android:windowSoftInputMode="adjustResize"
             android:name="com.block.web.builder.ui.activities.EventEditorActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name="com.block.web.builder.ui.activities.DebugActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name="com.block.web.builder.ui.activities.WebViewActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name="com.block.web.builder.ui.activities.ImageCropperActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name="com.block.web.builder.ui.activities.SettingActivity"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 </manifest>
