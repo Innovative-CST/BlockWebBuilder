@@ -193,6 +193,6 @@ public class Block implements Serializable, Cloneable {
     public static final String CSS = "css";
     public static final String JavaScript = "js";
     public static final String Developer = "developer";
-    public static final String developerOnly = "developer";
+    public static final String DeveloperOnly = "developerOnly";
   }
 }

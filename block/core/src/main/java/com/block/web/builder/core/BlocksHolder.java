@@ -50,4 +50,12 @@ public class BlocksHolder implements Serializable {
   public void setTags(String[] tags) {
     this.tags = tags;
   }
+
+  public final class Tags {
+    public static final String HTML = "html";
+    public static final String CSS = "css";
+    public static final String JavaScript = "js";
+    public static final String Developer = "developer";
+    public static final String DeveloperOnly = "developerOnly";
+  }
 }
