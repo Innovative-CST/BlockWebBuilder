@@ -11,7 +11,7 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 28
-        compileSdkVersion 33
+        compileSdkVersion 34
     }
 
     buildTypes {
