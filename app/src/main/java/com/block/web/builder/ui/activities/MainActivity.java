@@ -13,12 +13,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.CallSuper;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.block.web.builder.R;
 import com.block.web.builder.databinding.ActivityMainBinding;
@@ -27,7 +28,6 @@ import com.block.web.builder.objects.Project;
 import com.block.web.builder.ui.adapters.ProjectsManagerListAdapter;
 import com.block.web.builder.ui.dialogs.CreateProjectDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.elevation.SurfaceColors;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -53,6 +53,8 @@ public class MainActivity extends BaseActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    EdgeToEdge.enable(this);
+
     super.onCreate(savedInstanceState);
 
     // Inflate and get instance of binding.
@@ -69,21 +71,45 @@ public class MainActivity extends BaseActivity {
     setSupportActionBar(binding.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
+    ActionBarDrawerToggle toggle =
+        new ActionBarDrawerToggle(
+            this, binding.drawerLayout, binding.toolbar, R.string.app_name, R.string.app_name);
     binding.toolbar.setNavigationOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View arg0) {
-            onBackPressed();
+            if (binding.drawerLayout.isDrawerVisible(GravityCompat.START)) {
+              binding.drawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+              binding.drawerLayout.openDrawer(GravityCompat.START);
+            }
           }
         });
+    binding.drawerLayout.addDrawerListener(toggle);
+    toggle.syncState();
 
-    binding.collapsingToolbar.setStatusBarScrimColor(SurfaceColors.SURFACE_2.getColor(this));
-    binding.collapsingToolbar.setContentScrimColor(SurfaceColors.SURFACE_2.getColor(this));
+    binding.navigationView.setNavigationItemSelectedListener(
+        menuItem -> {
+          if (menuItem.getItemId() == R.id.new_project) {
+            // Create project dialog when create project is clicked.
+            createNewProject();
+          }
+          if (menuItem.getItemId() == R.id.blocks_manager) {
+            Intent blockManager = new Intent();
+            blockManager.setClass(this, BlocksHolderManagerActivity.class);
+            startActivity(blockManager);
+          } else if (menuItem.getItemId() == R.id.settings) {
+            Intent setting = new Intent();
+            setting.setClass(this, SettingActivity.class);
+            startActivity(setting);
+          }
+          return true;
+        });
 
     // Create project dialog when fab is clicked.
     binding.fab.setOnClickListener(
         (view) -> {
-          createNewProject(view);
+          createNewProject();
         });
 
     /*
@@ -101,7 +127,7 @@ public class MainActivity extends BaseActivity {
     }
   }
 
-  public void createNewProject(View view) {
+  public void createNewProject() {
     dialog =
         new CreateProjectDialog(
             MainActivity.this,
@@ -218,7 +244,6 @@ public class MainActivity extends BaseActivity {
   }
 
   private void startActivtyLogic() {
-
     // Loads project list.
     loadProjectInList();
   }
@@ -292,28 +317,6 @@ public class MainActivity extends BaseActivity {
         }
         break;
     }
-  }
-
-  // Handle option menu
-  @Override
-  public boolean onCreateOptionsMenu(Menu arg0) {
-    super.onCreateOptionsMenu(arg0);
-    getMenuInflater().inflate(R.menu.activity_main_menu, arg0);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem arg0) {
-    if (arg0.getItemId() == R.id.block_manager) {
-      Intent blockManager = new Intent();
-      blockManager.setClass(this, BlocksHolderManagerActivity.class);
-      startActivity(blockManager);
-    } else if (arg0.getItemId() == R.id.settings) {
-      Intent setting = new Intent();
-      setting.setClass(this, SettingActivity.class);
-      startActivity(setting);
-    }
-    return super.onOptionsItemSelected(arg0);
   }
 
   @Override

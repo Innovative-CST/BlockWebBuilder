@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/new_project"
+        android:icon="@drawable/plus"
+        android:title="New Project"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/blocks_manager"
+        android:icon="@drawable/block"
+        android:title="Blocks Manager"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/setting"
+        android:title="Settings"
+        app:showAsAction="ifRoom" />
+</menu>
