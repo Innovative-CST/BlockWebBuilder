@@ -116,6 +116,11 @@ public class MainActivity extends BaseActivity {
           createNewProject();
         });
 
+    binding.createNewProject.setOnClickListener(
+        (view) -> {
+          createNewProject();
+        });
+
     /*
      * Ask for storage permission if not granted.
      * Load projects if storage permission is granted.

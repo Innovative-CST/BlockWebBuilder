@@ -93,9 +93,9 @@
                         <TextView
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
-                            android:onClick="createNewProject"
                             android:textColor="?attr/colorPrimary"
                             android:layout_marginStart="2dp"
+                            android:id="@+id/createNewProject"
                             android:text="@string/create_new_project" />
 
                     </LinearLayout>
