@@ -102,6 +102,10 @@ public class MainActivity extends BaseActivity {
             Intent setting = new Intent();
             setting.setClass(this, SettingActivity.class);
             startActivity(setting);
+          } else if (menuItem.getItemId() == R.id.source_License) {
+            Intent LicenseActivity = new Intent();
+            LicenseActivity.setClass(this, LicenseActivity.class);
+            startActivity(LicenseActivity);
           }
           return true;
         });

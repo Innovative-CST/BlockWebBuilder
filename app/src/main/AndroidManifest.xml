@@ -65,5 +65,11 @@
         <activity
             android:name="com.block.web.builder.ui.activities.SettingActivity"
             android:exported="true" />
+        <activity
+            android:name="com.block.web.builder.ui.activities.LicenseActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.block.web.builder.ui.activities.LicenseReaderActivity"
+            android:exported="true" />
     </application>
 </manifest>

@@ -56,7 +56,7 @@ android {
     namespace 'com.block.web.builder'
     compileSdk 34
     buildToolsVersion "34.0.0"
-    
+
     def getCommitHash = { ->
         def stdout = new ByteArrayOutputStream()
         exec {
@@ -156,12 +156,12 @@ dependencies {
     implementation platform("$editorGroupId:bom:0.22.0")
     implementation "$editorGroupId:editor"
     implementation "$editorGroupId:language-textmate"
-    
+
     implementation 'org.nanohttpd:nanohttpd:2.3.0'
-    
+
     implementation platform('com.google.firebase:firebase-bom:32.3.1')
     implementation 'com.google.firebase:firebase-analytics'
-    
+
     implementation project(path:':common')
     implementation project(path:':editor')
     implementation project(path:':block:core')
