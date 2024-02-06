@@ -70,6 +70,11 @@ public class BlockDefaultView extends LinearLayout {
           backgroundDrawable.setTint(Color.parseColor(block.getColor()));
           backgroundDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
           blockContent.setBackground(backgroundDrawable);
+        } else if (block.getBlockType() == Block.BlockType.returnWithTypeInteger) {
+          Drawable backgroundDrawable = getResources().getDrawable(R.drawable.number);
+          backgroundDrawable.setTint(Color.parseColor(block.getColor()));
+          backgroundDrawable.setTintMode(PorterDuff.Mode.MULTIPLY);
+          blockContent.setBackground(backgroundDrawable);
         }
       }
     }

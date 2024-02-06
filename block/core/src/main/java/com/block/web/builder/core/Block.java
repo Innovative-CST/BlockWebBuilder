@@ -189,6 +189,7 @@ public class Block implements Serializable, Cloneable {
     public static final int doubleComplexBlock = 2;
     public static final int returnWithTypeBoolean = 3;
     public static final int sideAttachableBlock = 4;
+    public static final int returnWithTypeInteger = 5;
   }
 
   public final class Tags {
