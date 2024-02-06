@@ -44,6 +44,25 @@ public class DropTargetUtils {
           }
         }
       }
+    } else if (type == Block.BlockType.returnWithTypeInteger) {
+      if (view.getTag() != null) {
+        if (view.getTag() instanceof String[]) {
+          boolean containsTargetString = false;
+
+          for (String str : (String[]) view.getTag()) {
+            if (str.equals(returns)) {
+              if (str.equals("int")) {
+                containsTargetString = true;
+                break;
+              }
+            }
+          }
+          if (containsTargetString) {
+            view.setOnDragListener(listener);
+            isDropable = true;
+          }
+        }
+      }
     } else if (type == Block.BlockType.sideAttachableBlock) {
       if (view.getTag() != null) {
         if (view.getTag() instanceof String) {

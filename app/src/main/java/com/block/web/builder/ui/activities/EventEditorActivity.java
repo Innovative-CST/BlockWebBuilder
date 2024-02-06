@@ -482,7 +482,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
             }
           } else if (v.getTag() instanceof String[]) {
             for (String str : (String[]) v.getTag()) {
-              if (str.equals("boolean")) {
+              if (str.equals("boolean") || str.equals("int")) {
                 BlockDefaultView blockView = new BlockDefaultView(this);
                 blockView.setLanguage(language);
                 blockView.setEnableEdit(true);

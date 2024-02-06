@@ -11,7 +11,8 @@ import com.block.web.builder.utils.Utils;
 
 public final class BlockHintHandler {
 
-  public static void handleAddBlockHint(final View v, int index, BlockHint blockHint, Activity activity) {
+  public static void handleAddBlockHint(
+      final View v, int index, BlockHint blockHint, Activity activity) {
     if (v.getTag() != null) {
       if (v.getTag() instanceof String) {
         if (((String) v.getTag()).equals("blockDroppingArea")) {
@@ -32,7 +33,8 @@ public final class BlockHintHandler {
                   Utils.setMargins(
                       ((LinearLayout) v).getChildAt(1),
                       0,
-                      Utils.dpToPx(activity, EventEditorActivity.BlocksMargin.defaultBlockAboveMargin),
+                      Utils.dpToPx(
+                          activity, EventEditorActivity.BlocksMargin.defaultBlockAboveMargin),
                       0,
                       0);
                 }
@@ -65,8 +67,9 @@ public final class BlockHintHandler {
       } else if (v.getTag() instanceof String[]) {
         for (String str : (String[]) v.getTag()) {
           ((ViewGroup) v).addView(blockHint, 0);
-          if (str.equals("boolean")) {
-            blockHint.setBlockResource(R.drawable.block_boolean);
+          if (str.equals("boolean") || str.equals("int")) {
+            blockHint.setBlockResource(
+                str.equals("boolean") ? R.drawable.block_boolean : R.drawable.number);
             if (((ViewGroup) v).getChildCount() > 0) {
               ((ViewGroup) v).getChildAt(0).setVisibility(View.GONE);
             }
@@ -109,7 +112,7 @@ public final class BlockHintHandler {
         }
       } else if (targetView.getTag() instanceof String[]) {
         for (String str : (String[]) targetView.getTag()) {
-          if (str.equals("boolean")) {
+          if (str.equals("boolean") || str.equals("int")) {
             if (targetView.getChildCount() == 2) {
               targetView.getChildAt(1).setVisibility(View.VISIBLE);
             }
