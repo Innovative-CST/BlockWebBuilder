@@ -13,6 +13,7 @@ import com.block.web.builder.core.Block;
 import com.block.web.builder.core.BlockContent;
 import com.block.web.builder.core.ComplexBlockContent;
 import com.block.web.builder.core.blockcontent.BooleanContent;
+import com.block.web.builder.core.blockcontent.NumberContent;
 import com.block.web.builder.core.blockcontent.SourceContent;
 import com.block.web.builder.ui.activities.EventEditorActivity;
 import com.block.web.builder.ui.activities.SettingActivity;
@@ -125,6 +126,54 @@ public class BlockContentLoader {
             ll_boolean.addView(blockView);
           }
           view.addView(ll_boolean, view.getChildCount());
+        } else if (blockContent.get(i) instanceof NumberContent) {
+          final NumberContent cbc = ((NumberContent) blockContent.get(i));
+          final LinearLayout ll_number =
+              new LinearLayout(view.getContext()) {
+                @Override
+                public void addView(View v) {
+                  super.addView(v);
+                  if (v instanceof BlockDefaultView) {
+                    cbc.setBlock(((BlockDefaultView) v).getBlock());
+                  }
+                }
+
+                @Override
+                public void addView(View v, int index) {
+                  super.addView(v, index);
+                  if (v instanceof BlockDefaultView) {
+                    cbc.setBlock(((BlockDefaultView) v).getBlock());
+                  }
+                }
+
+                @Override
+                public void removeView(View v) {
+                  super.removeView(v);
+                  if (v instanceof BlockDefaultView) {
+                    cbc.setValue("");
+                  }
+                }
+              };
+          ll_number.setTag(((NumberContent) blockContent.get(i)).getAcceptance());
+          ll_number.setBackgroundResource(R.drawable.number);
+          Drawable backgroundDrawableNumber = ll_number.getBackground();
+          backgroundDrawableNumber.setTint(
+              ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
+          backgroundDrawableNumber.setTintMode(PorterDuff.Mode.SRC_IN);
+          ll_number.setBackground(backgroundDrawableNumber);
+          if (((ComplexBlockContent) blockContent.get(i)).getBlock() != null) {
+            BlockDefaultView blockView = new BlockDefaultView(activity);
+            blockView.setLanguage(language);
+            blockView.setEnableEdit(enableEdit);
+            try {
+              Block block = ((ComplexBlockContent) blockContent.get(i)).getBlock().clone();
+              blockView.setBlock(block);
+            } catch (CloneNotSupportedException e) {
+              blockView.setBlock(new Block());
+            }
+            ll_number.addView(blockView);
+          }
+          view.addView(ll_number, view.getChildCount());
         }
       } else if (blockContent.get(i) instanceof BlockContent) {
         TextView tvTextContent = new TextView(view.getContext());

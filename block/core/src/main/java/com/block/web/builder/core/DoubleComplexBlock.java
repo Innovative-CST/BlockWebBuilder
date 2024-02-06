@@ -1,6 +1,7 @@
 package com.block.web.builder.core;
 
 import com.block.web.builder.core.blockcontent.BooleanContent;
+import com.block.web.builder.core.blockcontent.NumberContent;
 import com.block.web.builder.core.blockcontent.SourceContent;
 import com.block.web.builder.core.utils.CodeReplacer;
 import java.io.Serializable;
@@ -183,6 +184,8 @@ public class DoubleComplexBlock extends ComplexBlock implements Serializable, Cl
             mBlockContent.add(((SourceContent) getBlockContent().get(i)).clone());
           } else if (getBlockContent().get(i) instanceof BooleanContent) {
             mBlockContent.add(((BooleanContent) getBlockContent().get(i)).clone());
+          } else if (getBlockContent().get(i) instanceof NumberContent) {
+            mBlockContent.add(((NumberContent) getBlockContent().get(i)).clone());
           }
         } else if (getBlockContent().get(i) instanceof BlockContent) {
           mComplexBlockContent.add(((BlockContent) getComplexBlockContent().get(i)).clone());

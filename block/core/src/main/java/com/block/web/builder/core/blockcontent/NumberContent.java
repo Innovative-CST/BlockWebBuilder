@@ -17,7 +17,7 @@ public class NumberContent extends ComplexBlockContent implements Cloneable {
   public String getValue() {
     if (super.getValue() != null) {
       StringBuilder value = new StringBuilder();
-      value.append(new String(getValue()));
+      value.append(new String(super.getValue()));
       return value.toString();
     }
     return "0";

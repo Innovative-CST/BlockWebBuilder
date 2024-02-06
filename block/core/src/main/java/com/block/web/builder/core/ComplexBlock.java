@@ -2,6 +2,7 @@ package com.block.web.builder.core;
 
 import android.util.Log;
 import com.block.web.builder.core.blockcontent.BooleanContent;
+import com.block.web.builder.core.blockcontent.NumberContent;
 import com.block.web.builder.core.blockcontent.SourceContent;
 import com.block.web.builder.core.utils.CodeReplacer;
 import java.io.Serializable;
@@ -111,6 +112,8 @@ public class ComplexBlock extends Block implements Serializable, Cloneable {
             mBlockContent.add(((SourceContent) getBlockContent().get(i)).clone());
           } else if (getBlockContent().get(i) instanceof BooleanContent) {
             mBlockContent.add(((BooleanContent) getBlockContent().get(i)).clone());
+          } else if (getBlockContent().get(i) instanceof NumberContent) {
+            mBlockContent.add(((NumberContent) getBlockContent().get(i)).clone());
           }
         } else if (getBlockContent().get(i) instanceof BlockContent) {
           mBlockContent.add(((BlockContent) getBlockContent().get(i)).clone());
