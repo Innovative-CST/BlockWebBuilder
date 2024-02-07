@@ -8,6 +8,7 @@ import builtin.blocks.holder.OperatorBlocks;
 import com.block.web.builder.core.Block;
 import com.block.web.builder.core.BlockContent;
 import com.block.web.builder.core.BlocksHolder;
+import com.block.web.builder.core.blockcontent.NumberContent;
 import com.block.web.builder.core.blockcontent.SourceContent;
 import com.block.web.builder.core.utils.CodeReplacer;
 import java.util.ArrayList;
@@ -21,6 +22,27 @@ public class BuiltInBlocks {
     holder1.setTags(new String[] {BlocksHolder.Tags.Developer, BlocksHolder.Tags.DeveloperOnly});
 
     ArrayList<Block> blockList = new ArrayList<Block>();
+
+    Block blockInHolder1 = new Block();
+    blockInHolder1.setColor("#0033ff");
+    blockInHolder1.setBlockType(Block.BlockType.returnWithTypeInteger);
+    blockInHolder1.setName("45");
+    blockInHolder1.setEnableSideAttachableBlock(true);
+    blockInHolder1.setReturns("int");
+    blockInHolder1.setRawCode("45 -> " + CodeReplacer.getReplacer("parameter"));
+    blockInHolder1.setTags(new String[] {Block.Tags.Developer, Block.Tags.DeveloperOnly});
+
+    ArrayList<BlockContent> block1ContentList = new ArrayList<BlockContent>();
+
+    BlockContent block1Content1 = new BlockContent();
+    block1Content1.setText("45");
+    block1ContentList.add(block1Content1);
+
+    NumberContent block1Content2 = new NumberContent();
+    block1Content2.setId("parameter");
+    block1ContentList.add(block1Content2);
+
+    blockInHolder1.setBlockContent(block1ContentList);
 
     Block blockInHolder2 = new Block();
     blockInHolder2.setColor("#ff0000");
@@ -36,7 +58,7 @@ public class BuiltInBlocks {
     block2Content1.setText("Test block code");
     block2ContentList.add(block2Content1);
 
-    SourceContent block2Content2 = new SourceContent();
+    NumberContent block2Content2 = new NumberContent();
     block2Content2.setId("parameter");
     block2ContentList.add(block2Content2);
 
@@ -62,6 +84,7 @@ public class BuiltInBlocks {
 
     blockInHolder6.setBlockContent(block6ContentList);
 
+    blockList.add(blockInHolder1);
     blockList.add(blockInHolder2);
     blockList.add(blockInHolder6);
 
