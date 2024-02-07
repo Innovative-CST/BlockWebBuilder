@@ -135,6 +135,7 @@ public class BlockContentLoader {
                   super.addView(v);
                   if (v instanceof BlockDefaultView) {
                     cbc.setBlock(((BlockDefaultView) v).getBlock());
+                    setBackground(null);
                   }
                 }
 
@@ -143,6 +144,7 @@ public class BlockContentLoader {
                   super.addView(v, index);
                   if (v instanceof BlockDefaultView) {
                     cbc.setBlock(((BlockDefaultView) v).getBlock());
+                    setBackground(null);
                   }
                 }
 
@@ -151,12 +153,20 @@ public class BlockContentLoader {
                   super.removeView(v);
                   if (v instanceof BlockDefaultView) {
                     cbc.setValue("");
+
+                    Drawable backgroundDrawableNumber =
+                        getResources().getDrawable(R.drawable.number);
+                    backgroundDrawableNumber.setTint(
+                        ColorUtils.getColor(
+                            activity, com.google.android.material.R.attr.colorSurface));
+                    backgroundDrawableNumber.setTintMode(PorterDuff.Mode.SRC_IN);
+                    setBackground(backgroundDrawableNumber);
                   }
                 }
               };
           ll_number.setTag(((NumberContent) blockContent.get(i)).getAcceptance());
-          ll_number.setBackgroundResource(R.drawable.number);
-          Drawable backgroundDrawableNumber = ll_number.getBackground();
+          Drawable backgroundDrawableNumber =
+              activity.getResources().getDrawable(R.drawable.number);
           backgroundDrawableNumber.setTint(
               ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurface));
           backgroundDrawableNumber.setTintMode(PorterDuff.Mode.SRC_IN);
