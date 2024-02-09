@@ -78,7 +78,7 @@ public class BuiltInBlocks {
     block6Content1.setText("Test block code");
     block6ContentList.add(block6Content1);
 
-    SourceContent block6Content2 = new SourceContent();
+    NumberContent block6Content2 = new NumberContent();
     block6Content2.setId("parameter");
     block6ContentList.add(block6Content2);
 

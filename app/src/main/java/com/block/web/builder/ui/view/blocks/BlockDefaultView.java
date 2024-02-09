@@ -117,6 +117,8 @@ public class BlockDefaultView extends LinearLayout {
           });
     }
     addView(blockContent);
+    ((LinearLayout.LayoutParams) blockContent.getLayoutParams()).height =
+        LinearLayout.LayoutParams.MATCH_PARENT;
     invalidate();
   }
 
@@ -154,5 +156,15 @@ public class BlockDefaultView extends LinearLayout {
   @Override
   public boolean onInterceptTouchEvent(MotionEvent arg0) {
     return !getEnableEdit();
+  }
+
+  @Override
+  protected void onAttachedToWindow() {
+    if (block.getEnableSideAttachableBlock()) {
+      if (getLayoutParams() != null) {
+        getLayoutParams().height = -1;
+      }
+    }
+    super.onAttachedToWindow();
   }
 }
