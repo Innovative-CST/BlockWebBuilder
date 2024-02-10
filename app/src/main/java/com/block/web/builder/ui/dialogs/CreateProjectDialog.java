@@ -14,6 +14,7 @@ import com.block.web.builder.databinding.LayoutCreateProjectBinding;
 import com.block.web.builder.listeners.ProjectCreationListener;
 import com.block.web.builder.objects.Project;
 import com.block.web.builder.ui.activities.MainActivity;
+import com.block.web.builder.utils.ColorUtils;
 import com.block.web.builder.utils.ProjectNameValidator;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -39,7 +40,10 @@ public class CreateProjectDialog {
     this.activity = activity;
 
     MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(activity);
-
+    dialog
+        .getBackground()
+        .setTint(
+            ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurfaceVariant));
     dialog.setTitle(activity.getString(R.string.create_new_project));
 
     LayoutCreateProjectBinding binding =

@@ -7,6 +7,7 @@ import com.block.web.builder.R;
 import com.block.web.builder.databinding.LayoutNewBlocksHolderDialogBinding;
 import com.block.web.builder.listeners.BlocksHolderListener;
 import com.block.web.builder.core.BlocksHolder;
+import com.block.web.builder.utils.ColorUtils;
 import com.block.web.builder.utils.HexColorValidator;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ public class CreateBlocksHolderDialog extends MaterialAlertDialogBuilder {
   public CreateBlocksHolderDialog(
       Activity activity, ArrayList<BlocksHolder> blocksHolderList, BlocksHolderListener listener) {
     super(activity);
+    getBackground()
+        .setTint(
+            ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurfaceVariant));
     setTitle(getContext().getString(R.string.create_new_blocks_holder));
     LayoutNewBlocksHolderDialogBinding binding =
         LayoutNewBlocksHolderDialogBinding.inflate(activity.getLayoutInflater());

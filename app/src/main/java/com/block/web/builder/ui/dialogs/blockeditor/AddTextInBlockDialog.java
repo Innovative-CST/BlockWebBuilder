@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import com.block.web.builder.R;
 import com.block.web.builder.databinding.LayoutAddTextInBlockBinding;
 import com.block.web.builder.listeners.ValueListener;
+import com.block.web.builder.utils.ColorUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class AddTextInBlockDialog extends MaterialAlertDialogBuilder {
@@ -17,6 +18,9 @@ public class AddTextInBlockDialog extends MaterialAlertDialogBuilder {
   public AddTextInBlockDialog(Activity activity, ValueListener listener) {
     super(activity);
     this.activity = activity;
+    getBackground()
+        .setTint(
+            ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurfaceVariant));
     binding = LayoutAddTextInBlockBinding.inflate(activity.getLayoutInflater());
     setTitle(R.string.enter_value);
     setView(binding.getRoot());

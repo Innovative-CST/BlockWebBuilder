@@ -10,6 +10,7 @@ import com.block.web.builder.core.Event;
 import com.block.web.builder.core.WebFile;
 import com.block.web.builder.ui.activities.EventListActivity;
 import com.block.web.builder.ui.adapters.EventAdapter;
+import com.block.web.builder.utils.ColorUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 
@@ -28,6 +29,9 @@ public class AddEventDialog extends MaterialAlertDialogBuilder {
 
     LayoutAddEventDialogBinding binding =
         LayoutAddEventDialogBinding.inflate(mEventListActivity.getLayoutInflater());
+    getBackground()
+        .setTint(
+            ColorUtils.getColor(mEventListActivity, com.google.android.material.R.attr.colorSurfaceVariant));
     setTitle(R.string.add_events);
     setCancelable(false);
     setView(binding.getRoot());

@@ -19,6 +19,9 @@ public class ShowSourceCodeDialog extends MaterialAlertDialogBuilder {
     super(activity);
     LayoutSouceCodeDialogBinding binding =
         LayoutSouceCodeDialogBinding.inflate(activity.getLayoutInflater());
+    getBackground()
+        .setTint(
+            ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurfaceVariant));
     setTitle(R.string.source_code);
 
     if (useSoraEditor) {
