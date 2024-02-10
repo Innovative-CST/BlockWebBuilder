@@ -2,5 +2,9 @@
   {
     "Name": "Free Sound - Sound Attribution",
     "Path": "attribution/free_sound_attribution.json"
+  },
+  {
+    "Name": "Sora-Editor - the awesome code editor for Android",
+    "Path": "license/sora_editor_license.txt"
   }
 ]
