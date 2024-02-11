@@ -14,7 +14,6 @@ import com.block.web.builder.listeners.FileCreationListener;
 import com.block.web.builder.core.WebFile;
 import com.block.web.builder.ui.activities.FileManagerActivity;
 import com.block.web.builder.ui.adapters.FileListAdapterItem;
-import com.block.web.builder.utils.ColorUtils;
 import com.block.web.builder.utils.FileNameValidator;
 import com.block.web.builder.utils.ProjectFileUtils;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -65,9 +64,6 @@ public class CreateFileDialog extends MaterialAlertDialogBuilder {
             Toast.makeText(activity, error, Toast.LENGTH_SHORT).show();
           }
         };
-    getBackground()
-        .setTint(
-            ColorUtils.getColor(activity, com.google.android.material.R.attr.colorSurfaceVariant));
     setTitle(activity.getString(R.string.create_new_file));
     binding = LayoutNewFileDialogBinding.inflate(activity.getLayoutInflater());
     setView(binding.getRoot());

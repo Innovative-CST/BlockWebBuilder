@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.view.View;
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.CallSuper;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
@@ -53,8 +52,6 @@ public class MainActivity extends BaseActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    EdgeToEdge.enable(this);
-
     super.onCreate(savedInstanceState);
 
     // Inflate and get instance of binding.
