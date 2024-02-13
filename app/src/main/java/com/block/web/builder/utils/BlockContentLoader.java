@@ -270,7 +270,7 @@ public class BlockContentLoader {
 
         mEventEditorActivity.binding.codeEditor.setCode(blockContent.getValue());
         mEventEditorActivity.binding.codeEditor.setLanguageMode(language);
-        mEventEditorActivity.binding.done.setOnClickListener(
+        mEventEditorActivity.binding.save.setOnClickListener(
             (view2) -> {
               mEventEditorActivity.binding.codeEditor.getCode(
                   new EditorListeners() {

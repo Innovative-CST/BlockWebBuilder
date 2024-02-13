@@ -3,7 +3,7 @@ package com.block.web.builder.ui.dialogs.eventList;
 import android.app.Activity;
 import android.widget.Toast;
 import com.block.web.builder.R;
-import com.block.web.builder.databinding.LayoutSouceCodeDialogBinding;
+import com.block.web.builder.databinding.LayoutSourceCodeDialogBinding;
 import com.block.web.builder.utils.ColorUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import editor.tsd.editors.ace.AceEditorColors;
@@ -17,8 +17,8 @@ public class ShowSourceCodeDialog extends MaterialAlertDialogBuilder {
   public ShowSourceCodeDialog(
       Activity activity, String code, String language, boolean useSoraEditor) {
     super(activity);
-    LayoutSouceCodeDialogBinding binding =
-        LayoutSouceCodeDialogBinding.inflate(activity.getLayoutInflater());
+    LayoutSourceCodeDialogBinding binding =
+        LayoutSourceCodeDialogBinding.inflate(activity.getLayoutInflater());
     setTitle(R.string.source_code);
 
     if (useSoraEditor) {
