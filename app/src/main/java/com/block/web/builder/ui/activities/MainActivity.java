@@ -256,12 +256,15 @@ public class MainActivity extends BaseActivity {
                   }
                 });
           } else {
-
-            // Displays no projects yet.
-            binding.loading.setVisibility(View.GONE);
-            binding.noProjectsYet.setVisibility(View.VISIBLE);
-            binding.permissionDenied.setVisibility(View.GONE);
-            binding.projectList.setVisibility(View.GONE);
+            // Showing changes in UI thread.
+            MainActivity.this.runOnUiThread(
+                () -> {
+                  // Displays no projects yet.
+                  binding.loading.setVisibility(View.GONE);
+                  binding.noProjectsYet.setVisibility(View.VISIBLE);
+                  binding.permissionDenied.setVisibility(View.GONE);
+                  binding.projectList.setVisibility(View.GONE);
+                });
           }
         });
   }
