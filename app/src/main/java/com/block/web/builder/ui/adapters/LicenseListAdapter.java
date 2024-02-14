@@ -53,7 +53,7 @@ public class LicenseListAdapter extends RecyclerView.Adapter<LicenseListAdapter.
   public void onBindViewHolder(ViewHolder _holder, final int _position) {
     LayoutLicenseListItemBinding binding = LayoutLicenseListItemBinding.bind(_holder.itemView);
     binding.name.setText(LicenseList.get(_position).getLicenseName());
-    binding.name.setOnClickListener(
+    binding.getRoot().setOnClickListener(
         v -> {
           Intent LicenseReader = new Intent();
           LicenseReader.setClass(activity, LicenseReaderActivity.class);
