@@ -6,5 +6,9 @@
   {
     "Name": "Sora-Editor - the awesome code editor for Android",
     "Path": "license/sora_editor_license.txt"
+  },
+  {
+    "Name": "Ace Editor - Ajax.org",
+    "Path": "license/ace_editor_license.txt"
   }
 ]
