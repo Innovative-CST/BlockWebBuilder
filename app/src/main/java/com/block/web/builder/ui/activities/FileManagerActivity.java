@@ -111,7 +111,7 @@ public class FileManagerActivity extends BaseActivity {
     return binding.list;
   }
 
-  private void showFileList() {
+  public void showFileList() {
     // List is loading, so it shows loading view.
     showSection(1);
 
