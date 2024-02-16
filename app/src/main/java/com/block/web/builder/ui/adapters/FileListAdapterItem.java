@@ -17,10 +17,11 @@
 
 package com.block.web.builder.ui.adapters;
 
-import android.app.Activity;
+import android.code.editor.ui.bottomsheet.FileOperationBottomSheet;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.block.web.builder.R;
 import com.block.web.builder.databinding.LayoutFileListItemBinding;
@@ -42,7 +43,7 @@ import java.util.concurrent.Executors;
 public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterItem.ViewHolder> {
 
   public ArrayList<WebFile> _data;
-  public Activity activity;
+  public AppCompatActivity activity;
   private String projectName;
   private String projectPath;
   ArrayList<String> filePathList;
@@ -50,7 +51,7 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
   public FileListAdapterItem(
       ArrayList<WebFile> _arr,
       ArrayList<String> filePathList,
-      Activity activity,
+      AppCompatActivity activity,
       String projectName,
       String projectPath) {
     _data = _arr;
@@ -130,38 +131,49 @@ public class FileListAdapterItem extends RecyclerView.Adapter<FileListAdapterIte
                         .getAbsolutePath());
                 activity.startActivity(i);
               } else {
-                ((FileManagerActivity)activity).saveFileList(
-                    new TaskListener() {
+                ((FileManagerActivity) activity)
+                    .saveFileList(
+                        new TaskListener() {
 
-                      @Override
-                      public void onSuccess(Object result) {
-                        activity.runOnUiThread(
-                            () -> {
-                              Intent i = new Intent();
-                              i.setClass(activity, EventListActivity.class);
-                              i.putExtra("projectName", projectName);
-                              i.putExtra("projectPath", projectPath);
-                              i.putExtra("fileName", _data.get(_position).getFilePath());
-                              i.putExtra("fileType", _data.get(_position).getFileType());
-                              i.putExtra("webFile", filePathList.get(_position));
-                              i.putExtra(
-                                  "fileOutputPath",
-                                  new File(
-                                          new File(
-                                              ((FileManagerActivity) activity)
-                                                  .getOutputDirectory()),
-                                          _data
-                                              .get(_position)
-                                              .getFilePath()
-                                              .concat(
-                                                  WebFile.getSupportedFileSuffix(
-                                                      _data.get(_position).getFileType())))
-                                      .getAbsolutePath());
-                              activity.startActivity(i);
-                            });
-                      }
-                    });
+                          @Override
+                          public void onSuccess(Object result) {
+                            activity.runOnUiThread(
+                                () -> {
+                                  Intent i = new Intent();
+                                  i.setClass(activity, EventListActivity.class);
+                                  i.putExtra("projectName", projectName);
+                                  i.putExtra("projectPath", projectPath);
+                                  i.putExtra("fileName", _data.get(_position).getFilePath());
+                                  i.putExtra("fileType", _data.get(_position).getFileType());
+                                  i.putExtra("webFile", filePathList.get(_position));
+                                  i.putExtra(
+                                      "fileOutputPath",
+                                      new File(
+                                              new File(
+                                                  ((FileManagerActivity) activity)
+                                                      .getOutputDirectory()),
+                                              _data
+                                                  .get(_position)
+                                                  .getFilePath()
+                                                  .concat(
+                                                      WebFile.getSupportedFileSuffix(
+                                                          _data.get(_position).getFileType())))
+                                          .getAbsolutePath());
+                                  activity.startActivity(i);
+                                });
+                          }
+                        });
               }
+            });
+    binding
+        .getRoot()
+        .setOnLongClickListener(
+            v -> {
+              FileOperationBottomSheet mFileOperationBottomSheet =
+                  new FileOperationBottomSheet(_position, (FileManagerActivity) activity);
+              mFileOperationBottomSheet.show(
+                  activity.getSupportFragmentManager(), "ModalBottomSheet");
+              return false;
             });
     binding.execute.setOnClickListener(
         (view) -> {

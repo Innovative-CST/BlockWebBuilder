@@ -17,10 +17,10 @@
 
 package com.block.web.builder.ui.dialogs.filemanager;
 
-import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import builtin.files.CssFile;
 import builtin.files.HtmlFile;
@@ -39,11 +39,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class CreateFileDialog extends MaterialAlertDialogBuilder {
-  private Activity activity;
+  private AppCompatActivity activity;
   private LayoutNewFileDialogBinding binding;
 
   public CreateFileDialog(
-      Activity activity,
+      AppCompatActivity activity,
       ArrayList<String> paths,
       ArrayList<WebFile> fileList,
       String projectName,
