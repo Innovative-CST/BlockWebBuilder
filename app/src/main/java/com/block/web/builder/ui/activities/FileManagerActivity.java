@@ -164,6 +164,8 @@ public class FileManagerActivity extends BaseActivity {
                   isLoaded = true;
                   runOnUiThread(
                       () -> {
+                        FileManagerActivity.this.fileList = fileList;
+                        FileManagerActivity.this.filePath = filePath;
                         showSection(5);
                         binding.errorText.setText(getString(R.string.no_files_yet));
                       });
