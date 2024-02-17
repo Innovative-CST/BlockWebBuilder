@@ -83,9 +83,6 @@ public class FileOperationBottomSheet extends BottomSheetDialogFragment {
 
                             @Override
                             public void onTaskComplete() {
-                              mFileManagerActivity.getFileList().remove(position);
-                              Toast.makeText(getContext(), "Delete complete", Toast.LENGTH_LONG)
-                                  .show();
                               mFileManagerActivity.showFileList();
                             }
                           },
