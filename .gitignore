@@ -36,6 +36,9 @@ captures/
 # Android IDE
 .androidide
 
+# VS Code Editor
+.vscode
+
 # IntelliJ
 *.iml
 .idea/workspace.xml
