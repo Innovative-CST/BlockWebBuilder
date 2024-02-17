@@ -23,13 +23,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import com.block.web.builder.core.WebFile;
 import com.block.web.builder.databinding.LayoutFileOperationBinding;
 import com.block.web.builder.listeners.TaskListener;
 import com.block.web.builder.ui.activities.FileManagerActivity;
 import com.block.web.builder.ui.dialogs.filemanager.DeleteFileDialog;
-import com.block.web.builder.utils.ProjectFileUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.io.File;
 
