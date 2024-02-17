@@ -64,7 +64,7 @@ public class SimpleHttpServer {
           int contentLength = fis.available();
 
           return newFixedLengthResponse(
-              NanoHTTPD.Response.Status.OK, "text/html", fis, contentLength);
+              NanoHTTPD.Response.Status.OK, getMimeTypeForFile(filePath), fis, contentLength);
         } else {
           return newFixedLengthResponse(
               NanoHTTPD.Response.Status.NOT_FOUND, NanoHTTPD.MIME_PLAINTEXT, "File not found.");
