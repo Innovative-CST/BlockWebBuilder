@@ -55,19 +55,18 @@ public class FileOperationBottomSheet extends BottomSheetDialogFragment {
                     @Override
                     public void onSuccess(Object result) {
                       FileDeleteUtils.delete(
-                          ProjectFileUtils.getProjectWebFile(
-                              new File(
-                                  new File(mFileManagerActivity.getListPath()),
-                                  mFileManagerActivity
-                                      .getFileList()
-                                      .get(position)
-                                      .getFilePath()
-                                      .concat(
-                                          WebFile.getSupportedFileSuffix(
-                                              mFileManagerActivity
-                                                  .getFileList()
-                                                  .get(position)
-                                                  .getFileType())))),
+                          new File(
+                              new File(mFileManagerActivity.getListPath()),
+                              mFileManagerActivity
+                                  .getFileList()
+                                  .get(position)
+                                  .getFilePath()
+                                  .concat(
+                                      WebFile.getSupportedFileSuffix(
+                                          mFileManagerActivity
+                                              .getFileList()
+                                              .get(position)
+                                              .getFileType()))),
                           new FileDeleteListener() {
                             @Override
                             public void onProgressUpdate(int deleteDone) {}
