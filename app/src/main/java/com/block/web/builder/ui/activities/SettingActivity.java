@@ -210,20 +210,4 @@ public class SettingActivity extends BaseActivity {
     super.onDestroy();
     binding = null;
   }
-
-  public static Object getPreferencesValue(
-      ArrayList<BasePreference> preferences, String preferenceKey, Object defaultValue) {
-    for (int position = 0; position < preferences.size(); ++position) {
-      if (preferences.get(position).getPreferenceKey().equals(preferenceKey)) {
-        if (preferences
-            .get(position)
-            .getPreferenceType()
-            .equals(BasePreference.PeferenceType.BooleanPreference)) {
-          return ((BooleanPreference) preferences.get(position)).getPreferenceValue();
-        }
-      }
-    }
-
-    return defaultValue;
-  }
 }

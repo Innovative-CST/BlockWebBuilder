@@ -33,8 +33,8 @@ import com.block.web.builder.core.blockcontent.BooleanContent;
 import com.block.web.builder.core.blockcontent.NumberContent;
 import com.block.web.builder.core.blockcontent.SourceContent;
 import com.block.web.builder.ui.activities.EventEditorActivity;
-import com.block.web.builder.ui.activities.SettingActivity;
 import com.block.web.builder.ui.view.blocks.BlockDefaultView;
+import com.block.web.builder.utils.preferences.PreferencesUtils;
 import editor.tsd.editors.ace.AceEditorColors;
 import editor.tsd.editors.sora.lang.textmate.provider.TextMateProvider;
 import editor.tsd.tools.EditorListeners;
@@ -251,7 +251,7 @@ public class BlockContentLoader {
         boolean useSoraEditor = false;
         if (mEventEditorActivity.getPreferences() != null) {
           if ((boolean)
-              SettingActivity.getPreferencesValue(
+              PreferencesUtils.getPreferencesValue(
                   mEventEditorActivity.getPreferences(), "Use Sora Editor", false)) {
             useSoraEditor = true;
           }

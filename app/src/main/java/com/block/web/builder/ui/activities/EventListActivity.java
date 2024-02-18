@@ -41,6 +41,7 @@ import com.block.web.builder.utils.DeserializerUtils;
 import com.block.web.builder.utils.ProjectBuilder;
 import com.block.web.builder.utils.ProjectFileUtils;
 import com.block.web.builder.utils.preferences.BasePreference;
+import com.block.web.builder.utils.preferences.PreferencesUtils;
 import editor.tsd.tools.Language;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -328,7 +329,7 @@ public class EventListActivity extends BaseActivity {
         boolean useSoraEditor = false;
         if (preferences != null) {
           if ((boolean)
-              SettingActivity.getPreferencesValue(preferences, "Use Sora Editor", false)) {
+              PreferencesUtils.getPreferencesValue(preferences, "Use Sora Editor", false)) {
             useSoraEditor = true;
           }
         }

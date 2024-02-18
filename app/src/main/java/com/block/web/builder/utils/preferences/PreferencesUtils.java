@@ -17,13 +17,22 @@
 
 package com.block.web.builder.utils.preferences;
 
-import static com.block.web.builder.utils.Environments.PREFERENCES;
-
-import com.block.web.builder.listeners.TaskListener;
-import com.block.web.builder.utils.DeserializationException;
-import com.block.web.builder.utils.DeserializerUtils;
 import java.util.ArrayList;
 
 public class PreferencesUtils {
-  
+  public static Object getPreferencesValue(
+      ArrayList<BasePreference> preferences, String preferenceKey, Object defaultValue) {
+    for (int position = 0; position < preferences.size(); ++position) {
+      if (preferences.get(position).getPreferenceKey().equals(preferenceKey)) {
+        if (preferences
+            .get(position)
+            .getPreferenceType()
+            .equals(BasePreference.PeferenceType.BooleanPreference)) {
+          return ((BooleanPreference) preferences.get(position)).getPreferenceValue();
+        }
+      }
+    }
+
+    return defaultValue;
+  }
 }

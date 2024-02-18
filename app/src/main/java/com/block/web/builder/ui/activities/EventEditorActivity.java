@@ -51,6 +51,7 @@ import com.block.web.builder.utils.ProjectFileUtils;
 import com.block.web.builder.utils.eventeditor.BlockDropUtils;
 import com.block.web.builder.utils.eventeditor.BlocksListLoader;
 import com.block.web.builder.utils.preferences.BasePreference;
+import com.block.web.builder.utils.preferences.PreferencesUtils;
 import editor.tsd.tools.Language;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -385,7 +386,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
         boolean useSoraEditor = false;
         if (preferences != null) {
           if ((boolean)
-              SettingActivity.getPreferencesValue(preferences, "Use Sora Editor", false)) {
+              PreferencesUtils.getPreferencesValue(preferences, "Use Sora Editor", false)) {
             useSoraEditor = true;
           }
         }
@@ -463,7 +464,7 @@ public class EventEditorActivity extends BaseActivity implements View.OnDragList
     lockCanva.setVisible(
         preferences != null
             && ((boolean)
-                SettingActivity.getPreferencesValue(preferences, "Canva Manual Lock", false)));
+                PreferencesUtils.getPreferencesValue(preferences, "Canva Manual Lock", false)));
 
     return super.onPrepareOptionsMenu(arg0);
   }
