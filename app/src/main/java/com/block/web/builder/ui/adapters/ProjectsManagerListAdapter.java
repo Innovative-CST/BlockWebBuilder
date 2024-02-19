@@ -27,6 +27,8 @@ import com.block.web.builder.R;
 import com.block.web.builder.databinding.LayoutProjectsManagerListItemBinding;
 import com.block.web.builder.objects.Project;
 import com.block.web.builder.ui.activities.FileManagerActivity;
+import com.block.web.builder.ui.activities.MainActivity;
+import com.block.web.builder.ui.bottomsheet.ProjectOperationBottomSheet;
 import com.block.web.builder.utils.ProjectFileUtils;
 import java.io.File;
 import java.util.ArrayList;
@@ -89,6 +91,16 @@ public class ProjectsManagerListAdapter
                       .getAbsolutePath());
               i.putExtra("outputDirectory", "");
               activity.startActivity(i);
+            });
+    binding
+        .getRoot()
+        .setOnLongClickListener(
+            v -> {
+              ProjectOperationBottomSheet mProjectOperationBottomSheet =
+                  new ProjectOperationBottomSheet(_position, _data, (MainActivity) activity);
+              mProjectOperationBottomSheet.show(
+                  ((MainActivity) activity).getSupportFragmentManager(), "ModalBottomSheet");
+              return false;
             });
   }
 
