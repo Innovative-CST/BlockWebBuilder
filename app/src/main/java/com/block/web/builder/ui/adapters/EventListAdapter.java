@@ -18,6 +18,7 @@
 package com.block.web.builder.ui.adapters;
 
 import android.app.Activity;
+import android.code.editor.ui.bottomsheet.EventOperationBottomSheet;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +87,16 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                       .getAbsolutePath());
               i.putExtra("outputDirectory", ((EventListActivity) activity).getFileOutputPath());
               activity.startActivity(i);
+            });
+    binding
+        .getRoot()
+        .setOnLongClickListener(
+            v -> {
+              EventOperationBottomSheet mFileOperationBottomSheet =
+                  new EventOperationBottomSheet(_position, _data, (EventListActivity) activity);
+              mFileOperationBottomSheet.show(
+                  ((EventListActivity) activity).getSupportFragmentManager(), "ModalBottomSheet");
+              return false;
             });
   }
 

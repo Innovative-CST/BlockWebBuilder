@@ -197,7 +197,7 @@ public class EventListActivity extends BaseActivity {
     }
   }
 
-  private void showEventList() {
+  public void showEventList() {
     // List is loading, so it shows loading view.
     showSection(1);
 
@@ -391,5 +391,17 @@ public class EventListActivity extends BaseActivity {
 
   public void setFileOutputPath(String fileOutputPath) {
     this.fileOutputPath = fileOutputPath;
+  }
+
+  public String getWebFilePath() {
+    return this.webFilePath;
+  }
+
+  public ArrayList<Event> getEventList() {
+    return this.eventList;
+  }
+
+  public void setEventList(ArrayList<Event> eventList) {
+    this.eventList = eventList;
   }
 }
