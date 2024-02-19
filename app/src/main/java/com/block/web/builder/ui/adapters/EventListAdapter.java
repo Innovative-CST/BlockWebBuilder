@@ -92,9 +92,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         .getRoot()
         .setOnLongClickListener(
             v -> {
-              EventOperationBottomSheet mFileOperationBottomSheet =
+              EventOperationBottomSheet mEventOperationBottomSheet =
                   new EventOperationBottomSheet(_position, _data, (EventListActivity) activity);
-              mFileOperationBottomSheet.show(
+              mEventOperationBottomSheet.show(
                   ((EventListActivity) activity).getSupportFragmentManager(), "ModalBottomSheet");
               return false;
             });
