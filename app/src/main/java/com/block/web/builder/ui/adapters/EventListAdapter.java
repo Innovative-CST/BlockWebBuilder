@@ -18,15 +18,15 @@
 package com.block.web.builder.ui.adapters;
 
 import android.app.Activity;
-import android.code.editor.ui.bottomsheet.EventOperationBottomSheet;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
-import com.block.web.builder.databinding.LayoutEventListItemBinding;
 import com.block.web.builder.core.Event;
+import com.block.web.builder.databinding.LayoutEventListItemBinding;
 import com.block.web.builder.ui.activities.EventEditorActivity;
 import com.block.web.builder.ui.activities.EventListActivity;
+import com.block.web.builder.ui.bottomsheet.EventOperationBottomSheet;
 import com.block.web.builder.utils.ProjectFileUtils;
 import java.io.File;
 import java.util.ArrayList;
