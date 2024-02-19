@@ -15,7 +15,7 @@
  *   along with BlockWeb Builder.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package android.code.editor.ui.bottomsheet;
+package com.block.web.builder.ui.bottomsheet;
 
 import android.code.editor.common.interfaces.FileDeleteListener;
 import android.code.editor.common.utils.FileDeleteUtils;

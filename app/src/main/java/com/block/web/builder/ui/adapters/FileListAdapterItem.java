@@ -17,20 +17,20 @@
 
 package com.block.web.builder.ui.adapters;
 
-import android.code.editor.ui.bottomsheet.FileOperationBottomSheet;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.block.web.builder.R;
+import com.block.web.builder.core.WebFile;
 import com.block.web.builder.databinding.LayoutFileListItemBinding;
 import com.block.web.builder.listeners.ProjectBuildListener;
 import com.block.web.builder.listeners.TaskListener;
-import com.block.web.builder.core.WebFile;
 import com.block.web.builder.ui.activities.EventListActivity;
 import com.block.web.builder.ui.activities.FileManagerActivity;
 import com.block.web.builder.ui.activities.WebViewActivity;
+import com.block.web.builder.ui.bottomsheet.FileOperationBottomSheet;
 import com.block.web.builder.utils.ProjectBuilder;
 import com.block.web.builder.utils.ProjectFileUtils;
 import java.io.File;
