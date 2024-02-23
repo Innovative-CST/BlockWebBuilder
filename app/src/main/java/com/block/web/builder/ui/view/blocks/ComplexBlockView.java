@@ -26,9 +26,7 @@ import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import com.blankj.utilcode.util.VibrateUtils;
 import com.block.web.builder.R;
 import com.block.web.builder.core.Block;
@@ -46,6 +44,7 @@ public class ComplexBlockView extends LinearLayout {
   public Activity activity;
   public LinearLayout blocksView;
   public LinearLayout blockContent;
+  public LinearLayout blockBottomView;
 
   public ComplexBlockView(Activity context) {
     super(context);
@@ -63,7 +62,17 @@ public class ComplexBlockView extends LinearLayout {
     if (!(block instanceof DoubleComplexBlock)) {
       if (block instanceof ComplexBlock) {
         if (block.getBlockType() == Block.BlockType.complexBlock) {
+          blockBottomView = new LinearLayout(getContext());
           blockContent = new LinearLayout(getContext());
+          blockContent
+              .getViewTreeObserver()
+              .addOnGlobalLayoutListener(
+                  () -> {
+                    ViewGroup.LayoutParams layoutParams = blockBottomView.getLayoutParams();
+                    layoutParams.width = blockContent.getWidth();
+                    blockBottomView.setLayoutParams(layoutParams);
+                  });
+
           if (!block.getEnableSideAttachableBlock()) {
             Drawable backgroundDrawable = getResources().getDrawable(R.drawable.complex_block);
             backgroundDrawable.setTint(Color.parseColor(block.getColor()));
@@ -80,6 +89,7 @@ public class ComplexBlockView extends LinearLayout {
               getEnableEdit());
 
           addView(blockContent);
+
           if (blockContent.getLayoutParams() != null) {
             blockContent.getLayoutParams().width = -2;
             blockContent.getLayoutParams().height = -2;
@@ -169,7 +179,6 @@ public class ComplexBlockView extends LinearLayout {
             blocksView.getLayoutParams().height = -2;
           }
 
-          LinearLayout blockBottomView = new LinearLayout(getContext());
           Drawable blockBottomViewDrawable =
               getResources().getDrawable(R.drawable.complex_block_bottom);
           blockBottomViewDrawable.setTint(Color.parseColor(block.getColor()));
