@@ -83,14 +83,13 @@ public final class BlockHintHandler {
         }
       } else if (v.getTag() instanceof String[]) {
         for (String str : (String[]) v.getTag()) {
-          ((ViewGroup) v).addView(blockHint, 0);
           if (str.equals("boolean") || str.equals("int")) {
             blockHint.setBlockResource(
                 str.equals("boolean") ? R.drawable.block_boolean : R.drawable.number);
             if (((ViewGroup) v).getChildCount() > 0) {
               ((ViewGroup) v).getChildAt(0).setVisibility(View.GONE);
             }
-            if (v.getParent() != null) {
+            if (blockHint.getParent() != null) {
               ((ViewGroup) blockHint.getParent()).removeView(blockHint);
             }
             ((ViewGroup) v).addView(blockHint, 0);

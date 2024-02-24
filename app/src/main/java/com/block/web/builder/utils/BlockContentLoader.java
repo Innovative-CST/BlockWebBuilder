@@ -34,6 +34,7 @@ import com.block.web.builder.core.blockcontent.NumberContent;
 import com.block.web.builder.core.blockcontent.SourceContent;
 import com.block.web.builder.ui.activities.EventEditorActivity;
 import com.block.web.builder.ui.view.blocks.BlockDefaultView;
+import com.block.web.builder.ui.view.blocks.BlockHint;
 import com.block.web.builder.utils.preferences.PreferencesUtils;
 import editor.tsd.editors.ace.AceEditorColors;
 import editor.tsd.editors.sora.lang.textmate.provider.TextMateProvider;
@@ -151,7 +152,9 @@ public class BlockContentLoader {
                 public void addView(View v) {
                   super.addView(v);
                   if (v instanceof BlockDefaultView) {
+                    setBackground(null);
                     cbc.setBlock(((BlockDefaultView) v).getBlock());
+                  } else if (v instanceof BlockHint) {
                     setBackground(null);
                   }
                 }
@@ -160,7 +163,9 @@ public class BlockContentLoader {
                 public void addView(View v, int index) {
                   super.addView(v, index);
                   if (v instanceof BlockDefaultView) {
+                    setBackground(null);
                     cbc.setBlock(((BlockDefaultView) v).getBlock());
+                  } else if (v instanceof BlockHint) {
                     setBackground(null);
                   }
                 }
@@ -178,6 +183,26 @@ public class BlockContentLoader {
                             activity, com.google.android.material.R.attr.colorSurface));
                     backgroundDrawableNumber.setTintMode(PorterDuff.Mode.SRC_IN);
                     setBackground(backgroundDrawableNumber);
+                  } else if (v instanceof BlockHint) {
+                    if (getChildCount() > 0) {
+                      if (!(getChildAt(0) instanceof BlockDefaultView)) {
+                        Drawable backgroundDrawableNumber =
+                            getResources().getDrawable(R.drawable.number);
+                        backgroundDrawableNumber.setTint(
+                            ColorUtils.getColor(
+                                activity, com.google.android.material.R.attr.colorSurface));
+                        backgroundDrawableNumber.setTintMode(PorterDuff.Mode.SRC_IN);
+                        setBackground(backgroundDrawableNumber);
+                      }
+                    } else {
+                      Drawable backgroundDrawableNumber =
+                          getResources().getDrawable(R.drawable.number);
+                      backgroundDrawableNumber.setTint(
+                          ColorUtils.getColor(
+                              activity, com.google.android.material.R.attr.colorSurface));
+                      backgroundDrawableNumber.setTintMode(PorterDuff.Mode.SRC_IN);
+                      setBackground(backgroundDrawableNumber);
+                    }
                   }
                 }
               };
