@@ -35,11 +35,13 @@ public class Editor extends EditorScrollView {
 
   public Editor(final Context context) {
     super(context);
+    setClipChildren(true);
     initEditor();
   }
 
   public Editor(final Context context, final AttributeSet set) {
     super(context, set);
+    setClipChildren(true);
     initEditor();
   }
 
