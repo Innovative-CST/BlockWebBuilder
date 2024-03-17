@@ -79,4 +79,14 @@ You should have received a copy of the GNU General Public License
 along with BlockWeb Builder.  If not, see <https://www.gnu.org/licenses/>.
 ```
 
+## Note for contributors
+
+Dear Contributors,
+
+We want to you to be aware the importance of respecting intellectual property rights and the terms of our app license.
+
+Your work done in this software is not allowed to be copied by anyone until the owner gives permission to copy/modify the source code. Furthermore, even if permission is granted to copy or modify the code, the person authorized to do so is not allowed to give permission to others to copy the source code further. This is crucial to protect the integrity of our software and to ensure that it is used responsibly.
+
+Please be aware that you will be listed as a contributor on other software projects that are allowed to use this source code under the terms specified in our app license. If you have any questions or concerns regarding the licensing terms, we encourage you to review the app license for more information.
+
 ## 🔥 Start building beautiful websites with BlockWeb Builder! 🔥
