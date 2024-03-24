@@ -54,11 +54,14 @@ git push origin dev
 
 6. Open a pull request with a detailed description of your changes.
 
+# Discord
+[![Join our discord](https://invidget.switchblade.xyz/RM5qaZs4kd)](https://discord.gg/RM5qaZs4kd)
+
 ## Feedback and Support
 
 We value your feedback and are here to support you along the way. If you have any questions, suggestions, or issues, please don't hesitate to reach out to us.
 
-💬 Chat support: Visit our [Telegram group](https://t.me/TSCodeEditor) to chat support with us.
+💬 Chat support: Visit our [Discord Channel](https://discord.gg/RM5qaZs4kd) to chat support with us.
 
 📧 Email: You can also email us at appdeveloper400@gmail.com for assistance.
 
